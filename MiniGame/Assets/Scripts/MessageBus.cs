@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TikiComm
-{
+
     public interface MessageFilterBase
     {
         string GetTypeString();
@@ -276,30 +275,5 @@ namespace TikiComm
         {
             isLocked = false;
         }
-
-        /// <summary>
-        /// 消息解锁倒计时，放在update里
-        /// </summary>
-        //static void CheckLock()
-        //{
-        //    if (m_lockDispatcherSecond > 0.0f)
-        //    {
-        //        if (Time.timeScale < 0.9)
-        //        {
-        //            m_lockDispatcherSecond -= m_fDefaultDeltaTime;
-        //        }
-        //        else
-        //        {
-        //            m_lockDispatcherSecond -= Time.deltaTime;
-        //        }
-
-        //        if (m_lockDispatcherSecond < 0.0f)
-        //        {
-        //            UnLockEvent();
-        //        }
-        //    }
-        //}
-
     }
 
-}
