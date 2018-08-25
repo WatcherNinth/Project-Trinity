@@ -19,7 +19,7 @@ public class MainModel : BaseInstance<MainModel> {
 
     public float TrueSize
     {
-        get { return cellsize * canvasccaler; }
+        get { return cellsize; }
     }
 
     private int col;
@@ -41,6 +41,13 @@ public class MainModel : BaseInstance<MainModel> {
     {
         get { return start; }
         set { start = value; }
+    }
+
+    private float baseLine;
+    public float BaseLine
+    {
+        get { return baseLine; }
+        set { baseLine = value; }
     }
 
     private Vector2 stop;

@@ -7,6 +7,7 @@ public class BaseFuncView : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndD
 {
 
     public Transform canvas;
+    public Transform UnderCanvas;
     public Image left;
     public Image right;
     public Image bottom;
@@ -69,8 +70,13 @@ public class BaseFuncView : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndD
             int row = 0;
             int col = 0;
             controller.GetGrid(globalMousePos,ref col,ref row);
-            GridView gv = GridsModel.Instance.GetGridView(col, row);
-            transform.position = gv.model.Position;
+            GridView gv = GridsModel.Instance.GetGridView(row, col);
+            if (gv != null)
+            {
+                transform.SetParent(UnderCanvas);
+                transform.SetSiblingIndex(UnderCanvas.childCount - 1);
+                transform.position = gv.model.Position;
+            }
             if (RedSquare.activeSelf)
                 RedSquare.SetActive(false);
         }
@@ -101,13 +107,22 @@ public class BaseFuncView : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndD
             int col = 0;
             float size = GridsModel.Instance.size;
             float truesize = MainModel.Instance.TrueSize;
-            rt.position = globalMousePos;// + new Vector3(truesize / 2, truesize / 2, 0);
+            rt.position = globalMousePos - new Vector3(truesize / 2, truesize / 2, 0);
             controller.GetGrid(globalMousePos, ref col, ref row);
-            GridView gv = GridsModel.Instance.GetGridView(col, row);
-            RedSquare.transform.position = gv.model.Position;
-            RedSquare.GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
-            if(!RedSquare.activeSelf)
-                RedSquare.SetActive(true);
+            GridView gv = GridsModel.Instance.GetGridView(row, col);
+            if (gv != null)
+            {
+                RedSquare.transform.position = gv.model.Position;
+                RedSquare.GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
+                if (!RedSquare.activeSelf)
+                    RedSquare.SetActive(true);
+            }
+            else
+            {
+                if(RedSquare.activeSelf)
+                    RedSquare.SetActive(false);
+            }
+          
         }
     }
 

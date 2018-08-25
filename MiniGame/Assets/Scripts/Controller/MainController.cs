@@ -25,7 +25,7 @@ public class MainController : BaseInstance<MainController>{
 
             MainModel.Instance.Start = points[0];
             MainModel.Instance.Stop = points[1];
-            view.BuildLine();
+            //view.BuildLine();
             points.Clear();
         }
     }
