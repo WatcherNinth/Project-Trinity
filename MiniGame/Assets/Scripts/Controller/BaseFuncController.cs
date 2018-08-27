@@ -13,14 +13,14 @@ public class BaseFuncController
         float x = 0;
         float y = 0;
         float cellsize = MainModel.Instance.CellSize;
-
+        float scaler = MainModel.Instance.CanvaSccaler;
+        cellsize = cellsize * scaler;
         float eventx = position.x;
-        float eventy = position.y - MainModel.Instance.BaseLine;
+        float eventy = position.y;
 
-        col = (int)(eventx / cellsize);
-        row = (int)(eventy / cellsize);
-
-        row = MainModel.Instance.Row - 1 - row;
+        row = (int)(eventx / cellsize);
+        col = (int)(eventy / cellsize);
+        col = 8 - col;
     }
 
 

@@ -18,12 +18,8 @@ public class GridsModel : BaseInstance<GridsModel>{
 
     public GridView GetGridView(int i,int j)
     {
-        if(i>-1 && i<MainModel.Instance.Row && j>-1 && j<MainModel.Instance.Column)
-        {
-            int k = i * MainModel.Instance.Column + j;
-            return grids[k];
-        }
-        return null;
+        int k=i*MainModel.Instance.Column+j;
+        return grids[k];
     }
 
     public float size
