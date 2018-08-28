@@ -50,7 +50,7 @@ public class MainView : MonoBehaviour {
 
     public IEnumerator Init()
     {
-
+        //初始化参数
         float width = rt.sizeDelta.x;
         
         float cellwidth = width / Col;
@@ -61,7 +61,8 @@ public class MainView : MonoBehaviour {
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, height);
 
         gridlayoutgroup.cellSize = new Vector2(cellwidth, cellwidth);
-
+        
+        //初始化Grid
         for (int i = 0; i < All; i++)
         {
             GameObject temp = Instantiate(prefab);
@@ -73,24 +74,24 @@ public class MainView : MonoBehaviour {
 
         yield return null;
 
+        //记录Grid的位置
         foreach(GridView gv in GridsModel.Instance.grids)
         {
             gv.SetPosition();
         }
 
+        //设计数字参数
         float size = GridsModel.Instance.size;
         for (int i = 0; i < points.Length; i++)
         {
             GameObject tempStart = Instantiate(start);
+            StartView sv = tempStart.GetComponent<StartView>();
             GridView gv = GridsModel.Instance.GetGridView(points[i].i, points[i].j);
-            int num = points[i].number;
 
-            tempStart.transform.SetParent(transform.parent);
-            tempStart.transform.GetChild(0).GetComponent<Text>().text = num + "";
-            tempStart.transform.position = gv.model.Position;
-            tempStart.GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
-            tempStart.transform.localScale = Vector3.one;
-            tempStart.SetActive(true);
+            sv.SetNum(points[i].number);
+            sv.Init(gv.model.Position, size, gv);
+
+            gv.model.Occupancy = sv.sModel.OccupancyType;
 
         }
     }

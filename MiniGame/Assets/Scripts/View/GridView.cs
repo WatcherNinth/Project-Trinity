@@ -43,12 +43,12 @@ public class GridView : MonoBehaviour {
         image.color = color;
     }
 
-    public void ChangeToRed()
+    public void SetColor(Color color)
     {
-        left.color = Color.red;
-        right.color = Color.red;
-        top.color = Color.red;
-        bottom.color = Color.red;
+        left.color = color;
+        right.color = color;
+        top.color = color;
+        bottom.color = color;
     }
 
     public void SetPosition()

@@ -53,19 +53,19 @@
      <Compile Include="Assets\Scripts\Controller\MainController.cs" />
      <Compile Include="Assets\Scripts\MessageBus.cs" />
      <Compile Include="Assets\Scripts\Model\BaseFuncModel.cs" />
+     <Compile Include="Assets\Scripts\Model\FuncModel.cs" />
      <Compile Include="Assets\Scripts\Model\GridModel.cs" />
      <Compile Include="Assets\Scripts\Model\GridsModel.cs" />
      <Compile Include="Assets\Scripts\Model\MainModel.cs" />
+     <Compile Include="Assets\Scripts\Model\StartModel.cs" />
      <Compile Include="Assets\Scripts\View\BaseFuncView.cs" />
-     <Compile Include="Assets\Scripts\View\CanvasView.cs" />
      <Compile Include="Assets\Scripts\View\ContentView.cs" />
      <Compile Include="Assets\Scripts\View\FuncView.cs" />
      <Compile Include="Assets\Scripts\View\GridView.cs" />
+     <Compile Include="Assets\Scripts\View\GuideView.cs" />
      <Compile Include="Assets\Scripts\View\LoginView.cs" />
      <Compile Include="Assets\Scripts\View\MainView.cs" />
      <Compile Include="Assets\Scripts\View\StartView.cs" />
-     <Compile Include="Assets\Scripts\View\ToolBarView.cs" />
-     <Compile Include="Assets\Scripts\View\UnderView.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/program files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
