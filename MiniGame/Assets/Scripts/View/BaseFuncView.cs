@@ -7,11 +7,18 @@ public class BaseFuncView : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndD
 {
 
     public Transform canvas;
+<<<<<<< HEAD
     public Transform UnderCanvas;
     public GameObject leftobject;
     public GameObject rightobject;
     public GameObject bottomobject;
     public GameObject topobject;
+=======
+    public Image left;
+    public Image right;
+    public Image bottom;
+    public Image top;
+>>>>>>> 4aa1cb58be3822f0b9e26149ca2753a398654c61
     public Text text;
 
     public GridView RedSquare;
@@ -174,6 +181,7 @@ public class BaseFuncView : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndD
             int row = 0;
             int col = 0;
             controller.GetGrid(globalMousePos,ref col,ref row);
+<<<<<<< HEAD
             GridView gv = GridsModel.Instance.GetGridView(row, col);
 
             transform.SetParent(UnderCanvas);
@@ -208,6 +216,12 @@ public class BaseFuncView : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndD
 
             if (RedSquare.gameObject.activeSelf)
                 RedSquare.gameObject.SetActive(false);
+=======
+            GridView gv = GridsModel.Instance.GetGridView(col, row);
+            transform.position = gv.model.Position;
+            if (RedSquare.activeSelf)
+                RedSquare.SetActive(false);
+>>>>>>> 4aa1cb58be3822f0b9e26149ca2753a398654c61
         }
 
     }
@@ -238,6 +252,7 @@ public class BaseFuncView : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndD
         GridModel gm = null;
         switch(direct)
         {
+<<<<<<< HEAD
             case Direction.Top:
                 gm = GridsModel.Instance.GetGridView(row - 1, col).model;
                 break;
@@ -250,6 +265,19 @@ public class BaseFuncView : MonoBehaviour,IDragHandler, IBeginDragHandler, IEndD
             case Direction.Right:
                 gm = GridsModel.Instance.GetGridView(row, col + 1).model;
                 break;
+=======
+            int row = 0;
+            int col = 0;
+            float size = GridsModel.Instance.size;
+            float truesize = MainModel.Instance.TrueSize;
+            rt.position = globalMousePos;// + new Vector3(truesize / 2, truesize / 2, 0);
+            controller.GetGrid(globalMousePos, ref col, ref row);
+            GridView gv = GridsModel.Instance.GetGridView(col, row);
+            RedSquare.transform.position = gv.model.Position;
+            RedSquare.GetComponent<RectTransform>().sizeDelta = new Vector2(size, size);
+            if(!RedSquare.activeSelf)
+                RedSquare.SetActive(true);
+>>>>>>> 4aa1cb58be3822f0b9e26149ca2753a398654c61
         }
         if (gm.Occupancy == Type.None)
             return true;
