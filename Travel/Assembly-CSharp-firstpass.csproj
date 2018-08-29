@@ -45,6 +45,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Plugins\DOTween\Modules\DOTweenModuleAudio.cs" />
+     <Compile Include="Assets\Plugins\DOTween\Modules\DOTweenModulePhysics.cs" />
+     <Compile Include="Assets\Plugins\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+     <Compile Include="Assets\Plugins\DOTween\Modules\DOTweenModuleSprite.cs" />
+     <Compile Include="Assets\Plugins\DOTween\Modules\DOTweenModuleUI.cs" />
+     <Compile Include="Assets\Plugins\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
+     <Compile Include="Assets\Plugins\DOTween\Modules\DOTweenModuleUtils.cs" />
      <Compile Include="Assets\Plugins\UITweening\Easing.cs" />
      <Compile Include="Assets\Plugins\UITweening\SliderColors.cs" />
      <Compile Include="Assets\Plugins\UITweening\TweenAlpha.cs" />
@@ -61,12 +68,15 @@
      <Compile Include="Assets\Plugins\UITweening\TweenScale.cs" />
      <Compile Include="Assets\Plugins\UITweening\TweenSlider.cs" />
      <Compile Include="Assets\Plugins\UITweening\UnScaledTime.cs" />
-     <Compile Include="Assets\Plugins\iTween\Plugins\iTween.cs" />
+     <None Include="Assets\Plugins\DOTween\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/program files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>D:/program files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween">
+ <HintPath>D:/project/github/Project-Trinity/Travel/Assets/Plugins/DOTween/DOTween.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

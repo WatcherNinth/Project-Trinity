@@ -53,6 +53,7 @@
      <Compile Include="Assets\Plugins\UITweening\Editor\TweenRotEditor.cs" />
      <Compile Include="Assets\Plugins\UITweening\Editor\TweenScaleEditor.cs" />
      <Compile Include="Assets\Plugins\UITweening\Editor\TweenSliderEditor.cs" />
+     <None Include="Assets\Plugins\DOTween\readme.txt" />
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>D:/program files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
@@ -76,6 +77,12 @@
  </Reference>
  <Reference Include="UnityEditor.TreeEditor">
  <HintPath>D:/program files/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTween">
+ <HintPath>D:/project/github/Project-Trinity/Travel/Assets/Plugins/DOTween/DOTween.dll</HintPath>
+ </Reference>
+ <Reference Include="DOTweenEditor">
+ <HintPath>D:/project/github/Project-Trinity/Travel/Assets/Plugins/DOTween/Editor/DOTweenEditor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>D:/program files/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
