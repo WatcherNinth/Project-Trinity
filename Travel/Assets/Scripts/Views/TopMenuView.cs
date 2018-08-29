@@ -32,7 +32,7 @@ public class TopMenuView : MonoBehaviour {
 
     private void onShowOrHide()
     {
-        
+        BtnWeChat.interactable = false;
         if (!show)
         {
             num = 0;
@@ -47,6 +47,7 @@ public class TopMenuView : MonoBehaviour {
             {
                 rt.sizeDelta = new Vector2(rt.sizeDelta.x, 1728);
                 show = true;
+                BtnWeChat.interactable = true;
             };
         }
         else
@@ -63,6 +64,7 @@ public class TopMenuView : MonoBehaviour {
             {
                 rt.sizeDelta = new Vector2(rt.sizeDelta.x, 0);
                 show = false;
+                BtnWeChat.interactable = true;
             };
         }
         

@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\BaseFunc\PopupManager.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\ScrollRectEx.cs" />
      <Compile Include="Assets\Scripts\GameSystem.cs" />
+     <Compile Include="Assets\Scripts\Models\BuyTicketsModel.cs" />
      <Compile Include="Assets\Scripts\Views\BuyTickets.cs" />
      <Compile Include="Assets\Scripts\Views\LoginView.cs" />
      <Compile Include="Assets\Scripts\Views\MainContent.cs" />
