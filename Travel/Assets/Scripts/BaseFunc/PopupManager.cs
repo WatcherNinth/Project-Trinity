@@ -10,7 +10,7 @@ namespace Lucky
         
     }
 
-    /*
+    
 
     public class PopUpManager
     {
@@ -243,7 +243,8 @@ namespace Lucky
         public GameObject AddPopupInNewCanvas(string prefabName)
         {
             //jony add
-            GameObject prefab = MySceneManager.instance.getPreloadedGameObject(prefabName);
+            //GameObject prefab = MySceneManager.instance.getPreloadedGameObject(prefabName);
+            GameObject prefab = null;
             if (prefab == null)
             {
                 prefab = (GameObject)Resources.Load(prefabName);
@@ -273,9 +274,7 @@ namespace Lucky
 
             if (baseEIO != null)
             {
-                baseEIO.backKeyAutoClose = true;
                 baseEIO.clickBlankAutoClose = true;
-                baseEIO.blockBackKeyEvent = true;
             }
 
             return popUp;
@@ -531,9 +530,7 @@ namespace Lucky
 
             if (baseEIO != null)
             {
-                baseEIO.backKeyAutoClose = backKeyAutoClose;
                 baseEIO.clickBlankAutoClose = blankAutoClose;
-                baseEIO.blockBackKeyEvent = blockBackKeyEvent;
                 return true;
             }
             else
@@ -552,7 +549,8 @@ namespace Lucky
         private GameObject AddPopupNew(string prefabName, PopCanvasLayer canvasLayer, ref List<PopupInfo> insertInfo, int showPriority, string id = "")
         {
             //jony add
-            GameObject prefab = MySceneManager.instance.getPreloadedGameObject(prefabName);
+            //GameObject prefab = MySceneManager.instance.getPreloadedGameObject(prefabName);
+            GameObject prefab = null;
             if (prefab == null)
             {
                 Debug.Log("No preload, use resouce.load:" + prefabName);
@@ -928,5 +926,5 @@ namespace Lucky
 
     }
 
-    */
+    
 }

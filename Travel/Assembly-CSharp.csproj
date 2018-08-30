@@ -54,11 +54,14 @@
      <Compile Include="Assets\Scripts\BaseFunc\CareerPage.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\CareerView.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\CommEaseInOutPanel.cs" />
+     <Compile Include="Assets\Scripts\BaseFunc\DestroyEventUI.cs" />
+     <Compile Include="Assets\Scripts\BaseFunc\InvisibleImage.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\ItemRender.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\LuckyUtils.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\MessageBus.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\PoolObjectManager.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\PopupManager.cs" />
+     <Compile Include="Assets\Scripts\BaseFunc\SceneManager.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\ScrollRectEx.cs" />
      <Compile Include="Assets\Scripts\GameSystem.cs" />
      <Compile Include="Assets\Scripts\Models\BuyTicketsModel.cs" />
@@ -66,7 +69,9 @@
      <Compile Include="Assets\Scripts\Views\LoginView.cs" />
      <Compile Include="Assets\Scripts\Views\MainContent.cs" />
      <Compile Include="Assets\Scripts\Views\MapsView.cs" />
+     <Compile Include="Assets\Scripts\Views\SelectTrainView.cs" />
      <Compile Include="Assets\Scripts\Views\TopMenuView.cs" />
+     <Compile Include="Assets\Scripts\Views\TrainItemView.cs" />
      <None Include="Assets\Plugins\DOTween\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/program files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
