@@ -16,7 +16,7 @@ namespace Lucky
     /// <summary>
     /// panel的基础类，主要提供进入和退出的一些默认效果
     /// </summary>
-    public class BaseSceneEaseInOut : BaseUI
+    public class BaseSceneEaseInOut : BaseScene
     {
         public Action OnReturnClick;
         public Button returnBtn;
@@ -63,9 +63,10 @@ namespace Lucky
         {
             cg = GetComponent<CanvasGroup>();
         }
-        protected virtual void Start()
-        {
 
+        protected override void Start()
+        {
+            base.Start();
         }
 
         public void setHasCheckToCreateBlurImage(bool v)
@@ -92,8 +93,9 @@ namespace Lucky
             transform.localScale = scaleVector;
         }
 
-        protected virtual void InitUI()
+        protected override void InitUI()
         {
+            base.InitUI();
             hasInitUi = true;
 
             if (GetComponent<CanvasGroup>() == null)
@@ -130,12 +132,16 @@ namespace Lucky
             }
         }
 
+        protected override void UpdateView()
+        {
+            Debug.Log("base ease in out update view");
+            base.UpdateView();
+        }
 
-        
+
         protected virtual void LateUpdate()
         {
             //create blur
-
             if (mHasCheckToCreateBlurImage || parentCanvas == null || mLateUpdateFrameCount < 1)
             {
                 ++mLateUpdateFrameCount;
@@ -144,7 +150,7 @@ namespace Lucky
             }
 
             mHasCheckToCreateBlurImage = true;
-
+            base.LateUpdate();
         }
 
         // modified by jackmo at 2016-11-14 virtual
@@ -189,53 +195,6 @@ namespace Lucky
             (
                 () => QuitComplete()
             );
-
-            /*
-            iTween.ValueTo(gameObject, iTween.Hash(
-                "ignoretimescale", true,// added by jackmo at 2017-1-7
-                "from", EffectMax,
-                "to", EffectDisposeMin,
-                "time", EffectDisposeTime,
-                "onupdate", TKCallback.CreateAction(delegate(object x)
-                {
-                    try
-                    {
-                        if (x == null)
-                        {
-                            return;
-                        }
-                        if (changeScaleWhenDispose)
-                        {
-                            SetScale((float)x);
-                        }
-                        //rt.localScale = new Vector3((float)x, (float)x, 1);
-                        float iAlpha = (float)((float)x - EffectDisposeMin) / (EffectMax - EffectDisposeMin);
-
-                        if (cg == null)
-                        {
-                            return;
-                        }
-
-                        cg.alpha = iAlpha / 0.75f;
-
-                        if (bMaskAlpha)
-                        {
-                            if (mainCanvas != null)
-                            {
-                                mainCanvas.DisableComponent();
-                            }
-                        }
-                    }
-                    catch (System.Exception e)
-                    {
-                        Debug.Log("BaseSceneEaseInOut Dispose:" + e.ToString());
-                    }
-                    //rt.offsetMin = new Vector2(screenWidth * (float)x, 0);
-                    //rt.offsetMax = new Vector2(screenWidth * (float)x, 0);
-                }),
-                "oncomplete", "QuitComplete", "easetype", iTween.EaseType.easeInCubic
-            ));
-            */
         }
 
         public void onDisposeUpdate(float x)
@@ -304,24 +263,7 @@ namespace Lucky
             (
                 () => EnterComplete()
             );
-            /*
-            iTween.ValueTo(gameObject, iTween.Hash(
-                // added by jackmo at 2017-1-7
-                "ignoretimescale", true,
-                // added end
-                "from", EffectMin,
-                "to", EffectMax,
-                "time", EffectEnterTime,
-                "onupdate", TKCallback.CreateAction(delegate(object x)
-                {
-                    SetScale((float)x);
-                    float iAlpha = (float)((float)x - EffectMin) / (EffectMax - EffectMin);
-                    cg.alpha = iAlpha;
-
-                }),
-                "oncomplete", "EnterComplete", "easetype", iTween.EaseType.easeOutBack
-            ));
-            */
+            
         }
 
         public void onEnterUpdate(float x)

@@ -3,21 +3,35 @@ using System.Collections;
 using Lucky;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System;
+
+public enum TrafficType
+{
+    Train = 0,
+    Plane = 1
+}
 
 public class SelectTrainView : BaseUI {
 
-    public Button back;
+
     public Text Src;
     public Text Dst;
     public Text GoDate;
+
+    public Button back;
     public Button yesterday;
     public Button tomorrow;
     public Button BtnGoData;
-
     public BaseGrid content;
 
-	// Use this for initialization
-	void Start () {
+    private TrafficType trafficType;
+    private DateTime date;
+    private string DateFormat = "M月d日";
+
+    // Use this for initialization
+    void Start () {
+        InitButtonEvent();
+
         List<TrafficMessage> data = new List<TrafficMessage>();
         data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
         data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
@@ -27,10 +41,47 @@ public class SelectTrainView : BaseUI {
         data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
 
         content.source = data.ToArray();
+
+        date = new DateTime(DateTime.Now.Year,1,6);
+        GoDate.text = date.ToString(DateFormat);
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    
 	}
+
+    public void InitButtonEvent()
+    {
+        back.onClick.AddListener( delegate()
+        {
+            
+        });
+
+        yesterday.onClick.AddListener(delegate ()
+        {
+            date = date.AddDays(-1);
+            GoDate.text = date.ToString(DateFormat);
+            Search();
+        });
+
+        tomorrow.onClick.AddListener(delegate ()
+        {
+            date = date.AddDays(1);
+            GoDate.text = date.ToString(DateFormat);
+            Search();
+        });
+
+        BtnGoData.onClick.AddListener(delegate ()
+        {
+            GameObject go = PopUpManager.Instance.AddUiLayerPopUp("Prefabs/Calendar");
+            go.GetComponent<CalendarView>().Date = date;
+            PopUpManager.Instance.SetPopupPanelAutoClose(go);
+        });
+    }
+
+    private void Search()
+    {
+
+    }
 }

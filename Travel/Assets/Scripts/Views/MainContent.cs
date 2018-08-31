@@ -27,7 +27,7 @@ public class MainContent : MonoBehaviour {
     void Start()
     {
         //打开第一个分
-        ShowView(ViewID.Maps);
+        //ShowView(ViewID.Maps);
     }
 
     public void ShowView(ViewID index)

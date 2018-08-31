@@ -32,7 +32,6 @@ namespace Lucky
 
         public void Refresh()
         {
-            UpdateView();
             isWaitToUpdate = false;
         }
 
@@ -84,7 +83,6 @@ namespace Lucky
         /// </summary>
         protected virtual void InitUI()
         {
-
         }
 
 
@@ -93,7 +91,7 @@ namespace Lucky
         /// </summary>
         protected virtual void UpdateView()
         {
-
+            Debug.Log("ui update view");
         }
 
         public void Show()
@@ -105,6 +103,8 @@ namespace Lucky
         {
             gameObject.SetActive(false);
         }
+
+        
 
 
 

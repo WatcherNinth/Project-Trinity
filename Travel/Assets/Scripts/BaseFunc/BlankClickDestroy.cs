@@ -35,6 +35,7 @@ namespace Lucky
             blankGO.name = "blankClickDestroy";
             RectTransform blankRT = blankGO.AddComponent<RectTransform>();
             //blankGO.AddComponent<InvisibleImage>();
+            blankGO.AddComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
 
             Button btn = blankGO.AddComponent<Button>();
             btn.transition = Selectable.Transition.None;

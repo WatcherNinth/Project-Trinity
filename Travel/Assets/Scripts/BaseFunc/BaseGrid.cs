@@ -369,14 +369,12 @@ namespace Lucky
         protected virtual ItemRender CreateItemRender(object itemData, int index)
         {
             GameObject itemGO = _poolManager.GetGameObject(gameObject.GetComponent<RectTransform>());
-            Debug.Log("width " + itemGO.GetComponent<RectTransform>().sizeDelta);
             ItemRender itemRender = null;
             if (itemGO != null)
             {
                 itemRender = itemGO.GetComponent<ItemRender>();
                 ResetItemRender(itemRender, index, itemData);
             }
-            Debug.Log("width " + itemGO.GetComponent<RectTransform>().sizeDelta);
             //itemGO.SetActive(true);
             //rt.SetSiblingIndex(index);
             return itemRender;

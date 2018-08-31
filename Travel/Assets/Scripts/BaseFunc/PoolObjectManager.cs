@@ -27,13 +27,11 @@ namespace Lucky
                 }
             }
             GameObject go = Instantiate(perfab, Vector3.zero, Quaternion.identity) as GameObject;
-            Debug.Log("go width " + go.GetComponent<RectTransform>().sizeDelta);
             go.transform.SetParent(parent,false);
             go.transform.localScale = Vector3.one;
             go.transform.localPosition = Vector3.zero;
             go.SetActive(true);
             pools.Add(go);
-            Debug.Log("go width " + go.GetComponent<RectTransform>().sizeDelta);
             return go;
         }
 

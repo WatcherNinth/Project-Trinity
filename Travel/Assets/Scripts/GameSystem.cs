@@ -24,6 +24,7 @@ public class GameSystem : MonoBehaviour {
     void Update()
     {
         MessageBus.Update(20);
+        PopUpManager.Instance.Update();
     }
 	
 }
