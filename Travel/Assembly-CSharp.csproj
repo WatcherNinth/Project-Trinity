@@ -45,6 +45,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AcciedntManager.cs" />
+     <Compile Include="Assets\Scripts\AirPlaneManager.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\BaseGrid.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\BaseInstance.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\BaseScene.cs" />
@@ -53,7 +55,6 @@
      <Compile Include="Assets\Scripts\BaseFunc\BlankClickDestroy.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\CareerPage.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\CareerView.cs" />
-     <Compile Include="Assets\Scripts\BaseFunc\CommEaseInOutPanel.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\DestroyEventUI.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\InvisibleImage.cs" />
      <Compile Include="Assets\Scripts\BaseFunc\ItemRender.cs" />
@@ -65,7 +66,12 @@
      <Compile Include="Assets\Scripts\BaseFunc\ScrollRectEx.cs" />
      <Compile Include="Assets\Scripts\GameSystem.cs" />
      <Compile Include="Assets\Scripts\Models\BuyTicketsModel.cs" />
+     <Compile Include="Assets\Scripts\Models\GameModel.cs" />
+     <Compile Include="Assets\Scripts\TimeManager.cs" />
+     <Compile Include="Assets\Scripts\TrainManager.cs" />
      <Compile Include="Assets\Scripts\Views\BuyTickets.cs" />
+     <Compile Include="Assets\Scripts\Views\CalendarView.cs" />
+     <Compile Include="Assets\Scripts\Views\DayView.cs" />
      <Compile Include="Assets\Scripts\Views\LoginView.cs" />
      <Compile Include="Assets\Scripts\Views\MainContent.cs" />
      <Compile Include="Assets\Scripts\Views\MapsView.cs" />
