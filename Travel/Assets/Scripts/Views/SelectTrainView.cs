@@ -24,6 +24,11 @@ public class SelectTrainView : BaseUI {
     public Button BtnGoData;
     public BaseGrid content;
 
+    public Toggle Train;
+    public Image TrainImage;
+    public Toggle Airplane;
+    public Image AirImage;
+
     private TrafficType trafficType;
     private DateTime date;
     private string DateFormat = "M月d日";
@@ -42,8 +47,10 @@ public class SelectTrainView : BaseUI {
 
         content.source = data.ToArray();
 
-        date = new DateTime(DateTime.Now.Year,1,6);
+        date = GameModel.Instance.Start;
         GoDate.text = date.ToString(DateFormat);
+
+
     }
 	
 	// Update is called once per frame
@@ -78,10 +85,35 @@ public class SelectTrainView : BaseUI {
             go.GetComponent<CalendarView>().Date = date;
             PopUpManager.Instance.SetPopupPanelAutoClose(go);
         });
+
+        Train.onValueChanged.AddListener(delegate (bool isOn)
+        {
+            if(isOn)
+            {
+                trafficType = TrafficType.Train;
+                TrainImage.gameObject.SetActive(true);
+                AirImage.gameObject.SetActive(false);
+                Search();
+            }
+        });
+
+        Airplane.onValueChanged.AddListener(delegate (bool isOn)
+        {
+            if(isOn)
+            {
+                trafficType = TrafficType.Plane;
+                TrainImage.gameObject.SetActive(false);
+                AirImage.gameObject.SetActive(true);
+                Search();
+            }
+        });
     }
 
     private void Search()
     {
-
+        List<TrafficMessage> data = new List<TrafficMessage>();
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
+        content.source = data.ToArray();
     }
 }

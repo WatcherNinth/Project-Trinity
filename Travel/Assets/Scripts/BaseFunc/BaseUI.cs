@@ -91,7 +91,7 @@ namespace Lucky
         /// </summary>
         protected virtual void UpdateView()
         {
-            Debug.Log("ui update view");
+
         }
 
         public void Show()

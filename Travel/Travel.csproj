@@ -62,12 +62,6 @@
     <Reference Include="DOTween">
       <HintPath>Assets/Plugins/DOTween/DOTween.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>D:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>D:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
@@ -85,6 +79,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AcciedntManager.cs" />
+    <Compile Include="Assets\Scripts\AirPlaneManager.cs" />
     <Compile Include="Assets\Scripts\BaseFunc\BaseGrid.cs" />
     <Compile Include="Assets\Scripts\BaseFunc\BaseInstance.cs" />
     <Compile Include="Assets\Scripts\BaseFunc\BaseScene.cs" />
@@ -104,6 +100,9 @@
     <Compile Include="Assets\Scripts\BaseFunc\ScrollRectEx.cs" />
     <Compile Include="Assets\Scripts\GameSystem.cs" />
     <Compile Include="Assets\Scripts\Models\BuyTicketsModel.cs" />
+    <Compile Include="Assets\Scripts\Models\GameModel.cs" />
+    <Compile Include="Assets\Scripts\TimeManager.cs" />
+    <Compile Include="Assets\Scripts\TrainManager.cs" />
     <Compile Include="Assets\Scripts\Views\BuyTickets.cs" />
     <Compile Include="Assets\Scripts\Views\CalendarView.cs" />
     <Compile Include="Assets\Scripts\Views\DayView.cs" />
