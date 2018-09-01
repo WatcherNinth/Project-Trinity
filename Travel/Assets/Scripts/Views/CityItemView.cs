@@ -8,6 +8,12 @@ public class CityItem
 {
     public string city;
     public Action<string> tcallback;
+
+    public CityItem(string tcity, Action<string> callback)
+    {
+        city = tcity;
+        tcallback = callback;
+    }
 }
 
 public class CityItemView : ItemRender
@@ -32,6 +38,7 @@ public class CityItemView : ItemRender
             City.text = ci.city;
             callback = ci.tcallback;
         }
+        base.UpdateView();
     }
 
     public void onClick()

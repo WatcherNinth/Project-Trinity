@@ -42,6 +42,7 @@ public class TrainItemView : ItemRender {
             TrafficMessage tdata = m_Data as TrafficMessage;
             SetData(tdata);
         }
+        base.UpdateView();
     }
 
     public void SetData(TrafficMessage data)

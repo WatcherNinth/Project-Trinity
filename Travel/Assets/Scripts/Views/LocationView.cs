@@ -30,9 +30,7 @@ public class LocationView : BaseSceneEaseInOut
         List<CityItem> l = new List<CityItem>();
         foreach(string city in citys)
         {
-            CityItem cm = new CityItem();
-            cm.city = city;
-            cm.tcallback = tcallback;
+            CityItem cm = new CityItem(city, tcallback);
             l.Add(cm);
         }
         baseGrid.source = l.ToArray();

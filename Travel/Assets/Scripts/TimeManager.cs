@@ -37,6 +37,12 @@ public class TimeManager : MonoBehaviour {
 
     private float time = 0;
     private DateTime nowTime;
+
+    public DateTime NowTime
+    {
+        get { return nowTime; }
+    }
+
     private int i = 0;
 
     private Dictionary<long, TimeExecuteParam> waiting = new Dictionary<long, TimeExecuteParam>();

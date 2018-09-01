@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\Models\GameModel.cs" />
      <Compile Include="Assets\Scripts\TimeManager.cs" />
      <Compile Include="Assets\Scripts\TrainManager.cs" />
+     <Compile Include="Assets\Scripts\Views\AccidentMessageView.cs" />
      <Compile Include="Assets\Scripts\Views\BuyTickets.cs" />
      <Compile Include="Assets\Scripts\Views\CalendarView.cs" />
      <Compile Include="Assets\Scripts\Views\CityItemView.cs" />
@@ -77,9 +78,12 @@
      <Compile Include="Assets\Scripts\Views\LoginView.cs" />
      <Compile Include="Assets\Scripts\Views\MainContent.cs" />
      <Compile Include="Assets\Scripts\Views\MapsView.cs" />
+     <Compile Include="Assets\Scripts\Views\MessagePanelView.cs" />
      <Compile Include="Assets\Scripts\Views\SelectTrainView.cs" />
      <Compile Include="Assets\Scripts\Views\TopMenuView.cs" />
      <Compile Include="Assets\Scripts\Views\TrainItemView.cs" />
+     <Compile Include="Assets\Scripts\Views\WeChatItem.cs" />
+     <Compile Include="Assets\Scripts\Views\WeChatMessageView.cs" />
      <None Include="Assets\Plugins\DOTween\readme.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/program files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
