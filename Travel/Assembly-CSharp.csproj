@@ -71,7 +71,9 @@
      <Compile Include="Assets\Scripts\TrainManager.cs" />
      <Compile Include="Assets\Scripts\Views\BuyTickets.cs" />
      <Compile Include="Assets\Scripts\Views\CalendarView.cs" />
+     <Compile Include="Assets\Scripts\Views\CityItemView.cs" />
      <Compile Include="Assets\Scripts\Views\DayView.cs" />
+     <Compile Include="Assets\Scripts\Views\LocationView.cs" />
      <Compile Include="Assets\Scripts\Views\LoginView.cs" />
      <Compile Include="Assets\Scripts\Views\MainContent.cs" />
      <Compile Include="Assets\Scripts\Views\MapsView.cs" />

@@ -33,6 +33,12 @@ public class SelectTrainView : BaseUI {
     private DateTime date;
     private string DateFormat = "M月d日";
 
+    private void Awake()
+    {
+        trafficType = TrafficType.Train;
+        base.Awake();
+    }
+
     // Use this for initialization
     void Start () {
         InitButtonEvent();
@@ -47,42 +53,45 @@ public class SelectTrainView : BaseUI {
 
         content.source = data.ToArray();
 
-        date = GameModel.Instance.Start;
-        GoDate.text = date.ToString(DateFormat);
-
+        InitUI();
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-	    
-	}
+
+    private void InitUI()
+    {
+        date = BuyTicketsModel.Instance.date;
+        GoDate.text = date.ToString(DateFormat);
+        Src.text = BuyTicketsModel.Instance.startlocation;
+        Dst.text = BuyTicketsModel.Instance.stoplocation;
+        trafficType = BuyTicketsModel.Instance.type;
+        SetToggle(trafficType);
+    }
 
     public void InitButtonEvent()
     {
         back.onClick.AddListener( delegate()
         {
-            
+            mc.ShowView(ViewID.BuyTickets);
         });
 
         yesterday.onClick.AddListener(delegate ()
         {
-            date = date.AddDays(-1);
-            GoDate.text = date.ToString(DateFormat);
+            SetDate(date.AddDays(-1));
             Search();
         });
 
         tomorrow.onClick.AddListener(delegate ()
         {
-            date = date.AddDays(1);
-            GoDate.text = date.ToString(DateFormat);
+            SetDate(date.AddDays(1));
             Search();
         });
 
         BtnGoData.onClick.AddListener(delegate ()
         {
             GameObject go = PopUpManager.Instance.AddUiLayerPopUp("Prefabs/Calendar");
-            go.GetComponent<CalendarView>().Date = date;
+            CalendarView cv = go.GetComponent<CalendarView>();
+            cv.Date = date;
+            cv.AddCallback(SetDate);
             PopUpManager.Instance.SetPopupPanelAutoClose(go);
         });
 
@@ -91,8 +100,7 @@ public class SelectTrainView : BaseUI {
             if(isOn)
             {
                 trafficType = TrafficType.Train;
-                TrainImage.gameObject.SetActive(true);
-                AirImage.gameObject.SetActive(false);
+                SetToggle(trafficType);
                 Search();
             }
         });
@@ -102,8 +110,7 @@ public class SelectTrainView : BaseUI {
             if(isOn)
             {
                 trafficType = TrafficType.Plane;
-                TrainImage.gameObject.SetActive(false);
-                AirImage.gameObject.SetActive(true);
+                SetToggle(trafficType);
                 Search();
             }
         });
@@ -116,4 +123,33 @@ public class SelectTrainView : BaseUI {
         data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
         content.source = data.ToArray();
     }
+
+    public void SetDate(DateTime tdate)
+    {
+        date = tdate;
+        GoDate.text = date.ToString(DateFormat);
+        BuyTicketsModel.Instance.date = date;
+    }
+
+    public void SetToggle(TrafficType type)
+    {
+        if(type == TrafficType.Plane)
+        {
+            TrainImage.gameObject.SetActive(false);
+            AirImage.gameObject.SetActive(true);
+        }
+        else
+        {
+            TrainImage.gameObject.SetActive(true);
+            AirImage.gameObject.SetActive(false);
+        }
+        BuyTicketsModel.Instance.type = type;
+    }
+
+    protected override void UpdateView()
+    {
+        base.UpdateView();
+        InitUI();
+    }
+
 }

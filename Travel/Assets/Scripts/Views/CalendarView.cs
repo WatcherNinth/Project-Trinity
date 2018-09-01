@@ -6,6 +6,7 @@ using System;
 
 public class CalendarView : BaseSceneEaseInOut
 {
+    private Action<DateTime> callback;
 
     public Button LastMonth;
     public Button NextMonth;
@@ -96,7 +97,7 @@ public class CalendarView : BaseSceneEaseInOut
         }
     }
 
-    private void  SetDay(string day,bool Today=false)
+    private void SetDay(string day,bool Today=false)
     {
         GameObject temp = Instantiate(DateObject);
         temp.transform.SetParent(MonthContent);
@@ -109,11 +110,19 @@ public class CalendarView : BaseSceneEaseInOut
         {
             date = new DateTime(date.Year, date.Month, Convert.ToInt32(day));
             Debug.Log(date);
+            if(callback!=null)
+                callback(date);
             Dispose();
 
         });
         if (Today)
             dv.SetColor(Blue);
+    }
+
+    public void AddCallback(Action<DateTime> call)
+    {
+        callback = null;
+        callback = call;
     }
 
     

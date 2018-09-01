@@ -1,0 +1,40 @@
+﻿using UnityEngine;
+using System.Collections;
+using Lucky;
+using System;
+using System.Collections.Generic;
+
+public class LocationView : BaseSceneEaseInOut
+{
+
+    public BaseGrid baseGrid;
+
+    public static string[] citys =
+    {
+        "深圳",
+        "广州",
+        "北京",
+        "杭州",
+        "南京",
+        "上海"
+    };
+
+    protected override void InitUI()
+    {
+        base.InitUI();
+        Enter();
+    }
+
+    public void SetCallback(Action<string> tcallback)
+    {
+        List<CityItem> l = new List<CityItem>();
+        foreach(string city in citys)
+        {
+            CityItem cm = new CityItem();
+            cm.city = city;
+            cm.tcallback = tcallback;
+            l.Add(cm);
+        }
+        baseGrid.source = l.ToArray();
+    }
+}

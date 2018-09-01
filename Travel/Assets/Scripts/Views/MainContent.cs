@@ -6,7 +6,8 @@ public enum ViewID
 {
     Maps = 0,
     BuyTickets = 1,
-    WeChat = 2,
+    SelectTrain = 2,
+    WeChat = 3,
     None
 }
 
@@ -27,7 +28,7 @@ public class MainContent : MonoBehaviour {
     void Start()
     {
         //打开第一个分
-        //ShowView(ViewID.Maps);
+        ShowView(ViewID.Maps);
     }
 
     public void ShowView(ViewID index)

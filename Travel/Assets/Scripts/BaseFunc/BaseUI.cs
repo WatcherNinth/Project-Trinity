@@ -15,6 +15,7 @@ namespace Lucky
     {
         //*************  属性定义  **************
 
+        protected MainContent mc;
 
         protected bool isWaitToUpdate = true;
 
@@ -41,7 +42,7 @@ namespace Lucky
         /// </summary>
         protected virtual void Awake()
         {
-
+            mc = GameObject.FindGameObjectWithTag("MainContent").GetComponent<MainContent>();
         }
 
         /// <summary>
@@ -97,6 +98,7 @@ namespace Lucky
         public void Show()
         {
             gameObject.SetActive(true);
+            InvalidView();
         }
 
         public void Hide()

@@ -35,16 +35,6 @@ public class TrainItemView : ItemRender {
     public Text EndLocation;
     public Text Money;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
     protected override void UpdateView()
     {
         if(m_Data!=null)
