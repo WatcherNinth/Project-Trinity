@@ -5,6 +5,7 @@ Travel/Temp/
 Travel/obj/
 Travel/Assembly*
 Travel/Travel
+Travel/*.csproj
 Travel/Travel.Editor.Plugin
 Travel/Travel.Plugin
 Travel/Travel.sln
