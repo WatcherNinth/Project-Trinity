@@ -4,14 +4,23 @@ using System;
 
 public enum AccidentType
 {
-
+    rail,
+    airport
 }
 
-public class AccidentMessage
+public class Accident
 {
     public string location;
     public AccidentType type;
-    public DateTime datetime;
+    public DateTime starttime;
+    public int duration;
+    public AccidentText text;
+}
+public class AccidentText
+{
+    public AccidentType type;
+    public string title;
+    public string description;
 }
 
 public class AcciedntManager : MonoBehaviour {

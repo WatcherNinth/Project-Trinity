@@ -34,15 +34,15 @@ public class AirPlaneManager : MonoBehaviour {
     {
         if (isOn)
         {
-            MessageBus.Register<AccidentMessage>(HandleAccident);
+            MessageBus.Register<Accident>(HandleAccident);
         }
         else
         {
-            MessageBus.UnRegister<AccidentMessage>(HandleAccident);
+            MessageBus.UnRegister<Accident>(HandleAccident);
         }
     }
 
-    private bool HandleAccident(AccidentMessage am)
+    private bool HandleAccident(Accident am)
     {
         FindStartInfluence(am);
         FindDrivingInfluence(am);
@@ -50,17 +50,17 @@ public class AirPlaneManager : MonoBehaviour {
         return false;
     }
 
-    private List<TrainState> FindStartInfluence(AccidentMessage am)
+    private List<TrainState> FindStartInfluence(Accident am)
     {
         return null;
     }
 
-    private List<TrainState> FindDrivingInfluence(AccidentMessage am)
+    private List<TrainState> FindDrivingInfluence(Accident am)
     {
         return null;
     }
 
-    private List<TrainState> FindStopInfluence(AccidentMessage am)
+    private List<TrainState> FindStopInfluence(Accident am)
     {
         return null;
     }
