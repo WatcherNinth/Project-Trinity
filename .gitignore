@@ -3,3 +3,8 @@ MiniGame/Temp/
 Travel/Library/
 Travel/Temp/
 Travel/obj/
+Travel/Assembly*
+Travel/Travel
+Travel/Travel.Editor.Plugin
+Travel/Travel.Plugin
+Travel/Travel.sln
