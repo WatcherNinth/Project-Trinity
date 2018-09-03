@@ -25,11 +25,13 @@ public class LocationView : BaseSceneEaseInOut
         Enter();
     }
 
-    public void SetCallback(Action<string> tcallback)
+    public void SetCallback(Action<string> tcallback, string local)
     {
         List<CityItem> l = new List<CityItem>();
         foreach(string city in citys)
         {
+            if (city == local)
+                continue;
             CityItem cm = new CityItem(city, tcallback);
             l.Add(cm);
         }

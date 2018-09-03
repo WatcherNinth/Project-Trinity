@@ -44,12 +44,12 @@ public class SelectTrainView : BaseUI {
         InitButtonEvent();
 
         List<TrafficMessage> data = new List<TrafficMessage>();
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G450", "08:10", "广州", "1007", true));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "18:10", "广州", "1007", true));
 
         content.source = data.ToArray();
 
@@ -119,8 +119,8 @@ public class SelectTrainView : BaseUI {
     private void Search()
     {
         List<TrafficMessage> data = new List<TrafficMessage>();
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007"));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
         content.source = data.ToArray();
     }
 

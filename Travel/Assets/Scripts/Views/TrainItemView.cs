@@ -5,15 +5,16 @@ using UnityEngine.UI;
 
 public class TrafficMessage
 {
-    public string StartTime;
-    public string StartLocation;
-    public string Time;
-    public string Number;
-    public string EndTime;
-    public string EndLocation;
-    public string Money;
+    public string StartTime = "";
+    public string StartLocation = "";
+    public string Time = "";
+    public string Number = "";
+    public string EndTime = "";
+    public string EndLocation = "";
+    public string Money = "";
+    public bool buy = true;
 
-    public TrafficMessage(string st,string sl,string t,string n,string et,string el,string m)
+    public TrafficMessage(string st,string sl,string t,string n,string et,string el,string m, bool b)
     {
         StartTime = st;
         StartLocation = sl;
@@ -22,6 +23,12 @@ public class TrafficMessage
         EndTime = et;
         EndLocation = el;
         Money = m;
+        buy = b;
+    }
+
+    public TrafficMessage()
+    {
+
     }
 }
 
@@ -34,6 +41,13 @@ public class TrainItemView : ItemRender {
     public Text EndTime;
     public Text EndLocation;
     public Text Money;
+
+    public Button btn;
+
+    private void Start()
+    {
+        base.Start();
+    }
 
     protected override void UpdateView()
     {
@@ -54,5 +68,15 @@ public class TrainItemView : ItemRender {
         EndTime.text = data.EndTime;
         EndLocation.text = data.EndLocation;
         Money.text = "￥"+data.Money;
+        btn.onClick.RemoveAllListeners();
+        btn.onClick.AddListener(Popup);
+    }
+
+    public void Popup()
+    {
+        GameObject go = PopUpManager.Instance.AddUiLayerPopUp("Prefabs/BuyTicketPopup");
+        BuyTicketPopupView btpv = go.GetComponent<BuyTicketPopupView>();
+        btpv.traffic = m_Data as TrafficMessage;
+        PopUpManager.Instance.SetPopupPanelAutoClose(go);
     }
 }

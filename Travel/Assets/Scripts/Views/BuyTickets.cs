@@ -3,6 +3,7 @@ using System.Collections;
 using Lucky;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 
 public class BuyTickets : BaseUI {
 
@@ -53,12 +54,28 @@ public class BuyTickets : BaseUI {
 
         InitText();
         InitEvent();
+
+        StartCoroutine(ShowTickets());
     }
 
     protected override void UpdateView()
     {
         base.UpdateView();
         InitText();
+    }
+
+    private IEnumerator ShowTickets()
+    {
+        yield return null;
+        List<TrafficMessage> data = new List<TrafficMessage>();
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", false));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", false));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", false));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G450", "08:10", "广州", "1007", false));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", false));
+        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "18:10", "广州", "1007", false));
+
+        grid.source = data.ToArray();
     }
 
     private void InitText()
@@ -72,6 +89,11 @@ public class BuyTickets : BaseUI {
 
     private void InitEvent()
     {
+        back.onClick.AddListener(delegate ()
+        {
+            mc.ShowView(ViewID.Maps);
+        });
+
         TrainToggle.onValueChanged.AddListener(delegate(bool isOn) 
         {
             if(isOn)
@@ -96,7 +118,7 @@ public class BuyTickets : BaseUI {
             {
                 SetStartText(city);
                 lv.Dispose();
-            });
+            }, StartText.text);
             PopUpManager.Instance.SetPopupPanelAutoClose(go);
         });
 
@@ -108,7 +130,7 @@ public class BuyTickets : BaseUI {
             {
                 SetStopText(city);
                 lv.Dispose();
-            });
+            }, StopText.text);
             PopUpManager.Instance.SetPopupPanelAutoClose(go);
         });
 

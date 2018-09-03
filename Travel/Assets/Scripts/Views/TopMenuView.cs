@@ -2,12 +2,19 @@
 using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
+using Lucky;
+using System;
+
+public class UseMoney
+{
+    public float money;
+}
 
 public class TopMenuView : MonoBehaviour {
 
     public Transform WeChat;
-
     public Button BtnWeChat;
+    public Text Money;
 
     private RectTransform rt;
     private float num;
@@ -21,14 +28,14 @@ public class TopMenuView : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        RegisterMsg(true);
         BtnWeChat.onClick.AddListener(onShowOrHide);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-    
-	
-	}
+
+    private void OnDestroy()
+    {
+        RegisterMsg(false);
+    }
 
     private void onShowOrHide()
     {
@@ -72,12 +79,31 @@ public class TopMenuView : MonoBehaviour {
 
     private void onUpdateValue(float value)
     {
-        Debug.Log("value" + value);
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, value);
     }
 
     private void onCompleteValue()
     {
         rt.sizeDelta = new Vector2(rt.sizeDelta.x, 1728);
+    }
+
+    private void RegisterMsg(bool isOn)
+    {
+        if (isOn)
+        {
+            MessageBus.Register<UseMoney>(HandleMoney);
+        }
+        else
+        {
+            MessageBus.UnRegister<UseMoney>(HandleMoney);
+        }
+    }
+
+    private bool HandleMoney(UseMoney m)
+    {
+        float money = Convert.ToSingle(Money.text.Substring(1));
+        money -= m.money;
+        Money.text = "￥" + money;
+        return false;
     }
 }
