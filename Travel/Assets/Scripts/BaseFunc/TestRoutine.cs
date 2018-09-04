@@ -12,7 +12,7 @@ public class TestRoutine : MonoBehaviour {
         DateTime begin_time = DateTime.Now;
         DateTime end_time = DateTime.Now.AddHours(10);
 
-        operation.InsertTicket("合肥", "成都", 0, begin_time, end_time, 0, "T488");
+        operation.InsertTicket("合肥", "成都", 0, begin_time, end_time, 1000, "T488");
 
     }
 	

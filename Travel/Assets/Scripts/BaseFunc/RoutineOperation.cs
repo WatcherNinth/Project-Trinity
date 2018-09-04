@@ -14,7 +14,7 @@ public class Routine
     // 车次信息
     private string ticket_name;
 
-    string GetRoutineStartNode()
+    public string GetRoutineStartNode()
     {
         return start_node;
     }
