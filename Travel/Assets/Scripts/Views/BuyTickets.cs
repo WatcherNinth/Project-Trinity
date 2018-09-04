@@ -118,7 +118,7 @@ public class BuyTickets : BaseUI {
             {
                 SetStartText(city);
                 lv.Dispose();
-            }, StartText.text);
+            }, StartText.text, StopText.text);
             PopUpManager.Instance.SetPopupPanelAutoClose(go);
         });
 
@@ -130,7 +130,7 @@ public class BuyTickets : BaseUI {
             {
                 SetStopText(city);
                 lv.Dispose();
-            }, StopText.text);
+            }, StopText.text, StartText.text);
             PopUpManager.Instance.SetPopupPanelAutoClose(go);
         });
 

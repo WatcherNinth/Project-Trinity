@@ -54,6 +54,7 @@ public class TimeManager : MonoBehaviour {
     private void Awake()
     {
         _instance = this;
+       
     }
 
     // Use this for initialization

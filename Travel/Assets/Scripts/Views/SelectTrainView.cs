@@ -37,6 +37,7 @@ public class SelectTrainView : BaseUI {
     {
         trafficType = TrafficType.Train;
         base.Awake();
+        SelectTrainController.Instance.SetView(this);
     }
 
     // Use this for initialization
@@ -118,10 +119,13 @@ public class SelectTrainView : BaseUI {
 
     private void Search()
     {
-        List<TrafficMessage> data = new List<TrafficMessage>();
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
-        content.source = data.ToArray();
+        SelectTrainController.Instance.Search((int)trafficType, Src.text, Dst.text, date);
+    }
+
+    public void SetResults(List<TrafficMessage> result)
+    {
+        content.source = result.ToArray();
+        InvalidView();
     }
 
     public void SetDate(DateTime tdate)

@@ -16,7 +16,9 @@ public class LocationView : BaseSceneEaseInOut
         "北京",
         "杭州",
         "南京",
-        "上海"
+        "上海",
+        "合肥",
+        "成都"
     };
 
     protected override void InitUI()
@@ -25,12 +27,12 @@ public class LocationView : BaseSceneEaseInOut
         Enter();
     }
 
-    public void SetCallback(Action<string> tcallback, string local)
+    public void SetCallback(Action<string> tcallback, string src, string dst)
     {
         List<CityItem> l = new List<CityItem>();
         foreach(string city in citys)
         {
-            if (city == local)
+            if (city == src || city == dst)
                 continue;
             CityItem cm = new CityItem(city, tcallback);
             l.Add(cm);
