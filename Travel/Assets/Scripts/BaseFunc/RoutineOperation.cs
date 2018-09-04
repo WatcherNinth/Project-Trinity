@@ -7,17 +7,19 @@ using Mono.Data.Sqlite;
 
 public class Routine
 {
-    string start_node;
+    private string start_node;
     private string end_node;
-    private bool type;
+    private int type;
     private int routine_id;
+    // 车次信息
+    private string ticket_name;
 
     string GetRoutineStartNode()
     {
         return start_node;
     }
-
-    void SetStartNode(string node)
+   
+    public void SetStartNode(string node)
     {
         start_node = node;
     }
@@ -39,19 +41,60 @@ public class Routine
     {
         routine_id = id;
     }
-    public bool Type()
+    public int Type()
     {
         return type;
     }
 
-    public void SetType(bool t)
+    public void SetType(int t)
     {
         type = t;
     }
+
+    public string GetTicketName()
+    {
+        return ticket_name;
+    }
+
+    public void SetTicketName(string ticket_name)
+    {
+        this.ticket_name = ticket_name;
+    }
+
 }
 
 public class RoutineTicket : Routine {
-    DateTime time;
+    DateTime begin_time;
+    DateTime end_time;
+    int money;
+
+    public void SetBeginTime(DateTime time)
+    {
+        begin_time = time;
+    }
+    public void SetEndTime(DateTime time)
+    {
+        end_time = time;
+    }
+
+    public DateTime GetBeginTime()
+    {
+        return begin_time;
+    }
+    public DateTime GetEndTime()
+    {
+        return end_time;
+    }
+
+    public void SetMoney(int money)
+    {
+        this.money = money;
+    }
+
+    public int GetMoney()
+    {
+        return money;
+    }
 }
 
 public class RoutineOperation {
@@ -59,22 +102,73 @@ public class RoutineOperation {
     private BasicDataOperation operation = BasicDataOperation.Instance;
     private static string data_resource = "data source=" + Application.dataPath +"/Travel";
 
-    public RoutineOperation()
+    long GetTimeStamp(DateTime dt)
     {
-        operation.InitConnection(data_resource);
+        DateTime dateStart = new DateTime(1970, 1, 1, 0, 0, 0);
+        int timeStamp = Convert.ToInt32((dt - dateStart).TotalSeconds);
+        return timeStamp;
+    }
+
+    private DateTime GetTime(string timeStamp, bool bflag = true)
+    {
+        DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+        long lTime;
+        if (bflag == true)
+        {
+            lTime = long.Parse(timeStamp + "0000000");
+        }
+        else
+        {
+            lTime = long.Parse(timeStamp + "0000");
+        }
+
+        TimeSpan toNow = new TimeSpan(lTime); return dtStart.Add(toNow);
     }
 
 
-    public List<RoutineTicket> GetAllTicket(string start_node, string end_node, bool ticket_type, DateTime time)
+    public RoutineOperation()
     {
-        int ticket_type_value = 0;
-        if (ticket_type)
-            ticket_type_value = 1;
+      
+    }
 
-        string sql = "select routine_id, start_node, end_node from routine where start_node = \"" + start_node + "\" and "
-            + "end_node = \"" + end_node + "\"" + ", type = " + ticket_type_value;
+
+    // 0表示火车，1表示飞机
+    public bool InsertTicket(string start_node, string end_node, int ticket_type, DateTime begin_time, DateTime end_time, int money, string ticket_name)
+    {
+        operation.InitConnection(data_resource);
+        if (start_node == "" || end_node == "" || (ticket_type != 0 && ticket_type != 1))
+        {
+            return false;
+        }
+
+        long begin_time_ts = GetTimeStamp(begin_time);
+        long end_time_ts = GetTimeStamp(end_time);
+
+        string sql = "insert into routine (start_node, end_node, start_time, end_time, type, money, ticket_name) values(\""
+            + start_node + "\",\"" + end_node + "\"," + begin_time_ts + "," + end_time_ts + ", " + ticket_type + ", " + money + "," + "\"" +ticket_name +"\")";
         Debug.Log(sql);
+        SqliteDataReader reader = operation.ExecuteQuery(sql);
+        if (reader.RecordsAffected == 1)
+        {
+            operation.CloseConnection();
+            return true;
+        } else
+        {
+            operation.CloseConnection();
+            return false;
+        }
+    }
 
+    // 获取符合条件的车票信息, 0表示火车，1表示飞机d
+    public List<RoutineTicket> GetAllTicket(string start_node, string end_node, int ticket_type, DateTime time)
+    {
+
+        operation.InitConnection(data_resource);
+
+        string sql = "select * from routine where start_node = \"" + start_node + "\" and "
+            + "end_node = \"" + end_node + "\"" + " and type = " + ticket_type;
+
+        Debug.Log(sql);
         SqliteDataReader reader = operation.ExecuteQuery(sql);
 
         List<RoutineTicket> res = new List<RoutineTicket>();
@@ -82,14 +176,22 @@ public class RoutineOperation {
         while (reader.Read())
         {
             RoutineTicket ticket = new RoutineTicket();
+            long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
+            long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
             ticket.SetRoutineId(reader.GetOrdinal("routine_id"));
             ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
-            // ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
-            // ticket.SetType(reader.GetBoolean(reader.GetOrdinal("type")));      
+            ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
+            ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
+            ticket.SetBeginTime(GetTime(reader.GetInt32(reader.GetOrdinal("start_time")).ToString(), false));
+            ticket.SetEndTime(GetTime(reader.GetInt32(reader.GetOrdinal("end_time")).ToString(), false));
+            ticket.SetMoney(reader.GetInt32(reader.GetOrdinal("money")));
+            ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
             res.Add(ticket);
         }
+        operation.CloseConnection();
         Debug.Log(res.Count);
         return res;
     }
+
 
 }

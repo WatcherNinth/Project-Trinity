@@ -8,8 +8,11 @@ public class TestRoutine : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         RoutineOperation operation = new RoutineOperation();
-        List <RoutineTicket> tickets = operation.GetAllTicket("上海", "合肥", true,  new DateTime());
+        List <RoutineTicket> tickets = operation.GetAllTicket("上海", "合肥", 1,  new DateTime());
+        DateTime begin_time = DateTime.Now;
+        DateTime end_time = DateTime.Now.AddHours(10);
 
+        operation.InsertTicket("合肥", "成都", 0, begin_time, end_time, 0, "T488");
 
     }
 	
