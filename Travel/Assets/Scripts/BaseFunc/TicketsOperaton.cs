@@ -32,8 +32,26 @@ public class TicketsOperaton
             operation.CloseConnection();
             return false;
         }
+    }
 
-        return true;
+    public bool RefundTicket(int ticket_id)
+    {
+
+        operation.InitConnection(data_resource);
+
+        string sql = "delete from purchased_tickets where routine_id = " + ticket_id; 
+        Debug.Log(sql);
+        SqliteDataReader reader = operation.ExecuteQuery(sql);
+        if (reader.RecordsAffected == 1)
+        {
+            operation.CloseConnection();
+            return true;
+        }
+        else
+        {
+            operation.CloseConnection();
+            return false;
+        }
     } 
 
 }

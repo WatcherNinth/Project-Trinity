@@ -21,6 +21,11 @@ public class TestRoutine : MonoBehaviour {
             Debug.Log("success");
         }
 
+        if (ticket_operation.RefundTicket(1))
+        {
+            Debug.Log("success");
+        }
+
     }
 	
 	// Update is called once per frame
