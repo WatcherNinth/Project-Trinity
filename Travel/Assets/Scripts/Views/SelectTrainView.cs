@@ -41,25 +41,22 @@ public class SelectTrainView : BaseUI {
     }
 
     // Use this for initialization
-    void Start () {
+    protected override void Start () {
+        base.Start();
         InitButtonEvent();
-
-        List<TrafficMessage> data = new List<TrafficMessage>();
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G450", "08:10", "广州", "1007", true));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "18:10", "广州", "1007", true));
-
-        content.source = data.ToArray();
-
-        InitUI();
-
+        StartCoroutine(Init());
     }
 
-    private void InitUI()
+    public IEnumerator Init()
     {
+        InitUI();
+        yield return null;
+        Search();
+    }
+
+    protected override void InitUI()
+    {
+        base.InitUI();
         date = BuyTicketsModel.Instance.date;
         GoDate.text = date.ToString(DateFormat);
         Src.text = BuyTicketsModel.Instance.startlocation;
@@ -125,7 +122,6 @@ public class SelectTrainView : BaseUI {
     public void SetResults(List<TrafficMessage> result)
     {
         content.source = result.ToArray();
-        InvalidView();
     }
 
     public void SetDate(DateTime tdate)
@@ -153,7 +149,7 @@ public class SelectTrainView : BaseUI {
     protected override void UpdateView()
     {
         base.UpdateView();
-        InitUI();
+        StartCoroutine(Init());
     }
 
 }

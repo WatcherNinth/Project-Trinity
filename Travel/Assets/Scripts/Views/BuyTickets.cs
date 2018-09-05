@@ -67,15 +67,9 @@ public class BuyTickets : BaseUI {
     private IEnumerator ShowTickets()
     {
         yield return null;
-        List<TrafficMessage> data = new List<TrafficMessage>();
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", false));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", false));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", false));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G450", "08:10", "广州", "1007", false));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", false));
-        data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "18:10", "广州", "1007", false));
-
-        grid.source = data.ToArray();
+        List<TrafficMessage> data = TicketsController.Instance.GetBuyTickets(TimeManager.instance.nowTime);
+        if(data!=null)
+            grid.source = data.ToArray();
     }
 
     private void InitText()

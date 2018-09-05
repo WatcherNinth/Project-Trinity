@@ -15,10 +15,6 @@ public class SelectTrainController : BaseInstance<SelectTrainController> {
 
     public void Search(int type, string startlocation, string stoplocation, DateTime dt)
     {
-        Debug.Log("type " + type);
-        Debug.Log("start " + startlocation);
-        Debug.Log("stop " + stoplocation);
-        Debug.Log("datetime " + dt);
 
         RoutineOperation operation = new RoutineOperation();
         List<RoutineTicket> tickets = operation.GetAllTicket(startlocation, stoplocation, type, dt);
@@ -36,10 +32,13 @@ public class SelectTrainController : BaseInstance<SelectTrainController> {
             string ticketname = rt.GetTicketName();
             string money = rt.GetMoney() + "";
 
+            int id = rt.GetRoutineId();
+            Debug.Log("controller "+id);
+
             TimeSpan ts = stoptime - starttime;
             string usetime = ts.Hours + ":" + ts.Minutes;
 
-            data.Add(new TrafficMessage(starttime.ToString("hh:mm"), start, "", ticketname, stoptime.ToString("hh:mm"), stop, money, true));
+            data.Add(new TrafficMessage(starttime.ToString("hh:mm"), start, usetime, ticketname, stoptime.ToString("hh:mm"), stop, money, true, id));
         }
 
         //data.Add(new TrafficMessage("02:30", "北京", "05:40", "G250", "08:10", "广州", "1007", true));

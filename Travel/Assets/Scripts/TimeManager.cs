@@ -36,7 +36,7 @@ public class TimeManager : MonoBehaviour {
     }
 
     private float time = 0;
-    private DateTime nowTime;
+    public DateTime nowTime;
 
     public DateTime NowTime
     {
