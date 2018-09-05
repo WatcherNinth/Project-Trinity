@@ -126,7 +126,6 @@ namespace Lucky
             {
                 returnBtn.onClick.AddListener(delegate()
                 {
-                    Debug.Log("BaseSceneEaseInOut return click");
                     Dispose();
                 });
             }
@@ -134,7 +133,6 @@ namespace Lucky
 
         protected override void UpdateView()
         {
-            Debug.Log("base ease in out update view");
             base.UpdateView();
         }
 

@@ -33,15 +33,15 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
         Enter();
     }
 
-    private void InitButtonEvent()
-    {
-        yes.onClick.AddListener(BuyTickets);
-        no.onClick.AddListener(Dispose);
-    }
-
     private void BuyTickets()
     {
-        Debug.Log("buy");
+        TicketsController.Instance.BuyTickets(trafficMessage.id);
+        Dispose();
+    }
+
+    private void DeleteTickets()
+    {
+        TicketsController.Instance.DeleteTickets(trafficMessage.id);
         Dispose();
     }
 
@@ -61,10 +61,17 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
         EndTime.text = data.EndTime;
         EndLocation.text = data.EndLocation;
         if (data.buy)
+        {
             Title.text = "购票";
+            yes.onClick.AddListener(BuyTickets);
+        }
         else
+        {
             Title.text = "退票";
-        InitButtonEvent();
+            yes.onClick.AddListener(DeleteTickets);
+        }
+        
+        no.onClick.AddListener(Dispose);
     }
 
 

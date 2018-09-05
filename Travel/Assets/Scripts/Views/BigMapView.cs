@@ -9,8 +9,11 @@ public class BigMapView : MonoBehaviour {
     private QuickPinch qpin;
     private QuickPinch qpout;
 
+    private GameObject Map;
+
     private void Awake()
     {
+        Map = GameObject.FindGameObjectWithTag("MapCanvas");
         qd = GetComponent<QuickDrag>();
         QuickPinch[] qps = GetComponents<QuickPinch>();
         foreach (QuickPinch qp in qps)
@@ -24,8 +27,6 @@ public class BigMapView : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log("help");
-        qd.onDragStart.AddListener(DragStart);
         qd.onDrag.AddListener(Drag);
         qpin.onPinchAction.AddListener(PinchIn);
         qpout.onPinchAction.AddListener(PinchOut);
@@ -33,32 +34,36 @@ public class BigMapView : MonoBehaviour {
 
     private void PinchIn(Gesture gesture)
     {
-        Debug.Log("PinchIn");
+        float zoom = Time.deltaTime * gesture.deltaPinch / 25;
+        Vector3 scale = transform.localScale;
+
+        if (scale.x - zoom > 0.1)
+        {
+            transform.localScale = new Vector3(scale.x - zoom, scale.y - zoom, 1f);
+            Map.transform.localScale = transform.localScale;
+        }
+            
     }
 
     private void PinchOut(Gesture gesture)
     {
-        Debug.Log("PinchOut");
-    }
+        float zoom = Time.deltaTime * gesture.deltaPinch / 25;
+        Vector3 scale = transform.localScale;
 
-    private void DragStart(Gesture gesture)
-    {
-        Debug.Log("drag start");
-        if (gesture.touchCount == 1)
+
+        if (scale.x + zoom < 3)
         {
-            Vector3 position = gesture.GetTouchToWorldPoint(1);
-            Debug.Log("start " + position);
+            transform.localScale = new Vector3(scale.x + zoom, scale.y + zoom, 1f);
+            Map.transform.localScale = transform.localScale;
         }
+            
     }
 
     private void Drag(Gesture gesture)
     {
-        Debug.Log("drag");
         if (gesture.touchCount == 1)
         {
-            Vector3 position = gesture.GetTouchToWorldPoint(1);
-            Debug.Log("drag " + position);
-            //deltaPosition = position - transform.position;
+            Map.transform.position = transform.position;
 
         }
     }
