@@ -178,7 +178,7 @@ public class RoutineOperation {
             RoutineTicket ticket = new RoutineTicket();
             long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
             long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
-            ticket.SetRoutineId(reader.GetOrdinal("routine_id"));
+            ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
             ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
             ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
             ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
