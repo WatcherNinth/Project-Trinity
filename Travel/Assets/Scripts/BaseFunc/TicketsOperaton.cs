@@ -8,7 +8,18 @@ using Mono.Data.Sqlite;
 public class TicketsOperaton
 {
     private BasicDataOperation operation = BasicDataOperation.Instance;
-    private static string data_resource = "data source=" + Application.dataPath + "/Travel";
+
+#if UNITY_EDITOR
+    //通过路径找到第三方数据库
+    private static string data_resource = "data source = " + Application.dataPath + "/Plugins/Android/assets/" + "Travel";
+
+    // 如果运行在Android设备中
+#elif UNITY_ANDROID
+		//将第三方数据库拷贝至Android可找到的地方
+    private static string data_resource = "data source = " + Application.persistentDataPath + "/" + "Travel";
+#endif
+
+    // private static string data_resource = "data source=" + Application.dataPath + "/Travel";
 
     public TicketsOperaton()
     {
@@ -52,6 +63,22 @@ public class TicketsOperaton
             operation.CloseConnection();
             return false;
         }
-    } 
+    }
 
+    public List<RoutineTicket> GetUserTickets(DateTime time)
+    {
+        long ts = RoutineOperation.GetTimeStamp(time);
+        operation.InitConnection(data_resource);
+
+        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id ";
+        // string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id where routine.start_time > " + ts;
+
+        Debug.Log(sql);
+        SqliteDataReader reader = operation.ExecuteQuery(sql);
+        List<RoutineTicket> res = RoutineOperation.GetRoutinInfo(reader);
+        operation.CloseConnection();
+        Debug.Log(res.Count);
+        return res;
+    }
 }
+

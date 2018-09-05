@@ -21,11 +21,8 @@ public class TestRoutine : MonoBehaviour {
             Debug.Log("success");
         }
 
-        if (ticket_operation.RefundTicket(1))
-        {
-            Debug.Log("success");
-        }
 
+        List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(new DateTime());
     }
 	
 	// Update is called once per frame

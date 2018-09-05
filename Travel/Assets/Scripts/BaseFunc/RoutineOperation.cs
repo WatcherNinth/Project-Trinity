@@ -100,16 +100,27 @@ public class RoutineTicket : Routine {
 public class RoutineOperation {
     private List<RoutineTicket> routines = new List<RoutineTicket>();
     private BasicDataOperation operation = BasicDataOperation.Instance;
-    private static string data_resource = "data source=" + Application.dataPath +"/Travel";
 
-    long GetTimeStamp(DateTime dt)
+#if UNITY_EDITOR
+    //通过路径找到第三方数据库
+    private static string data_resource =  "data source = " + Application.dataPath + "/Plugins/Android/assets/" + "Travel";
+
+    // 如果运行在Android设备中
+#elif UNITY_ANDROID
+		//将第三方数据库拷贝至Android可找到的地方
+    private static string data_resource = "data source = " + Application.persistentDataPath + "/" + "Travel";
+#endif
+
+    // private static string data_resource = "data source=" + Application.dataPath +"/Travel";
+
+    public static long GetTimeStamp(DateTime dt)
     {
         DateTime dateStart = new DateTime(1970, 1, 1, 0, 0, 0);
-        int timeStamp = Convert.ToInt32((dt - dateStart).TotalSeconds);
+        long timeStamp = Convert.ToInt64((dt - dateStart).TotalSeconds);
         return timeStamp;
     }
 
-    private DateTime GetTime(string timeStamp, bool bflag = true)
+    public static DateTime GetTime(string timeStamp, bool bflag = true)
     {
         DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
         long lTime;
@@ -125,6 +136,26 @@ public class RoutineOperation {
         TimeSpan toNow = new TimeSpan(lTime); return dtStart.Add(toNow);
     }
 
+    public static List<RoutineTicket> GetRoutinInfo(SqliteDataReader reader)
+    {
+        List<RoutineTicket> res = new List<RoutineTicket>();
+        while (reader.Read())
+        {
+            RoutineTicket ticket = new RoutineTicket();
+            long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
+            long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
+            ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
+            ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
+            ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
+            ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
+            ticket.SetBeginTime(GetTime(reader.GetInt32(reader.GetOrdinal("start_time")).ToString(), false));
+            ticket.SetEndTime(GetTime(reader.GetInt32(reader.GetOrdinal("end_time")).ToString(), false));
+            ticket.SetMoney(reader.GetInt32(reader.GetOrdinal("money")));
+            ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
+            res.Add(ticket);
+        }
+        return res;
+    }
 
     public RoutineOperation()
     {
@@ -170,24 +201,8 @@ public class RoutineOperation {
 
         Debug.Log(sql);
         SqliteDataReader reader = operation.ExecuteQuery(sql);
+        List<RoutineTicket> res = GetRoutinInfo(reader);
 
-        List<RoutineTicket> res = new List<RoutineTicket>();
-
-        while (reader.Read())
-        {
-            RoutineTicket ticket = new RoutineTicket();
-            long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
-            long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
-            ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
-            ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
-            ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
-            ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
-            ticket.SetBeginTime(GetTime(reader.GetInt32(reader.GetOrdinal("start_time")).ToString(), false));
-            ticket.SetEndTime(GetTime(reader.GetInt32(reader.GetOrdinal("end_time")).ToString(), false));
-            ticket.SetMoney(reader.GetInt32(reader.GetOrdinal("money")));
-            ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
-            res.Add(ticket);
-        }
         operation.CloseConnection();
         Debug.Log(res.Count);
         return res;
