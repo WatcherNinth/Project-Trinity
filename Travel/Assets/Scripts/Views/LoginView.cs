@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Lucky;
 
 public class LoginView : MonoBehaviour {
 
@@ -15,7 +16,8 @@ public class LoginView : MonoBehaviour {
 
     public void onClick()
     {
-        SceneManager.LoadScene("Main");
+        StartCoroutine(PrefabManager.Instance.Init("Main"));
+        
     }
 
 }

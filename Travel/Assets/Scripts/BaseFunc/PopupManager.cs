@@ -549,8 +549,7 @@ namespace Lucky
         private GameObject AddPopupNew(string prefabName, PopCanvasLayer canvasLayer, ref List<PopupInfo> insertInfo, int showPriority, string id = "")
         {
             //jony add
-            //GameObject prefab = MySceneManager.instance.getPreloadedGameObject(prefabName);
-            GameObject prefab = null;
+            GameObject prefab = PrefabManager.Instance.GetPrefabs(prefabName);
             if (prefab == null)
             {
                 Debug.Log("No preload, use resouce.load:" + prefabName);

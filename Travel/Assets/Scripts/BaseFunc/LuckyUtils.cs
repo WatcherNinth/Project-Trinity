@@ -7,7 +7,8 @@ namespace Lucky
     {
         public static T CreatePanelFromResource<T>(string prefabPath, Transform parent) where T : MonoBehaviour
         {
-            GameObject prefab = Resources.Load<GameObject>(prefabPath);
+            GameObject prefab = PrefabManager.Instance.GetPrefabs(prefabPath);
+            //GameObject prefab = Resources.Load<GameObject>(prefabPath);
             if (prefab == null)
             {
                 Debug.Log("load prefab from resource failed: " + prefabPath);

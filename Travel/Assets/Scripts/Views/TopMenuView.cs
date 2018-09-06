@@ -8,6 +8,11 @@ using System;
 public class UseMoney
 {
     public float money;
+
+    public UseMoney(float tmoney)
+    {
+        money = tmoney;
+    }
 }
 
 public class TopMenuView : MonoBehaviour {
@@ -29,6 +34,7 @@ public class TopMenuView : MonoBehaviour {
     // Use this for initialization
     void Start () {
         RegisterMsg(true);
+        Money.text = "￥" + UserTicketsModel.Instance.money;
         BtnWeChat.onClick.AddListener(onShowOrHide);
 	}
 
@@ -102,8 +108,9 @@ public class TopMenuView : MonoBehaviour {
     private bool HandleMoney(UseMoney m)
     {
         float money = Convert.ToSingle(Money.text.Substring(1));
-        money -= m.money;
+        money += m.money;
         Money.text = "￥" + money;
+        UserTicketsModel.Instance.money = money;
         return false;
     }
 }

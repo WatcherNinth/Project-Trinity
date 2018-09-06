@@ -5,6 +5,10 @@ using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 
+public class DeleteTicketsMsg
+{
+}
+
 public class BuyTickets : BaseUI {
 
     public Button back;
@@ -46,6 +50,7 @@ public class BuyTickets : BaseUI {
 
     private void Start()
     {
+        base.Start();
         TrainToggle = Train.GetComponent<Toggle>();
         AirPlaneToggle = AirPlane.GetComponent<Toggle>();
 
@@ -62,6 +67,7 @@ public class BuyTickets : BaseUI {
     {
         base.UpdateView();
         InitText();
+        StartCoroutine(ShowTickets());
     }
 
     private IEnumerator ShowTickets()
@@ -106,7 +112,7 @@ public class BuyTickets : BaseUI {
 
         StartButton.onClick.AddListener(delegate()
         {
-            GameObject go = PopUpManager.Instance.AddUiLayerPopUp("Prefabs/LocationPanel");
+            GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.LocationPanel);
             LocationView lv = go.GetComponent<LocationView>();
             lv.SetCallback(delegate(string city)
             {
@@ -118,7 +124,7 @@ public class BuyTickets : BaseUI {
 
         StopButton.onClick.AddListener(delegate ()
         {
-            GameObject go = PopUpManager.Instance.AddUiLayerPopUp("Prefabs/LocationPanel");
+            GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.LocationPanel);
             LocationView lv = go.GetComponent<LocationView>();
             lv.SetCallback(delegate (string city)
             {
@@ -137,7 +143,7 @@ public class BuyTickets : BaseUI {
 
         DateChosen.onClick.AddListener(delegate ()
         {
-            GameObject go = PopUpManager.Instance.AddUiLayerPopUp("Prefabs/Calendar");
+            GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.Calendar);
             CalendarView cv = go.GetComponent<CalendarView>();
             cv.Date = BuyTicketsModel.Instance.date;
             cv.AddCallback(SetDate);
@@ -188,6 +194,25 @@ public class BuyTickets : BaseUI {
             AirPlaneImage.color = Color.white;
         }
         BuyTicketsModel.Instance.type = type;
+    }
+
+    protected override void RegisterMsg(bool isOn)
+    {
+        base.RegisterMsg(isOn);
+        if (isOn)
+        {
+            MessageBus.Register<DeleteTicketsMsg>(onGetNewFrash);
+        }
+        else
+        {
+            MessageBus.UnRegister<DeleteTicketsMsg>(onGetNewFrash);
+        }
+    }
+
+    private bool onGetNewFrash(DeleteTicketsMsg msg)
+    {
+        InvalidView();
+        return false;
     }
 
 }

@@ -50,6 +50,7 @@ namespace Lucky
         /// </summary>
         protected virtual void Start()
         {
+            RegisterMsg(true);
             InitUI();
         }
 
@@ -76,7 +77,7 @@ namespace Lucky
         /// </summary>
         protected virtual void OnDestroy()
         {
-
+            RegisterMsg(false);
         }
 
         /// <summary>
@@ -106,8 +107,11 @@ namespace Lucky
             gameObject.SetActive(false);
         }
 
-        
 
+        protected virtual void RegisterMsg(bool isOn)
+        {
+            
+        }
 
 
 

@@ -37,7 +37,6 @@ public class SelectTrainView : BaseUI {
     {
         trafficType = TrafficType.Train;
         base.Awake();
-        SelectTrainController.Instance.SetView(this);
     }
 
     // Use this for initialization
@@ -86,7 +85,7 @@ public class SelectTrainView : BaseUI {
 
         BtnGoData.onClick.AddListener(delegate ()
         {
-            GameObject go = PopUpManager.Instance.AddUiLayerPopUp("Prefabs/Calendar");
+            GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.Calendar);
             CalendarView cv = go.GetComponent<CalendarView>();
             cv.Date = date;
             cv.AddCallback(SetDate);
@@ -116,7 +115,7 @@ public class SelectTrainView : BaseUI {
 
     private void Search()
     {
-        SelectTrainController.Instance.Search((int)trafficType, Src.text, Dst.text, date);
+        SetResults(TicketsController.Instance.Search((int)trafficType, Src.text, Dst.text, date));
     }
 
     public void SetResults(List<TrafficMessage> result)

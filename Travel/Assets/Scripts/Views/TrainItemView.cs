@@ -80,7 +80,7 @@ public class TrainItemView : ItemRender {
 
     public void Popup()
     {
-        GameObject go = PopUpManager.Instance.AddUiLayerPopUp("Prefabs/BuyTicketPopup");
+        GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.BuyTicketPopup);
         BuyTicketPopupView btpv = go.GetComponent<BuyTicketPopupView>();
         btpv.traffic = m_Data as TrafficMessage;
         PopUpManager.Instance.SetPopupPanelAutoClose(go);

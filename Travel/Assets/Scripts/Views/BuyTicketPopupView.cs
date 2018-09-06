@@ -2,6 +2,7 @@
 using System.Collections;
 using Lucky;
 using UnityEngine.UI;
+using System;
 
 public class BuyTicketPopupView : BaseSceneEaseInOut
 {
@@ -35,13 +36,25 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
 
     private void BuyTickets()
     {
-        TicketsController.Instance.BuyTickets(trafficMessage.id);
+        float money = Convert.ToSingle(trafficMessage.Money);
+        if(UserTicketsModel.Instance.money >= money)
+        {
+            TicketsController.Instance.BuyTickets(trafficMessage.id);
+            MessageBus.Post(new UseMoney(-money));
+        }
+        else
+        {
+            GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.BuyTicketPopup);
+        }
         Dispose();
     }
 
     private void DeleteTickets()
     {
+        float money = Convert.ToSingle(trafficMessage.Money);
         TicketsController.Instance.DeleteTickets(trafficMessage.id);
+        MessageBus.Post(new UseMoney(money));
+        MessageBus.Post(new DeleteTicketsMsg());
         Dispose();
     }
 

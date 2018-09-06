@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using Lucky;
 using Mono.Data.Sqlite;
+using System.IO;
 
 public class TicketsOperaton
 {
@@ -12,18 +13,31 @@ public class TicketsOperaton
 #if UNITY_EDITOR
     //通过路径找到第三方数据库
     private static string data_resource = "data source = " + Application.dataPath + "/Plugins/Android/assets/" + "Travel";
-
     // 如果运行在Android设备中
 #elif UNITY_ANDROID
-		//将第三方数据库拷贝至Android可找到的地方
+    //将第三方数据库拷贝至Android可找到的地方
     private static string data_resource = "data source = " + Application.persistentDataPath + "/" + "Travel";
-#endif
 
-    // private static string data_resource = "data source=" + Application.dataPath + "/Travel";
+#endif
 
     public TicketsOperaton()
     {
-       
+
+#if UNITY_ANDROID
+        string appDBPath = Application.persistentDataPath + "/" + "Travel";
+
+        if (!File.Exists(appDBPath))
+        {
+            //用www先从Unity中下载到数据库
+            WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + "Travel");
+
+            while (!loadDB.isDone) { }
+            //拷贝至规定的地方
+            Debug.Log("init");
+            File.WriteAllBytes(appDBPath, loadDB.bytes);
+        }
+#endif
+
     }
 
     public bool BuyTickets(int routine_id)

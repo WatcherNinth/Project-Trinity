@@ -51,7 +51,7 @@ public class BigMapView : MonoBehaviour {
         Vector3 scale = transform.localScale;
 
 
-        if (scale.x + zoom < 3)
+        if (scale.x + zoom < 1.5)
         {
             transform.localScale = new Vector3(scale.x + zoom, scale.y + zoom, 1f);
             Map.transform.localScale = transform.localScale;
@@ -64,7 +64,8 @@ public class BigMapView : MonoBehaviour {
         if (gesture.touchCount == 1)
         {
             Map.transform.position = transform.position;
-
         }
     }
+
+
 }
