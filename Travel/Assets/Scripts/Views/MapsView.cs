@@ -2,7 +2,6 @@
 using System.Collections;
 using UnityEngine.UI;
 using Lucky;
-using HedgehogTeam.EasyTouch;
 
 public class MapsView : BaseUI {
 
