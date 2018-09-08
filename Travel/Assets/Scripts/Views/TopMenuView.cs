@@ -114,6 +114,7 @@ public class TopMenuView : MonoBehaviour {
         money += m.money;
         Money.text = "￥" + money;
         UserTicketsModel.Instance.money = money;
+        PlayerPrefs.SetFloat("money", money);
         return false;
     }
 }

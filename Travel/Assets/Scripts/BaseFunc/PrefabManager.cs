@@ -15,6 +15,7 @@ namespace Lucky
         public const string LocationPanel = "Prefabs/LocationPanel";
         public const string Maps = "Prefabs/Maps";
         public const string SelectTrain = "Prefabs/SelectTrain";
+        public const string InfoPanel = "Prefabs/InfoPanel";
 
 
         public const string MessageItem = "Prefabs/MessageItem";
@@ -41,6 +42,7 @@ namespace Lucky
 
         public IEnumerator Init(string mainscene)
         {
+            yield return null;
             string[] s =
             {
                 Prefabs.BuyTicketPopup,
@@ -48,7 +50,8 @@ namespace Lucky
                 Prefabs.Calendar,
                 Prefabs.LocationPanel,
                 Prefabs.Maps,
-                Prefabs.SelectTrain
+                Prefabs.SelectTrain,
+                Prefabs.InfoPanel
             };
 
             foreach(string prefab in s)
@@ -63,7 +66,7 @@ namespace Lucky
                 else
                     Debug.Log(prefab + "load failed");
             }
-
+            yield return new WaitForSeconds(2);
             SceneManager.LoadScene(mainscene);
         }
 

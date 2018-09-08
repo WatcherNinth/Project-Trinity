@@ -3,21 +3,15 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Lucky;
+using System.Threading;
 
 public class LoginView : MonoBehaviour {
 
-    public Button login;
-    public Text name;
 
     void Start()
     {
-        login.onClick.AddListener(onClick);
-    }
-
-    public void onClick()
-    {
         StartCoroutine(PrefabManager.Instance.Init("Main"));
-        
+
     }
 
 }

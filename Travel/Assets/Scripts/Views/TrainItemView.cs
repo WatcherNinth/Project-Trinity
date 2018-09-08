@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿    using UnityEngine;
 using System.Collections;
 using Lucky;
 using UnityEngine.UI;
+using System;
 
 public class TrafficMessage
 {
@@ -49,7 +50,7 @@ public class TrainItemView : ItemRender {
 
     public int id;
 
-    private void Start()
+    protected override void Start()
     {
         base.Start();
     }
@@ -80,9 +81,28 @@ public class TrainItemView : ItemRender {
 
     public void Popup()
     {
-        GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.BuyTicketPopup);
-        BuyTicketPopupView btpv = go.GetComponent<BuyTicketPopupView>();
-        btpv.traffic = m_Data as TrafficMessage;
-        PopUpManager.Instance.SetPopupPanelAutoClose(go);
+        TrafficMessage tdata = m_Data as TrafficMessage;
+        if(tdata.buy)
+        {
+            if (Convert.ToSingle(tdata.Money) <= UserTicketsModel.Instance.money)
+            {
+                GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.BuyTicketPopup);
+                BuyTicketPopupView btpv = go.GetComponent<BuyTicketPopupView>();
+                btpv.traffic = m_Data as TrafficMessage;
+                PopUpManager.Instance.SetPopupPanelAutoClose(go);
+            }
+            else
+            {
+                InfoView.Show(new InfoMessage("金额不足", "消息"));
+            }
+        }
+        else
+        {
+            GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.BuyTicketPopup);
+            BuyTicketPopupView btpv = go.GetComponent<BuyTicketPopupView>();
+            btpv.traffic = m_Data as TrafficMessage;
+            PopUpManager.Instance.SetPopupPanelAutoClose(go);
+        }
+        
     }
 }
