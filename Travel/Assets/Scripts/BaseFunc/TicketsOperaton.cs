@@ -81,11 +81,11 @@ public class TicketsOperaton
 
     public List<RoutineTicket> GetUserTickets(DateTime time)
     {
-        long ts = RoutineOperation.GetTimeStamp(time);
+        UInt64 ts = RoutineOperation.GetTimeStamp(time);
         operation.InitConnection(data_resource);
 
-        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id ";
-        // string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id where routine.start_time > " + ts;
+        // string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id ";
+        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and routine.start_time > " + ts;
 
         Debug.Log(sql);
         SqliteDataReader reader = operation.ExecuteQuery(sql);

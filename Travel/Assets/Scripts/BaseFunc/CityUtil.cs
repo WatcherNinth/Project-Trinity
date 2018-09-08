@@ -6,19 +6,33 @@ using System.Collections.Generic;
 
 public class AdjacencyList<T>
 {
+    private int num_edges = 0;
+    private int node_num = 0;
     List<Vertex<T>> items; //图的顶点集合
     public AdjacencyList() : this(10) { } //构造方法
     public AdjacencyList(int capacity) //指定容量的构造方法
     {
         items = new List<Vertex<T>>(capacity);
     }
+
+    public List<int> GetAllNodeNum()
+    {
+        List<int> res = new List<int>();
+
+        foreach (Vertex<T> node in items)
+        {
+            res.Add(node.node_num);   
+        }
+        return res;
+    }
+
     public void AddVertex(T item) //添加一个顶点
     {   //不允许插入重复值
         if (Contains(item))
         {
             throw new ArgumentException("插入了重复顶点！");
         }
-        items.Add(new Vertex<T>(item));
+        items.Add(new Vertex<T>(item, node_num++));
     }
     public void AddEdge(T from, T to) //添加无向边
     {
@@ -34,7 +48,7 @@ public class AdjacencyList<T>
         }
         //无向边的两个顶点都需记录边信息
         AddDirectedEdge(fromVer, toVer);
-        AddDirectedEdge(toVer, fromVer);
+        // AddDirectedEdge(toVer, fromVer);
     }
     public bool Contains(T item) //查找图中是否包含某项
     {
@@ -116,18 +130,49 @@ public class AdjacencyList<T>
         public TValue data; //数据
         public Node firstEdge; //邻接点链表头指针
         public Boolean visited; //访问标志,遍历时使用
-        public Vertex(TValue value) //构造方法
+        public int node_num;
+
+        public Vertex(TValue value, int num) //构造方法
         {
             data = value;
+            node_num = num;
         }
     }
 }
 
+public class CityMapping {
+    public int edge_num;
+    public string start_node;
+    public string end_node;
+    public CityMapping(int num, string start_node, string end_node)
+    {
+        this.edge_num = num;
+        this.start_node = start_node;
+        this.end_node = end_node;
+    }
+}
+
+
 
 public class CityUtil : BaseInstance<CityUtil> {
+    private Dictionary<int, string> city_dict = new Dictionary<int, string>();
+
     private AdjacencyList<string> city_list = new AdjacencyList<string>();
+    private Dictionary<int, CityMapping> city_mapping_list = new Dictionary<int, CityMapping>();
+
     public void Init()
     {
+        city_dict.Add(0, "沈阳");
+        city_dict.Add(1, "北京");
+        city_dict.Add(2, "天津");
+        city_dict.Add(3, "石家庄");
+        city_dict.Add(4, "济南");
+        city_dict.Add(5, "郑州");
+        city_dict.Add(6, "南京");
+        city_dict.Add(7, "杭州");
+        city_dict.Add(8, "上海");
+        city_dict.Add(9, "合肥");
+
         city_list.AddVertex("沈阳");
         city_list.AddVertex("北京");
         city_list.AddVertex("天津");
@@ -140,51 +185,127 @@ public class CityUtil : BaseInstance<CityUtil> {
         city_list.AddVertex("合肥");
 
         city_list.AddEdge("合肥", "杭州");
+        city_mapping_list[0] = new CityMapping(0, "合肥", "杭州");
+
         city_list.AddEdge("合肥", "郑州");
+        city_mapping_list[1] = new CityMapping(1, "合肥", "郑州");
 
         city_list.AddEdge("杭州", "合肥");
+        city_mapping_list[2] = new CityMapping(2, "杭州", "合肥");
+
         city_list.AddEdge("杭州", "郑州");
+        city_mapping_list[3] = new CityMapping(3, "杭州", "郑州");
+
         city_list.AddEdge("杭州", "南京");
+        city_mapping_list[4] = new CityMapping(4, "杭州", "南京");
+
         city_list.AddEdge("杭州", "上海");
+        city_mapping_list[5] = new CityMapping(5, "杭州", "上海");
 
         city_list.AddEdge("郑州", "合肥");
+        city_mapping_list[6] = new CityMapping(6, "郑州", "合肥");
+
         city_list.AddEdge("郑州", "杭州");
+        city_mapping_list[7] = new CityMapping(7, "郑州", "杭州");
+
         city_list.AddEdge("郑州", "南京");
+        city_mapping_list[8] = new CityMapping(8, "郑州", "南京");
+
         city_list.AddEdge("郑州", "石家庄");
+        city_mapping_list[9] = new CityMapping(9, "郑州", "石家庄");
 
         city_list.AddEdge("南京", "郑州");
+        city_mapping_list[10] = new CityMapping(10, "南京", "郑州");
+
+
         city_list.AddEdge("南京", "石家庄");
+        city_mapping_list[11] = new CityMapping(11, "南京", "石家庄");
+
         city_list.AddEdge("南京", "天津");
+        city_mapping_list[12] = new CityMapping(12, "南京", "天津");
+
         city_list.AddEdge("南京", "济南");
+        city_mapping_list[13] = new CityMapping(13, "南京", "济南");
+
         city_list.AddEdge("南京", "上海");
+        city_mapping_list[14] = new CityMapping(14, "南京", "上海");
 
         city_list.AddEdge("上海", "杭州");
+        city_mapping_list[15] = new CityMapping(15, "上海", "杭州");
+
         city_list.AddEdge("上海", "南京");
+        city_mapping_list[16] = new CityMapping(16, "上海", "南京");
+
         city_list.AddEdge("上海", "济南");
+        city_mapping_list[17] = new CityMapping(17, "上海", "济南");
 
         city_list.AddEdge("石家庄", "郑州");
+        city_mapping_list[18] = new CityMapping(18, "石家庄", "郑州");
+
         city_list.AddEdge("石家庄", "南京");
+        city_mapping_list[19] = new CityMapping(19, "石家庄", "南京");
+
         city_list.AddEdge("石家庄", "济南");
+        city_mapping_list[20] = new CityMapping(20, "石家庄", "济南");
+
+
         city_list.AddEdge("石家庄", "北京");
+        city_mapping_list[21] = new CityMapping(21, "石家庄", "北京");
 
         city_list.AddEdge("济南", "上海");
+        city_mapping_list[22] = new CityMapping(22, "济南", "上海");
+
         city_list.AddEdge("济南", "南京");
+        city_mapping_list[23] = new CityMapping(23, "济南", "南京");
+
         city_list.AddEdge("济南", "石家庄");
+        city_mapping_list[24] = new CityMapping(24, "济南", "石家庄");
+
         city_list.AddEdge("济南", "天津");
+        city_mapping_list[25] = new CityMapping(25, "济南", "天津");
 
         city_list.AddEdge("北京", "石家庄");
+        city_mapping_list[26] = new CityMapping(26, "北京", "石家庄");
+
         city_list.AddEdge("北京", "沈阳");
+        city_mapping_list[27] = new CityMapping(27, "北京", "沈阳");
 
         city_list.AddEdge("天津", "济南");
+        city_mapping_list[28] = new CityMapping(28, "天津", "济南");
+
         city_list.AddEdge("天津", "沈阳");
+        city_mapping_list[29] = new CityMapping(29, "天津", "沈阳");
 
         city_list.AddEdge("沈阳", "北京");
-        city_list.AddEdge("沈阳", "天津");
+        city_mapping_list[30] = new CityMapping(30, "沈阳", "北京");
 
+        city_list.AddEdge("沈阳", "天津");
+        city_mapping_list[31] = new CityMapping(25, "沈阳", "天津");
     }
 
     AdjacencyList<string>.Vertex<string> FindConnectedCity(string city)
     {
         return city_list.Find(city);
     }
+
+    public List<int> GetAllCityNodeNum()
+    {
+        List<int> res = new List<int>();
+        foreach(KeyValuePair<int, string> pair in city_dict)
+        {
+            res.Add(pair.Key);
+        }
+        return res;
+    }
+
+    public List<int> GetAllCityEdgeNum()
+    {
+        List<int> res = new List<int>();
+        foreach (KeyValuePair<int, CityMapping> pair in city_mapping_list)
+        {
+            res.Add(pair.Key);
+        }
+        return res;
+    }
+
 }

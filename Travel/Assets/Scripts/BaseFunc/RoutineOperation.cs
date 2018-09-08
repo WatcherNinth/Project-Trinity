@@ -113,10 +113,12 @@ public class RoutineOperation {
 
     // private static string data_resource = "data source=" + Application.dataPath +"/Travel";
 
-    public static long GetTimeStamp(DateTime dt)
+    public static UInt64 GetTimeStamp(DateTime dt)
     {
         DateTime dateStart = new DateTime(1970, 1, 1, 0, 0, 0);
-        long timeStamp = Convert.ToInt64((dt - dateStart).TotalSeconds);
+        Debug.Log("seconds " + (dt - dateStart).TotalSeconds);
+        UInt64 timeStamp = Convert.ToUInt64((dt - dateStart).TotalSeconds);
+        Debug.Log("timestamp " + timeStamp);
         return timeStamp;
     }
 
@@ -172,8 +174,8 @@ public class RoutineOperation {
             return false;
         }
 
-        long begin_time_ts = GetTimeStamp(begin_time);
-        long end_time_ts = GetTimeStamp(end_time);
+        UInt64 begin_time_ts = GetTimeStamp(begin_time);
+        UInt64 end_time_ts = GetTimeStamp(end_time);
 
         string sql = "insert into routine (start_node, end_node, start_time, end_time, type, money, ticket_name) values(\""
             + start_node + "\",\"" + end_node + "\"," + begin_time_ts + "," + end_time_ts + ", " + ticket_type + ", " + money + "," + "\"" +ticket_name +"\")";

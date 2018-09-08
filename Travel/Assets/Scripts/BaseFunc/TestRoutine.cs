@@ -21,8 +21,14 @@ public class TestRoutine : MonoBehaviour {
             Debug.Log("success");
         }
 
+        List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(DateTime.Now);
 
-        List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(new DateTime());
+        CityUtil util = new CityUtil();
+        util.Init();
+
+        foreach(int i in util.GetAllCityNodeNum()){
+            Debug.Log(i);
+        }
     }
 	
 	// Update is called once per frame
