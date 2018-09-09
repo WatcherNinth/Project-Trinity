@@ -36,7 +36,7 @@ public class StringProcessScript : MonoBehaviour {
                 }
             case AccidentType.airport:
                 {
-                    dictOut[0] = accident.location;
+                    dictOut[0] = accident.location.ToString();
                     break;
                 }
         }
