@@ -10,7 +10,7 @@ public enum AccidentType
 
 public class Accident
 {
-    public string location;
+    public int location;
     public AccidentType type;
     public DateTime starttime;
     public int duration;
