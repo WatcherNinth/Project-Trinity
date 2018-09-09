@@ -10,11 +10,19 @@ public enum AccidentType
     airport
 }
 
-public class Accident
+public class BaseAccident : IComparable
+{
+    public DateTime starttime;
+    public int CompareTo(object obj)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class Accident : BaseAccident
 {
     public int location;
     public AccidentType type;
-    public DateTime starttime;
     public int duration;
     public AccidentText text;
 }
@@ -24,12 +32,11 @@ public class AccidentText
     public string title;
     public string description;
 }
-public class AccidentWarning
+public class AccidentWarning : BaseAccident
 {
     public int location;
     public AccidentType type;
-    public DateTime starttime;
-    public DateTime Warningstarttime;
+    public DateTime Accidentstarttime;
     public int min, max;
 
 }
@@ -41,6 +48,8 @@ public class AccidentGenerator : MonoBehaviour {
     int AirportAccident = 8;
     int RailAccident = 8;
     DateTime InitTime = GameModel.Instance.Start;
+    List<AccidentText> accidentTexts = new AccidentTextOperation().GetRailAccidentText();
+ 
     //AccidentWarning property
     public List<AccidentWarning> AccidentWarningList;
     int[] AccidentWarningAccurency = { 60, 180, 300 };
@@ -58,12 +67,12 @@ public class AccidentGenerator : MonoBehaviour {
         RailList.Remove(26);
         RailList.Remove(27);
         AirportList.Remove(1);
-        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, InitTime, null));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 10, 60, InitTime, null));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, InitTime, null));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, InitTime, null));
-        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, InitTime, null));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 27, 90, InitTime, null));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, InitTime, accidentTexts[2]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 10, 60, InitTime, accidentTexts[3]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, InitTime, accidentTexts[2]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, InitTime, accidentTexts[5]));
+        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, InitTime, accidentTexts[8]));
+        AccidentList.Add(CreateAccident(AccidentType.airport, 27, 90, InitTime, accidentTexts[8]));
     }
 	
 	// Update is called once per frame
@@ -77,8 +86,8 @@ public class AccidentGenerator : MonoBehaviour {
             duration = duration,
             location = location,
             starttime = starttime,
-            type = type
-            //text=
+            type = type,
+            text = text
         };
         return (accident);
     }
@@ -93,7 +102,7 @@ public class AccidentGenerator : MonoBehaviour {
             accident.location = AirportList[rnd.Next(0, AirportList.Count)];
             accident.duration = rnd.Next(0, 30) * 10;
             accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2880));
-            //accident.text=
+            accident.text = accidentTexts[rnd.Next(0,4)];
             AccidentList.Add(accident);
         }
         for (int i = 0; i <= RailAccident; i++)
@@ -102,7 +111,7 @@ public class AccidentGenerator : MonoBehaviour {
             accident.location = RailList[rnd.Next(0, RailList.Count)];
             accident.duration = rnd.Next(0, 30) * 10;
             accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2880));
-            //accident.text=
+            accident.text = accidentTexts[rnd.Next(5, 7)];
             AccidentList.Add(accident);
         }
         PushAccidentList();

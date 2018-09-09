@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Lucky;
 
-public class StringProcessScript : MonoBehaviour {
+public class StringProcessScript : BaseInstance<StringProcessScript> {
     public enum StringType
     {
         Accident,
@@ -16,7 +17,7 @@ public class StringProcessScript : MonoBehaviour {
 	void Update () {
 	
 	}
-    public bool AccidentStringProcess(Accident accident)
+    public Accident AccidentStringProcess(Accident accident)
     {
         string title = accident.text.title;
         string description = accident.text.description;
@@ -46,7 +47,7 @@ public class StringProcessScript : MonoBehaviour {
             accident.text.title.Replace(dictIn[i], dictOut[i]);
             accident.text.description.Replace(dictIn[i], dictOut[i]);
         }
-        return (true);
+        return (accident);
     }
    public bool EventStringProcess()
     {
