@@ -10,11 +10,19 @@ public enum AccidentType
     airport
 }
 
-public class Accident
+public class BaseAccident : IComparable
+{
+    public DateTime starttime;
+    public int CompareTo(object obj)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class Accident : BaseAccident
 {
     public int location;
     public AccidentType type;
-    public DateTime starttime;
     public int duration;
     public AccidentText text;
 }
@@ -24,12 +32,11 @@ public class AccidentText
     public string title;
     public string description;
 }
-public class AccidentWarning
+public class AccidentWarning : BaseAccident
 {
     public int location;
     public AccidentType type;
-    public DateTime starttime;
-    public DateTime Warningstarttime;
+    public DateTime Accidentstarttime;
     public int min, max;
 
 }

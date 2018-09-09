@@ -94,10 +94,9 @@ public class TimeManager : MonoBehaviour {
         }
     }
 
-    public void AddExecute(long id, TimeExecuteParam param)
+    public void AddExecute(TimeExecuteParam param)
     {
-        if(!waiting.ContainsKey(id))
-            waiting.Add(id, param);
+        
     }
 
     public void RemoveExecute(long id)
