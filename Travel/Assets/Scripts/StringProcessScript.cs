@@ -31,12 +31,13 @@ public class StringProcessScript : MonoBehaviour {
         switch(accident.type){
             case AccidentType.rail:
                 {
-                    
+                    dictOut[0] = CityUtil.Instance.GetEdgeCity(accident.location).start_node;
+                    dictOut[1] = CityUtil.Instance.GetEdgeCity(accident.location).end_node;
                     break;
                 }
             case AccidentType.airport:
                 {
-                    dictOut[0] = accident.location.ToString();
+                    dictOut[0] = CityUtil.Instance.GetCityName(accident.location);
                     break;
                 }
         }

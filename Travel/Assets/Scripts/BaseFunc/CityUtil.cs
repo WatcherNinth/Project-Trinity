@@ -307,5 +307,13 @@ public class CityUtil : BaseInstance<CityUtil> {
         }
         return res;
     }
+    public CityMapping GetEdgeCity(int ID)
+    {
+        return city_mapping_list[ID];
+    }
+    public string GetCityName(int ID)
+    {
+        return city_dict[ID];
+    }
 
 }

@@ -4,13 +4,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AccidentType
+{
+    rail,
+    airport
+}
+
+public class Accident
+{
+    public int location;
+    public AccidentType type;
+    public DateTime starttime;
+    public int duration;
+    public AccidentText text;
+}
+public class AccidentText
+{
+    public AccidentType type;
+    public string title;
+    public string description;
+}
+public class AccidentWarning
+{
+    public int location;
+    public AccidentType type;
+    public DateTime starttime;
+    public DateTime Warningstarttime;
+    public int min, max;
+
+}
 public class AccidentGenerator : MonoBehaviour {
 
     public List<Accident> AccidentList;
+   
     List<int> RailList,AirportList;
     int AirportAccident = 8;
     int RailAccident = 8;
     DateTime InitTime = GameModel.Instance.Start;
+    //AccidentWarning property
+    public List<AccidentWarning> AccidentWarningList;
+    int[] AccidentWarningAccurency = { 60, 180, 300 };
     // Use this for initialization
     void Start () {
         AccidentList = new List<Accident>();
@@ -25,26 +58,28 @@ public class AccidentGenerator : MonoBehaviour {
         RailList.Remove(26);
         RailList.Remove(27);
         AirportList.Remove(1);
-        AccidentList.Add(createAccident(AccidentType.rail, 4, 30, InitTime, null));
-        AccidentList.Add(createAccident(AccidentType.rail, 10, 60, InitTime, null));
-        AccidentList.Add(createAccident(AccidentType.rail, 24, 30, InitTime, null));
-        AccidentList.Add(createAccident(AccidentType.rail, 26, 60, InitTime, null));
-        AccidentList.Add(createAccident(AccidentType.airport, 1, 30, InitTime, null));
-        AccidentList.Add(createAccident(AccidentType.rail, 27, 90, InitTime, null));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, InitTime, null));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 10, 60, InitTime, null));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, InitTime, null));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, InitTime, null));
+        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, InitTime, null));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 27, 90, InitTime, null));
     }
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
-    Accident createAccident(AccidentType type,int location,int duration,DateTime starttime,AccidentText text)
+    Accident CreateAccident(AccidentType type,int location,int duration,DateTime starttime,AccidentText text)
     {
-        Accident accident = new Accident();
-        accident.duration = duration;
-        accident.location = location;
-        accident.starttime = starttime;
-        accident.type = type;
-        //accident.text=
+        Accident accident = new Accident
+        {
+            duration = duration,
+            location = location,
+            starttime = starttime,
+            type = type
+            //text=
+        };
         return (accident);
     }
     public void AccidentGenerate()
@@ -70,12 +105,34 @@ public class AccidentGenerator : MonoBehaviour {
             //accident.text=
             AccidentList.Add(accident);
         }
+        PushAccidentList();
     }
     void PushAccidentList()
     {
-        for(int i = 0; i <= AccidentList.Count; i++)
+        foreach(Accident item in AccidentList)
         {
-
+            CreateAccidentWarning(item);
+            //timemanager callback
+        }
+        foreach(AccidentWarning item in AccidentWarningList)
+        {
+            //timemanager callback
+        }
+    }
+    void CreateAccidentWarning(Accident accident)
+    {
+        AccidentWarning warning=new AccidentWarning();
+        System.Random rnd = new System.Random();
+        int rndNum;
+        for(int i = 0; i <= AccidentWarningAccurency.Length; i++)
+        {
+            warning.location = accident.location;
+            warning.type = accident.type;
+            warning.starttime = accident.starttime.AddMinutes(-AccidentWarningAccurency[i]);
+            rndNum = rnd.Next(0, AccidentWarningAccurency[i] / 2);
+            warning.min = accident.duration - rndNum;
+            warning.max = accident.duration + AccidentWarningAccurency[i] - rndNum;
+            AccidentWarningList.Add(warning);
         }
     }
 }
