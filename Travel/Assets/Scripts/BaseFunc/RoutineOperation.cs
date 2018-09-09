@@ -115,7 +115,7 @@ public class RoutineOperation {
 
     public static UInt64 GetTimeStamp(DateTime dt)
     {
-        DateTime dateStart = new DateTime(1970, 1, 1, 0, 0, 0);
+        DateTime dateStart = new DateTime();
         Debug.Log("seconds " + (dt - dateStart).TotalSeconds);
         UInt64 timeStamp = Convert.ToUInt64((dt - dateStart).TotalSeconds);
         Debug.Log("timestamp " + timeStamp);
