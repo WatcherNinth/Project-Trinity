@@ -14,7 +14,6 @@ public class TestRoutine : MonoBehaviour {
 
         operation.InsertTicket("上海", "成都", 0, begin_time, end_time, 10000, "T488");
 
-
         TicketsOperaton ticket_operation = new TicketsOperaton();
         if (ticket_operation.BuyTickets(1))
         {
@@ -29,6 +28,15 @@ public class TestRoutine : MonoBehaviour {
         foreach(int i in util.GetAllCityNodeNum()){
             Debug.Log(i);
         }
+
+        AccidentTextOperation accident_text_operation = new AccidentTextOperation();
+        List<AccidentText> accident_text = accident_text_operation.GetRailAccidentText();
+
+        foreach(AccidentText text in accident_text)
+        {
+            Debug.Log(text.description);
+        }
+
     }
 	
 	// Update is called once per frame
