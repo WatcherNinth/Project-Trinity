@@ -130,7 +130,8 @@ public class AccidentGenerator : MonoBehaviour {
         {
             warning.location = accident.location;
             warning.type = accident.type;
-            warning.starttime = accident.starttime.AddMinutes(-AccidentWarningAccurency[i]);
+            warning.starttime = accident.starttime;
+            warning.Warningstarttime = accident.starttime.AddMinutes(-AccidentWarningAccurency[i]);
             rndNum = rnd.Next(0, AccidentWarningAccurency[i] / 2);
             warning.min = accident.duration - rndNum;
             warning.max = accident.duration + AccidentWarningAccurency[i] - rndNum;
