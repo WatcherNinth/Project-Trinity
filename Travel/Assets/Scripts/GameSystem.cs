@@ -14,6 +14,7 @@ public class GameSystem : MonoBehaviour {
     private void Awake()
     {
         gs = this;
+        Screen.orientation = ScreenOrientation.LandscapeRight;
     }
 
     private void Start()

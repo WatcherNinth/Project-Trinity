@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using Lucky;
 using System.Threading;
 
-public class LoginView : MonoBehaviour {
+public class EndingView : MonoBehaviour {
 
     
     public Image image;
