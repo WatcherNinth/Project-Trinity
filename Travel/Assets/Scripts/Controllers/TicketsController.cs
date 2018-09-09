@@ -16,6 +16,7 @@ public class TicketsController : BaseInstance<TicketsController>
 
     public List<TrafficMessage> GetBuyTickets(DateTime dt)
     {
+        Debug.Log(dt);
         TicketsOperaton ticket_operation = new TicketsOperaton();
         List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(new DateTime());
 
