@@ -15,7 +15,7 @@ public class GameSystem : MonoBehaviour {
     private void Awake()
     {
         gs = this;
-        Screen.orientation = ScreenOrientation.LandscapeRight;
+        Screen.orientation = ScreenOrientation.Portrait;
     }
 
     private void Start()
@@ -41,7 +41,8 @@ public class GameSystem : MonoBehaviour {
         yield return StartCoroutine(EventHappenManager.Instance.Init());
         Debug.Log("load scene");
         AsyncOperation ao = SceneManager.LoadSceneAsync("Main");
-        yield return ao;     
+        yield return ao;
+        Debug.Log("load finish");
     }
 	
 }
