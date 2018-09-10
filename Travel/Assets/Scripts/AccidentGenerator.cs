@@ -69,7 +69,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         Accident accident = new Accident();
         System.Random rnd = new System.Random();
         //通过某个函数返回Accidenttext总表
-        for (int i = 0; i <= AirportAccident; i++)
+        for (int i = 0; i < AirportAccident; i++)
         {
             accident.type = AccidentType.airport;
             accident.location = AirportList[rnd.Next(0, AirportList.Count)];
@@ -78,7 +78,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             accident.text = accidentTexts[rnd.Next(0, 4)];
             AccidentList.Add(accident);
         }
-        for (int i = 0; i <= RailAccident; i++)
+        for (int i = 0; i < RailAccident; i++)
         {
             accident.type = AccidentType.rail;
             accident.location = RailList[rnd.Next(0, RailList.Count)];
@@ -94,7 +94,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         foreach (Accident item in AccidentList)
         {
             CreateAccidentWarning(item);
-            //TimeManager.instance.AddAccidentExecute(item, HandleAccident);
+            TimeManager.instance.AddAccidentExecute(item, HandleAccident);
 
             //timemanager callback
         }
@@ -105,10 +105,11 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
     }
     void CreateAccidentWarning(Accident accident)
     {
+        
         AccidentWarning warning = new AccidentWarning();
         System.Random rnd = new System.Random();
         int rndNum;
-        for (int i = 0; i <= AccidentWarningAccurency.Length; i++)
+        for (int i = 0; i < AccidentWarningAccurency.Length; i++)
         {
             warning.location = accident.location;
             warning.type = accident.type;
@@ -121,8 +122,10 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         }
     }
 
-    public void HandleAccident(Accident accident)
+    public void HandleAccident(BaseAccident taccident)
     {
+        Accident accident = taccident as Accident;
+        Debug.Log("callback "+accident.starttime + " " + accident.location);
         //delay
     }
 
@@ -131,6 +134,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         accidentTexts = new AccidentTextOperation().GetRailAccidentText();
         yield return null;
         AccidentList = new List<Accident>();
+        AccidentWarningList = new List<AccidentWarning>();
         CityUtil util = new CityUtil();
         util.Init();
         RailList = util.GetAllCityEdgeNum();
@@ -141,6 +145,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         RailList.Remove(24);
         RailList.Remove(26);
         RailList.Remove(27);
+        
         AirportList.Remove(1);
         AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, InitTime, accidentTexts[1]));
         AccidentList.Add(CreateAccident(AccidentType.rail, 10, 60, InitTime, accidentTexts[2]));
@@ -149,5 +154,6 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, InitTime, accidentTexts[7]));
         AccidentList.Add(CreateAccident(AccidentType.airport, 27, 90, InitTime, accidentTexts[7]));
         yield return null;
+        AccidentGenerate();
     }
 }

@@ -46,7 +46,7 @@ public class AirLineView : MonoBehaviour {
 
         float dictance = Vector3.Distance(start,stop);
         n = (int)dictance / 225;
-
+        gameObject.SetActive(true);
         Show();
     }
 	

@@ -9,17 +9,14 @@ public class LocationView : BaseSceneEaseInOut
 
     public BaseGrid baseGrid;
 
-    public static string[] citys =
+    private string[] citys;
+
+    protected override void Awake()
     {
-        "深圳",
-        "广州",
-        "北京",
-        "杭州",
-        "南京",
-        "上海",
-        "合肥",
-        "成都"
-    };
+        base.Awake();
+        citys = new string[LocationsModel.cityslocation.Count];
+        LocationsModel.cityslocation.Keys.CopyTo(citys, 0);
+    }
 
     protected override void InitUI()
     {

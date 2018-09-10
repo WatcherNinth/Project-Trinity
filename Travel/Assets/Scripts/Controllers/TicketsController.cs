@@ -19,7 +19,15 @@ public class TicketsController : BaseInstance<TicketsController>
     public void BuyTickets(int id)
     {
         TicketsOperaton ticket_operation = new TicketsOperaton();
-        ticket_operation.BuyTickets(id);
+        int ticketid = ticket_operation.BuyTickets(id);
+        if(ticketid==0)
+        {
+            Debug.Log("ticket id error");
+            return;
+        }
+        RoutineTicket ticket=ticket_operation.GetTicketByTickedId(ticketid);
+        Debug.Log("ticket " + ticket.GetRoutineStartNode() + " " + ticket.GetBeginTime() + " "+ticket.GetTicketId());
+        TimeManager.instance.AddGo(new TicketParam(ticket));
     }
 
     public List<TrafficMessage> GetBuyTickets(DateTime dt)
@@ -41,12 +49,15 @@ public class TicketsController : BaseInstance<TicketsController>
             string ticketname = rt.GetTicketName();
             string money = rt.GetMoney() + "";
 
-            int id = rt.GetRoutineId();
+            int id = rt.GetTicketId();
 
             TimeSpan ts = stoptime - starttime;
             string usetime = ts.Hours + ":" + ts.Minutes;
-
-            data.Add(starttime, new TrafficMessage(starttime.ToString("hh:mm"), start, usetime, ticketname, stoptime.ToString("hh:mm"), stop, money, false, id));
+            Debug.Log("start time " + starttime);
+            Debug.Log("get id " + id);
+            Debug.Log(TicketsController.Instance.DeleteTickets(id));
+            //data.Add(starttime, new TrafficMessage(starttime.ToString("hh:mm"), start, usetime, ticketname, stoptime.ToString("hh:mm"), stop, money, false, id));
+            //TimeManager.instance.AddGo(new TicketParam(rt));
         }
 
         List<TrafficMessage> finaldata = new List<TrafficMessage>();
@@ -54,15 +65,18 @@ public class TicketsController : BaseInstance<TicketsController>
         foreach (KeyValuePair<DateTime, TrafficMessage> kvp in data)
         {
             finaldata.Add(kvp.Value);
+            
         }
 
         return finaldata;
     }
 
-    public void DeleteTickets(int id)
+    public bool DeleteTickets(int id)
     {
         TicketsOperaton ticket_operation = new TicketsOperaton();
-        ticket_operation.RefundTicket(id);
+        bool abc =ticket_operation.RefundTicket(id);
+        TimeManager.instance.RemoveGo(id);
+        return abc;
     }
 
     public List<TrafficMessage> Search(int type, string startlocation, string stoplocation, DateTime dt)

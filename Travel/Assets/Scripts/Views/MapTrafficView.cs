@@ -3,8 +3,10 @@ using System.Collections;
 
 public class MapTrafficView : MonoBehaviour {
 
-    private static MapTrafficView _instance;
+    public AirLineView airline;
+    public GameObject airplane;
 
+    private static MapTrafficView _instance;
     public static MapTrafficView instance
     {
         get { return _instance; }
@@ -27,19 +29,24 @@ public class MapTrafficView : MonoBehaviour {
 
     public void AirPlaneFly(TicketParam tp)
     {
-
+        Debug.Log("airplane fly"+ tp.rt.GetBeginTime());
+        Vector3 start = Vector3.zero;
+        LocationsModel.cityslocation.TryGetValue(tp.rt.GetRoutineStartNode(), out start);
+        Vector3 stop = Vector3.zero;
+        LocationsModel.cityslocation.TryGetValue(tp.rt.GetEndNode(), out stop);
+        airline.Show(start, stop);
     }
 
     public void TrainGo(TicketParam tp)
     {
-
+        Debug.Log("train go" + tp.rt.GetBeginTime());
     }
 
     public void ShowAccident(BaseAccident ba)
     {
         if(ba.GetType() == typeof(Accident))
         {
-
+            
         }
         else if(ba.GetType() == typeof(AccidentWarning))
         {

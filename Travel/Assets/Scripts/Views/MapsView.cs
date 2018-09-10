@@ -10,6 +10,8 @@ public class MapsView : BaseUI {
     public Button BuyBtn;
     public Button GoBtn;
 
+    private bool isPlay = false;
+
     private void Awake()
     {
         base.Awake();
@@ -34,7 +36,14 @@ public class MapsView : BaseUI {
 
     private void OnGoClick()
     {
-        TimeManager.instance.GoToNextStartTime();
+        if(!isPlay)
+        {
+            TimeManager.instance.GoToNextStartTime();
+        }
+        else
+        {
+            TimeManager.instance.TimeSpeed = 0;
+        }
     }
 
 

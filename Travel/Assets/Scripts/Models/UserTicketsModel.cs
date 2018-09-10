@@ -18,6 +18,8 @@ public class UserTicketsModel : BaseInstance<UserTicketsModel> {
         }
         else
             money = PlayerPrefs.GetFloat("money", 0);
+
+        money += 3000;
         
     }
     

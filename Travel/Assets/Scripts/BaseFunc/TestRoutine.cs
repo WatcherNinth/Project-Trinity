@@ -15,7 +15,7 @@ public class TestRoutine : MonoBehaviour {
         operation.InsertTicket("上海", "成都", 0, begin_time, end_time, 10000, "T488");
 
         TicketsOperaton ticket_operation = new TicketsOperaton();
-        if (ticket_operation.BuyTickets(1))
+        if (ticket_operation.BuyTickets(1)!=0)
         {
             Debug.Log("success");
         }
