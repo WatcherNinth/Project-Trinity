@@ -67,6 +67,7 @@ public class RoutineTicket : Routine {
     DateTime begin_time;
     DateTime end_time;
     int money;
+    int ticket_id;
 
     public void SetBeginTime(DateTime time)
     {
@@ -94,6 +95,15 @@ public class RoutineTicket : Routine {
     public int GetMoney()
     {
         return money;
+    }
+
+    public int GetTicketId()
+    {
+        return ticket_id;
+    }
+    public void SetTicketid(int ticket_id)
+    {
+        this.ticket_id = ticket_id;
     }
 }
 
@@ -138,9 +148,9 @@ public class RoutineOperation {
         TimeSpan toNow = new TimeSpan(lTime); return dtStart.Add(toNow);
     }
 
-    public static List<RoutineTicket> GetRoutinInfo(SqliteDataReader reader)
+    public static List<Routine> GetRoutinInfo(SqliteDataReader reader)
     {
-        List<RoutineTicket> res = new List<RoutineTicket>();
+        List<Routine> res = new List<Routine>();
         while (reader.Read())
         {
             RoutineTicket ticket = new RoutineTicket();
@@ -192,8 +202,7 @@ public class RoutineOperation {
         }
     }
 
-    // 获取符合条件的车票信息, 0表示火车，1表示飞机d
-    public List<RoutineTicket> GetAllTicket(string start_node, string end_node, int ticket_type, DateTime time)
+    public List<Routine> GetAllTicket(string start_node, string end_node, int ticket_type, DateTime time)
     {
 
         operation.InitConnection(data_resource);
@@ -203,12 +212,11 @@ public class RoutineOperation {
 
         Debug.Log(sql);
         SqliteDataReader reader = operation.ExecuteQuery(sql);
-        List<RoutineTicket> res = GetRoutinInfo(reader);
+        List<Routine> res = GetRoutinInfo(reader);
 
         operation.CloseConnection();
         Debug.Log(res.Count);
         return res;
     }
-
 
 }

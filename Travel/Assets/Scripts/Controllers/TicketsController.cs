@@ -69,7 +69,7 @@ public class TicketsController : BaseInstance<TicketsController>
     {
 
         RoutineOperation operation = new RoutineOperation();
-        List<RoutineTicket> tickets = operation.GetAllTicket(startlocation, stoplocation, type, dt);
+        List<Routine> tickets = operation.GetAllTicket(startlocation, stoplocation, type, dt);
 
         List<TrafficMessage> data = new List<TrafficMessage>();
 

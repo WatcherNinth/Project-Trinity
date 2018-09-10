@@ -8,7 +8,7 @@ public class TestRoutine : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         RoutineOperation operation = new RoutineOperation();
-        List <RoutineTicket> tickets = operation.GetAllTicket("上海", "合肥", 1,  new DateTime());
+        List <Routine> tickets = operation.GetAllTicket("上海", "合肥", 1,  new DateTime());
         DateTime begin_time = DateTime.Now;
         DateTime end_time = DateTime.Now.AddHours(10);
 
@@ -19,6 +19,9 @@ public class TestRoutine : MonoBehaviour {
         {
             Debug.Log("success");
         }
+
+        RoutineTicket ti = ticket_operation.GetTicketByTickedId(26);
+        Debug.Log("end node "  + ti.GetEndNode());
 
         List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(DateTime.Now);
 
