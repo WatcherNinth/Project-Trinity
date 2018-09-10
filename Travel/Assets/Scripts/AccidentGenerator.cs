@@ -128,6 +128,10 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         Debug.Log("callback "+accident.starttime + " " + accident.location);
         //delay
     }
+    DateTime SetTime(int hour,int min,int sec)
+    {
+        return new DateTime(DateTime.Now.Year, 2, 4, hour, min, sec);
+    }
 
     public IEnumerator Init()
     {
@@ -148,11 +152,11 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         
         AirportList.Remove(1);
         AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, InitTime, accidentTexts[1]));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 10, 60, InitTime, accidentTexts[2]));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, InitTime, accidentTexts[1]));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, InitTime, accidentTexts[4]));
-        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, InitTime, accidentTexts[7]));
-        AccidentList.Add(CreateAccident(AccidentType.airport, 27, 90, InitTime, accidentTexts[7]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 10, 30, SetTime(13, 0, 0), accidentTexts[2]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, SetTime(17, 0, 0), accidentTexts[1]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, SetTime(18, 30, 0), accidentTexts[4]));
+        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, SetTime(18, 30, 0), accidentTexts[7]));
+        AccidentList.Add(CreateAccident(AccidentType.airport, 27, 90, SetTime(20, 50, 0), accidentTexts[7]));
         yield return null;
         AccidentGenerate();
     }

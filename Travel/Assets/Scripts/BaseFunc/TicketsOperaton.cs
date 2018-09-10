@@ -71,7 +71,7 @@ public class TicketsOperaton
 
         operation.InitConnection(data_resource);
 
-        string sql = "delete from purchased_tickets where routine_id = " + ticket_id; 
+        string sql = "delete from purchased_tickets where ticket_id = " + ticket_id; 
         Debug.Log(sql);
         SqliteDataReader reader = operation.ExecuteQuery(sql);
         if (reader.RecordsAffected == 1)
