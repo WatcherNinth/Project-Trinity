@@ -40,7 +40,7 @@ public class TicketsOperaton
 
     }
 
-    public bool BuyTickets(int routine_id)
+    public int BuyTickets(int routine_id)
     {
         operation.InitConnection(data_resource);
 
@@ -49,13 +49,20 @@ public class TicketsOperaton
         SqliteDataReader reader = operation.ExecuteQuery(sql);
         if (reader.RecordsAffected == 1)
         {
+            string get_ticket_id_sql = "select max(ticket_id) as insert_ticket_id from purchased_tickets";
+            reader = operation.ExecuteQuery(get_ticket_id_sql);
+
+            reader.Read();
+
+            int inserted_ticket_id = reader.GetInt32(reader.GetOrdinal("insert_ticket_id"));
+
             operation.CloseConnection();
-            return true;
+            return inserted_ticket_id;
         }
         else
         {
             operation.CloseConnection();
-            return false;
+            return 0;
         }
     }
 
@@ -143,5 +150,6 @@ public class TicketsOperaton
         operation.CloseConnection();
         return ticket;
     }
+
 }
 
