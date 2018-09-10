@@ -7,7 +7,8 @@ public class MapsView : BaseUI {
 
     private MainContent mainContent;
 
-    public Button Btn;
+    public Button BuyBtn;
+    public Button GoBtn;
 
     private void Awake()
     {
@@ -17,7 +18,8 @@ public class MapsView : BaseUI {
     // Use this for initialization
     void Start () {
         mainContent = transform.parent.gameObject.GetComponent<MainContent>();
-        Btn.onClick.AddListener(OnClick);
+        BuyBtn.onClick.AddListener(OnClick);
+        GoBtn.onClick.AddListener(OnGoClick);
 	}
 
     protected override void OnDestroy()
@@ -28,6 +30,11 @@ public class MapsView : BaseUI {
     private void OnClick()
     {
         mainContent.ShowView(ViewID.BuyTickets);
+    }
+
+    private void OnGoClick()
+    {
+        TimeManager.instance.GoToNextStartTime();
     }
 
 

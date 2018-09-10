@@ -22,8 +22,6 @@ public class EndingView : MonoBehaviour {
 
     void Start()
     {
-        
-        StartCoroutine(PrefabManager.Instance.Init("Main"));
 
     }
 

@@ -6,6 +6,8 @@ public class UserTicketsModel : BaseInstance<UserTicketsModel> {
 
     public float money = 0;
 
+    //public Dictionary<long, >
+
     public UserTicketsModel()
     {
         float temp = PlayerPrefs.GetFloat("money", 0);

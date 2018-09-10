@@ -37,15 +37,9 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
     private void BuyTickets()
     {
         float money = Convert.ToSingle(trafficMessage.Money);
-        if(UserTicketsModel.Instance.money >= money)
-        {
-            TicketsController.Instance.BuyTickets(trafficMessage.id);
-            MessageBus.Post(new UseMoney(-money));
-        }
-        else
-        {
-            GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.BuyTicketPopup);
-        }
+        TicketsController.Instance.BuyTickets(trafficMessage.id);
+        MessageBus.Post(new UseMoney(-money));
+        TimeManager.instance.AddGo(new TicketParam(new RoutineTicket()));
         Dispose();
     }
 
@@ -53,6 +47,7 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
     {
         float money = Convert.ToSingle(trafficMessage.Money);
         TicketsController.Instance.DeleteTickets(trafficMessage.id);
+        TimeManager.instance.RemoveGo(trafficMessage.id);
         MessageBus.Post(new UseMoney(money));
         MessageBus.Post(new DeleteTicketsMsg());
         Dispose();

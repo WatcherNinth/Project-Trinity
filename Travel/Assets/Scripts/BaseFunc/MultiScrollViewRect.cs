@@ -21,6 +21,12 @@ public class MultiScrollViewRect : MonoBehaviour, IBeginDragHandler, IDragHandle
     void Awake()
     {
         thisScrollRect = GetComponent<ScrollRect>();
+        //if (anotherScrollRect == null)
+            //anotherScrollRect = GetComponentsInParent<ScrollRect>()[1];
+    }
+
+    private void Update()
+    {
         if (anotherScrollRect == null)
             anotherScrollRect = GetComponentsInParent<ScrollRect>()[1];
     }

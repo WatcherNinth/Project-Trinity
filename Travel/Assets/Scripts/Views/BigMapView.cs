@@ -182,5 +182,4 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         return true;
     }
 
-
 }

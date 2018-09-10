@@ -86,10 +86,17 @@ public class TrainItemView : ItemRender {
         {
             if (Convert.ToSingle(tdata.Money) <= UserTicketsModel.Instance.money)
             {
-                GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.BuyTicketPopup);
-                BuyTicketPopupView btpv = go.GetComponent<BuyTicketPopupView>();
-                btpv.traffic = m_Data as TrafficMessage;
-                PopUpManager.Instance.SetPopupPanelAutoClose(go);
+                if (TimeManager.instance.isTicketBuy(tdata.id))
+                {
+                    InfoView.Show(new InfoMessage("你已经购买了这张车票", "消息"));
+                }
+                else
+                {
+                    GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.BuyTicketPopup);
+                    BuyTicketPopupView btpv = go.GetComponent<BuyTicketPopupView>();
+                    btpv.traffic = m_Data as TrafficMessage;
+                    PopUpManager.Instance.SetPopupPanelAutoClose(go);
+                }
             }
             else
             {

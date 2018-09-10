@@ -22,8 +22,6 @@ public class LoginView : MonoBehaviour {
 
     void Start()
     {
-        
-        StartCoroutine(PrefabManager.Instance.Init("Main"));
 
     }
 
