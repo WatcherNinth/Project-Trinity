@@ -109,7 +109,7 @@ public class TicketsOperaton
             ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
             ticket.SetBeginTime(RoutineOperation.GetTime(reader.GetInt32(reader.GetOrdinal("start_time")).ToString(), false));
             ticket.SetEndTime(RoutineOperation.GetTime(reader.GetInt32(reader.GetOrdinal("end_time")).ToString(), false));
-            ticket.SetMoney(reader.GetInt32(reader.GetOrdinal("money")));
+            ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
             ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
             ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
             res.Add(ticket);

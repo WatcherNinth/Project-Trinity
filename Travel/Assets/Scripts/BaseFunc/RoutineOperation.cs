@@ -162,7 +162,7 @@ public class RoutineOperation {
             ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
             ticket.SetBeginTime(GetTime(reader.GetInt32(reader.GetOrdinal("start_time")).ToString(), false));
             ticket.SetEndTime(GetTime(reader.GetInt32(reader.GetOrdinal("end_time")).ToString(), false));
-            ticket.SetMoney(reader.GetInt32(reader.GetOrdinal("money")));
+            ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
             ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
             res.Add(ticket);
         }
