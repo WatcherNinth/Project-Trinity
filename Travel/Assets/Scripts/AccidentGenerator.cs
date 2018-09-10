@@ -64,12 +64,12 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator> {
         RailList.Remove(26);
         RailList.Remove(27);
         AirportList.Remove(1);
-        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, InitTime, accidentTexts[2]));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 10, 60, InitTime, accidentTexts[3]));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, InitTime, accidentTexts[2]));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, InitTime, accidentTexts[5]));
-        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, InitTime, accidentTexts[8]));
-        AccidentList.Add(CreateAccident(AccidentType.airport, 27, 90, InitTime, accidentTexts[8]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, InitTime, accidentTexts[1]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 10, 60, InitTime, accidentTexts[2]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, InitTime, accidentTexts[1]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, InitTime, accidentTexts[4]));
+        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, InitTime, accidentTexts[7]));
+        AccidentList.Add(CreateAccident(AccidentType.airport, 27, 90, InitTime, accidentTexts[7]));
     }
 	
 	// Update is called once per frame
