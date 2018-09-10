@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Lucky;
+using UnityEngine.SceneManagement;
 
 public class GameSystem : MonoBehaviour {
 
@@ -20,12 +21,7 @@ public class GameSystem : MonoBehaviour {
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-        StartCoroutine(PrefabManager.Instance.Init());
-        StartCoroutine(EventHappenManager.Instance.Init());
-        /*
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(mainscene);
-        */
+        StartCoroutine(Init());
     }
 
     void Update()
@@ -33,6 +29,19 @@ public class GameSystem : MonoBehaviour {
         MessageBus.Update(20);
         PopUpManager.Instance.Update();
         EventHappenManager.Instance.Update();
+    }
+
+    private IEnumerator Init()
+    {
+        Debug.Log("load prefab");
+        yield return StartCoroutine(PrefabManager.Instance.Init());
+        Debug.Log("load accident");
+        yield return StartCoroutine(AccidentGenerator.Instance.Init());
+        Debug.Log("load event");
+        yield return StartCoroutine(EventHappenManager.Instance.Init());
+        Debug.Log("load scene");
+        AsyncOperation ao = SceneManager.LoadSceneAsync("Main");
+        yield return ao;     
     }
 	
 }
