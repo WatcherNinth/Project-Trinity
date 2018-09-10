@@ -10,13 +10,9 @@ public enum AccidentType
     airport
 }
 
-public class BaseAccident : IComparable
+public class BaseAccident
 {
     public DateTime starttime;
-    public int CompareTo(object obj)
-    {
-        throw new NotImplementedException();
-    }
 }
 
 public class Accident : BaseAccident
