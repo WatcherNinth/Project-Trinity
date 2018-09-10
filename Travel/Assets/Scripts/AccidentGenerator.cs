@@ -118,6 +118,8 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator> {
         foreach(Accident item in AccidentList)
         {
             CreateAccidentWarning(item);
+            //TimeManager.instance.AddAccidentExecute(item, HandleAccident);
+
             //timemanager callback
         }
         foreach(AccidentWarning item in AccidentWarningList)
@@ -135,6 +137,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator> {
             warning.location = accident.location;
             warning.type = accident.type;
             warning.starttime = accident.starttime.AddMinutes(-AccidentWarningAccurency[i]);
+            warning.Accidentstarttime = accident.starttime;
             rndNum = rnd.Next(0, AccidentWarningAccurency[i] / 2);
             warning.min = accident.duration - rndNum;
             warning.max = accident.duration + AccidentWarningAccurency[i] - rndNum;
@@ -142,8 +145,14 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator> {
         }
     }
 
+    public void HandleAccident(Accident accident)
+    {
+        //delay
+    }
+
     public IEnumerator Init()
     {
+        Start();
         yield return null;
     }
 }
