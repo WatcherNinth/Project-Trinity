@@ -14,7 +14,7 @@ public class GameModel : BaseInstance<GameModel> {
 
     public GameModel()
     {
-        start = new DateTime(DateTime.Now.Year, 1, 6);
+        start = new DateTime(DateTime.Now.Year, 2, 4, 9, 0, 0);
     }
 
 }
