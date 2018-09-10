@@ -41,7 +41,7 @@ namespace Lucky
             return null;
         }
 
-        public IEnumerator Init(string mainscene)
+        public IEnumerator Init()
         {
             yield return null;
             string[] s =
@@ -68,8 +68,6 @@ namespace Lucky
                 else
                     Debug.Log(prefab + "load failed");
             }
-            yield return new WaitForSeconds(2);
-            SceneManager.LoadScene(mainscene);
         }
 
         

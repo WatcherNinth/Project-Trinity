@@ -1,4 +1,5 @@
 ﻿
+using Lucky;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ public class AccidentWarning : BaseAccident
     public int min, max;
 
 }
-public class AccidentGenerator : MonoBehaviour {
+public class AccidentGenerator : BaseInstance<AccidentGenerator> {
 
     public List<Accident> AccidentList;
    
@@ -139,5 +140,10 @@ public class AccidentGenerator : MonoBehaviour {
             warning.max = accident.duration + AccidentWarningAccurency[i] - rndNum;
             AccidentWarningList.Add(warning);
         }
+    }
+
+    public IEnumerator Init()
+    {
+        yield return null;
     }
 }
