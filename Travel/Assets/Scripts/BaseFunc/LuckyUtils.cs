@@ -5,10 +5,14 @@ namespace Lucky
 {
     public class LuckyUtils
     {
+        public static Sprite LoadImageFromResouce(string imagePath)
+        {
+            return Resources.Load<Sprite>(imagePath);
+        }
+
         public static T CreatePanelFromResource<T>(string prefabPath, Transform parent) where T : MonoBehaviour
         {
             GameObject prefab = PrefabManager.Instance.GetPrefabs(prefabPath);
-            //GameObject prefab = Resources.Load<GameObject>(prefabPath);
             if (prefab == null)
             {
                 Debug.Log("load prefab from resource failed: " + prefabPath);

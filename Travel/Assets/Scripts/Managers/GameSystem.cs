@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameSystem : MonoBehaviour {
 
     private static GameSystem gs;
+    private float lasttime;
 
     public static GameSystem instance
     {
@@ -22,6 +23,8 @@ public class GameSystem : MonoBehaviour {
     {
         DontDestroyOnLoad(gameObject);
         StartCoroutine(Init());
+        lasttime = Time.realtimeSinceStartup;
+
     }
 
     void Update()
@@ -29,6 +32,12 @@ public class GameSystem : MonoBehaviour {
         MessageBus.Update(20);
         PopUpManager.Instance.Update();
         EventHappenManager.Instance.Update();
+        if( Time.realtimeSinceStartup-lasttime > 20 )
+        {
+            Resources.UnloadUnusedAssets();
+            System.GC.Collect();
+            lasttime = Time.realtimeSinceStartup;
+        }
     }
 
     private IEnumerator Init()
