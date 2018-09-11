@@ -39,10 +39,13 @@ public class MapsView : BaseUI {
         if(!isPlay)
         {
             TimeManager.instance.GoToNextStartTime();
+            TimeManager.instance.TimeSpeed = 1;
+            isPlay = true; 
         }
         else
         {
             TimeManager.instance.TimeSpeed = 0;
+            isPlay = false;
         }
     }
 

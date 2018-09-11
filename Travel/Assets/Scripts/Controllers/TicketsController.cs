@@ -15,6 +15,7 @@ public class TicketParam
 
 public class TicketsController : BaseInstance<TicketsController>
 {
+    private bool isFirstLoad=false;
     
     public void BuyTickets(int id)
     {
@@ -61,7 +62,14 @@ public class TicketsController : BaseInstance<TicketsController>
             Debug.Log("get routined id  " + rt.GetRoutineId());
             //Debug.Log(TicketsController.Instance.DeleteTickets(id));
             data.Add(starttime, new TrafficMessage(starttime.ToString("hh:mm"), start, usetime, ticketname, stoptime.ToString("hh:mm"), stop, money, false, id));
-            //TimeManager.instance.AddGo(new TicketParam(rt));
+            /* 第一次开启App，将没有加载的数据放入TimeManager
+            if (!isFirstLoad)
+            {
+                TimeManager.instance.AddGo(new TicketParam(rt));
+                isFirstLoad = true;
+            }
+            */
+            
         }
 
         List<TrafficMessage> finaldata = new List<TrafficMessage>();
