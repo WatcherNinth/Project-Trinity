@@ -42,7 +42,7 @@ public class TicketsOperaton
 
     public static DateTime GetTodayTime(int seconds)
     {
-        DateTime now = DateTime.Now;
+        DateTime now = GameModel.Instance.Start;
         DateTime new_now = new DateTime(now.Year, now.Month, now.Day);
         int hour = seconds / 3600;
         int minutes = (seconds - hour * 3600) / 60;
@@ -51,6 +51,19 @@ public class TicketsOperaton
         new_now  = new_now.Add(new TimeSpan(hour, minutes, 0));
         return new_now;
     }
+    public static void SetTicketName(SqliteDataReader reader, RoutineTicket ticket)
+    {
+        Type type = reader.GetFieldType(reader.GetOrdinal("ticket_name"));
+        if (type == typeof(int))
+        {
+            ticket.SetTicketName("" + reader.GetInt32(reader.GetOrdinal("ticket_name")));
+        }
+        if (type == typeof(string))
+        {
+            ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
+        }
+    }
+       
 
     public int BuyTickets(int routine_id)
     {
@@ -141,7 +154,7 @@ public class TicketsOperaton
                 ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
                 ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
                 ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
-                ticket.SetTicketName(reader.GetOrdinal("ticket_name").ToString());
+                SetTicketName(reader, ticket);
                 ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
                 res.Add(ticket);
             }
@@ -153,7 +166,6 @@ public class TicketsOperaton
         }
         finally
         {
-
             operation.CloseConnection();
             Debug.Log(res.Count);
           
@@ -188,11 +200,9 @@ public class TicketsOperaton
                 ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
                 ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
                 ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
-                ticket.SetTicketName(reader.GetOrdinal("ticket_name").ToString());
+                SetTicketName(reader, ticket);
                 ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
-
             }
-
 
         } catch(Exception e)
         {

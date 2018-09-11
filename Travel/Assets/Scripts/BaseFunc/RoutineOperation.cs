@@ -190,8 +190,7 @@ public class RoutineOperation {
             ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
             Debug.Log(ticket.GetRoutineId());
 
-
-            ticket.SetTicketName(reader.GetOrdinal("ticket_name").ToString());
+            TicketsOperaton.SetTicketName(reader, ticket);
             res.Add(ticket);
         }
         return res;
@@ -247,7 +246,7 @@ public class RoutineOperation {
         return res;
     }
 
-    public bool DelayTickets()
+    public bool DelayTickets(DateTime accident_happen_time, int city_id, int duration, AccidentType type)
     {
         return true;
     }
