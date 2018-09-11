@@ -11,7 +11,12 @@ public class TestRoutine : MonoBehaviour {
         List <Routine> tickets = operation.GetAllTicket("上海", "杭州", 0,  new DateTime());
 
 
+<<<<<<< HEAD
         foreach (Routine t in tickets)
+=======
+        TicketsOperaton ticket_operation = new TicketsOperaton();
+        if (ticket_operation.BuyTickets(1)!=0)
+>>>>>>> 2b7270659ef67c6e49f637e5141e95b26b970a6c
         {
             Debug.Log(t.GetBeginTime());
             Debug.Log(t.GetTicketName());

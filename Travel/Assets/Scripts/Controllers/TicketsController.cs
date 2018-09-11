@@ -15,11 +15,23 @@ public class TicketParam
 
 public class TicketsController : BaseInstance<TicketsController>
 {
+    private bool isFirstLoad=false;
     
     public void BuyTickets(int id)
     {
         TicketsOperaton ticket_operation = new TicketsOperaton();
-        ticket_operation.BuyTickets(id);
+        int ticketid = ticket_operation.BuyTickets(id);
+        if(ticketid==0)
+        {
+            Debug.Log("ticket id error");
+            return;
+        }
+        RoutineTicket ticket=ticket_operation.GetTicketByTickedId(ticketid);
+        Debug.Log("ticket " + ticket.GetRoutineStartNode() + " " + ticket.GetBeginTime() + " "+ticket.GetTicketId());
+
+        Debug.Log("buy ticket id " + ticket.GetTicketId() + " routtine id" + ticket.GetRoutineId());
+        ticket.SetBeginTime(TimeManager.instance.NowTime.AddHours(1));
+        TimeManager.instance.AddGo(new TicketParam(ticket));
     }
 
     public List<TrafficMessage> GetBuyTickets(DateTime dt)
@@ -41,12 +53,23 @@ public class TicketsController : BaseInstance<TicketsController>
             string ticketname = rt.GetTicketName();
             string money = rt.GetMoney() + "";
 
-            int id = rt.GetRoutineId();
+            int id = rt.GetTicketId();
 
             TimeSpan ts = stoptime - starttime;
             string usetime = ts.Hours + ":" + ts.Minutes;
-
+            Debug.Log("start time " + starttime);
+            Debug.Log("get ticked id " + id);
+            Debug.Log("get routined id  " + rt.GetRoutineId());
+            //Debug.Log(TicketsController.Instance.DeleteTickets(id));
             data.Add(starttime, new TrafficMessage(starttime.ToString("hh:mm"), start, usetime, ticketname, stoptime.ToString("hh:mm"), stop, money, false, id));
+            /* 第一次开启App，将没有加载的数据放入TimeManager
+            if (!isFirstLoad)
+            {
+                TimeManager.instance.AddGo(new TicketParam(rt));
+                isFirstLoad = true;
+            }
+            */
+            
         }
 
         List<TrafficMessage> finaldata = new List<TrafficMessage>();
@@ -54,15 +77,23 @@ public class TicketsController : BaseInstance<TicketsController>
         foreach (KeyValuePair<DateTime, TrafficMessage> kvp in data)
         {
             finaldata.Add(kvp.Value);
+            
         }
 
         return finaldata;
     }
 
-    public void DeleteTickets(int id)
+    public bool DeleteTickets(int id)
     {
+        Debug.Log("delete ticket id " + id);
         TicketsOperaton ticket_operation = new TicketsOperaton();
-        ticket_operation.RefundTicket(id);
+
+        RoutineTicket ticket = ticket_operation.GetTicketByTickedId(id);
+        Debug.Log("delte routine id " + ticket.GetRoutineId());
+        
+        bool abc = ticket_operation.RefundTicket(id);
+        TimeManager.instance.RemoveGo(ticket.GetRoutineId());
+        return abc;
     }
 
     public List<TrafficMessage> Search(int type, string startlocation, string stoplocation, DateTime dt)

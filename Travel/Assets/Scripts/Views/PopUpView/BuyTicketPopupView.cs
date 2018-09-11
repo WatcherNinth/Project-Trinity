@@ -36,10 +36,10 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
 
     private void BuyTickets()
     {
+        Debug.Log("buy ticket popup ticked id" + trafficMessage.id);
         float money = Convert.ToSingle(trafficMessage.Money);
         TicketsController.Instance.BuyTickets(trafficMessage.id);
         MessageBus.Post(new UseMoney(-money));
-        TimeManager.instance.AddGo(new TicketParam(new RoutineTicket()));
         Dispose();
     }
 
@@ -47,7 +47,7 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
     {
         float money = Convert.ToSingle(trafficMessage.Money);
         TicketsController.Instance.DeleteTickets(trafficMessage.id);
-        TimeManager.instance.RemoveGo(trafficMessage.id);
+        
         MessageBus.Post(new UseMoney(money));
         MessageBus.Post(new DeleteTicketsMsg());
         Dispose();

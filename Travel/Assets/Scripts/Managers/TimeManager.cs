@@ -20,16 +20,7 @@ public class TimeExecuteParam
         if(exectuteCallback!=null)
         {
             Type type = value.GetType();
-            if(type == typeof(Accident))
-            {
-                Accident tvalue = value as Accident;
-                exectuteCallback(tvalue);
-            }
-            else if(type == typeof(AccidentWarning))
-            {
-                AccidentWarning tvalue = value as AccidentWarning;
-                exectuteCallback(tvalue);
-            }
+            exectuteCallback(value);
         }
     }
 }
@@ -52,8 +43,9 @@ public class TimeManager : MonoBehaviour {
 
     public Text timeText;
 
-    public int timespeed = 1;
-    public int TimeSpeed
+    public float timespeed = 0.25f;
+    //public float timespeed = 1.0f;
+    public float TimeSpeed
     {
         get { return timespeed; }
         set { timespeed = value; }
@@ -92,21 +84,38 @@ public class TimeManager : MonoBehaviour {
     void Start () {
         nowTime = GameModel.Instance.Start;
         Time.fixedDeltaTime = 1.0f/60.0f;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void FixedUpdate()
     {
         i++;
-        if(i%(60) ==0)
+        //if(i%(15) ==0)
+        if(i%(15) ==0)
         {
-            if (timespeed < 60)
-                nowTime = nowTime.AddMinutes(timespeed);
+            //if (timespeed < )
+            nowTime = nowTime.AddMinutes(timespeed);
+            /*
             else if (timespeed < 1440)
                 nowTime = nowTime.AddHours(timespeed / 60.0f);
             else
                 nowTime = nowTime.AddDays(timespeed / 1440.0f);
-            timeText.text = nowTime.ToString(DateFormat);
+            */
+            if(timeText!=null)
+                timeText.text = nowTime.ToString(DateFormat);
             i = 0;
+            //Debug.Log("check");
+            Check();
+        }
+    }
+
+    private void Update()
+    {
+        if(timeText==null)
+        {
+            GameObject go = GameObject.FindGameObjectWithTag("TimeText");
+            if (go!=null)
+                timeText = go.GetComponent<Text>();
         }
     }
 
@@ -118,14 +127,17 @@ public class TimeManager : MonoBehaviour {
         //事故事件查找
         lock(accidentlock)
         {
-            var enumerator = waitingAccidents.GetEnumerator();
-            enumerator.MoveNext();
-            if (DateTime.Compare(enumerator.Current.Key, NowTime) < 0)
+            if(waitingAccidents.Count!=0)
             {
-                List<TimeExecuteParam> teps = enumerator.Current.Value;
-                doAccidents.AddRange(teps);
-                waitingAccidents.Remove(enumerator.Current.Key);
-            }   
+                var enumerator = waitingAccidents.GetEnumerator();
+                enumerator.MoveNext();
+                if (DateTime.Compare(enumerator.Current.Key, NowTime) < 0)
+                {
+                    List<TimeExecuteParam> teps = enumerator.Current.Value;
+                    doAccidents.AddRange(teps);
+                    waitingAccidents.Remove(enumerator.Current.Key);
+                }
+            }      
         }
 
         //事故事件执行
@@ -137,23 +149,31 @@ public class TimeManager : MonoBehaviour {
         //旅游路线查找
         lock (golock)
         {
-            var etor = waitingGo.GetEnumerator();
-            etor.MoveNext();
-            if (DateTime.Compare(etor.Current.Key, NowTime) < 0)
+            
+            if(waitingGo.Count!=0)
             {
-                Dictionary<long, TicketParam> dics = etor.Current.Value;
-                foreach (KeyValuePair<long, TicketParam> kvp in dics)
+                var etor = waitingGo.GetEnumerator();
+                etor.MoveNext();
+                Debug.Log("start time " + etor.Current.Key);
+                if (DateTime.Compare(etor.Current.Key, NowTime) < 0)
                 {
-                    GoId.Remove(kvp.Key);
-                    doTickets.Add(kvp.Value);
+                    
+                    Dictionary<long, TicketParam> dics = etor.Current.Value;
+                    foreach (KeyValuePair<long, TicketParam> kvp in dics)
+                    {
+                        GoId.Remove(kvp.Key);
+                        doTickets.Add(kvp.Value);
+                    }
+                    waitingGo.Remove(etor.Current.Key);
                 }
-                waitingGo.Remove(etor.Current.Key);
-            }
+            } 
+            
         }
 
         //旅游路线执行
         foreach (TicketParam tp in doTickets)
         {
+            Debug.Log("actual time" + nowTime);
             if (tp.rt.Type() == 0)
                 MapTrafficView.instance.TrainGo(tp);
             else
@@ -187,6 +207,7 @@ public class TimeManager : MonoBehaviour {
         {
             long id = value.rt.GetRoutineId();
             DateTime start = value.rt.GetBeginTime();
+            Debug.Log("add routine id "+id);
             GoId.Add(id, start);
             if (waitingGo.ContainsKey(start))
             {
@@ -200,25 +221,31 @@ public class TimeManager : MonoBehaviour {
                 dicts.Add(id, value);
                 waitingGo.Add(start, dicts);
             }
+            Debug.Log("goid " + GoId.Count);
         }
     }
 
     public void RemoveGo(long id)
     {
+        Debug.Log("remove goid " + GoId.Count);
+        Debug.Log("remove id " + id);
         lock (golock)
         {
             if (GoId.ContainsKey(id))
             {
+                Debug.Log("contain id "+id);
                 //获取出发时间
                 DateTime start;
                 GoId.TryGetValue(id, out start);
                 if (start != null)
                 {
+                    Debug.Log("contain start "+start);
                     //获取出发时间对应的事件
                     Dictionary<long, TicketParam> dicts;
                     waitingGo.TryGetValue(start, out dicts);
                     if (dicts != null)
                     {
+                        Debug.Log("contain ticket param ");
                         dicts.Remove(id);
                     }
                     if (dicts.Count == 0)
