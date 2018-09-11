@@ -8,11 +8,13 @@ public class TimeExecuteParam
 {
     public BaseAccident accident;
     public Action<BaseAccident> exectuteCallback;
+    public bool isDestroy;
 
-    public TimeExecuteParam(BaseAccident taccident, Action<BaseAccident> tcallback)
+    public TimeExecuteParam(BaseAccident taccident, Action<BaseAccident> tcallback, bool destroy=false)
     {
         accident = taccident;
         exectuteCallback = tcallback;
+        isDestroy = destroy;
     }
 
     public void Callback(BaseAccident value)
@@ -43,8 +45,7 @@ public class TimeManager : MonoBehaviour {
 
     public Text timeText;
 
-    public float timespeed = 0.25f;
-    //public float timespeed = 1.0f;
+    public float timespeed = 1.0f;
     public float TimeSpeed
     {
         get { return timespeed; }
@@ -94,7 +95,7 @@ public class TimeManager : MonoBehaviour {
         if(i%(15) ==0)
         {
             //if (timespeed < )
-            nowTime = nowTime.AddMinutes(timespeed);
+            nowTime = nowTime.AddMinutes(timespeed/4);
             /*
             else if (timespeed < 1440)
                 nowTime = nowTime.AddHours(timespeed / 60.0f);
@@ -131,6 +132,7 @@ public class TimeManager : MonoBehaviour {
             {
                 var enumerator = waitingAccidents.GetEnumerator();
                 enumerator.MoveNext();
+                Debug.Log("next starttiem "+enumerator.Current.Key);
                 if (DateTime.Compare(enumerator.Current.Key, NowTime) < 0)
                 {
                     List<TimeExecuteParam> teps = enumerator.Current.Value;
@@ -143,7 +145,15 @@ public class TimeManager : MonoBehaviour {
         //事故事件执行
         foreach (TimeExecuteParam tep in doAccidents)
         {
-            tep.Callback(tep.accident);
+            if(!tep.isDestroy)
+            {
+                tep.Callback(tep.accident);
+                MapTrafficView.instance.ShowAccidentMessage(tep.accident);
+            }
+            else
+            {
+
+            }
         }
 
         //旅游路线查找
@@ -154,7 +164,6 @@ public class TimeManager : MonoBehaviour {
             {
                 var etor = waitingGo.GetEnumerator();
                 etor.MoveNext();
-                Debug.Log("start time " + etor.Current.Key);
                 if (DateTime.Compare(etor.Current.Key, NowTime) < 0)
                 {
                     
@@ -173,7 +182,6 @@ public class TimeManager : MonoBehaviour {
         //旅游路线执行
         foreach (TicketParam tp in doTickets)
         {
-            Debug.Log("actual time" + nowTime);
             if (tp.rt.Type() == 0)
                 MapTrafficView.instance.TrainGo(tp);
             else
@@ -181,7 +189,7 @@ public class TimeManager : MonoBehaviour {
         }
     }
 
-    public void AddAccidentExecute (BaseAccident value, Action<BaseAccident> callback)
+    public void AddAccidentExecute (BaseAccident value, Action<BaseAccident> callback, bool isDestroy=false)
     {
         lock(accidentlock)
         {
@@ -190,12 +198,12 @@ public class TimeManager : MonoBehaviour {
                 List<TimeExecuteParam> list;
                 waitingAccidents.TryGetValue(value.starttime, out list);
                 if (list != null)
-                    list.Add(new TimeExecuteParam(value, callback));
+                    list.Add(new TimeExecuteParam(value, callback, isDestroy));
             }
             else
             {
                 List<TimeExecuteParam> list = new List<TimeExecuteParam>();
-                list.Add(new TimeExecuteParam(value, callback));
+                list.Add(new TimeExecuteParam(value, callback, isDestroy));
                 waitingAccidents.Add(value.starttime, list);
             }
         }

@@ -2,9 +2,19 @@
 using System.Collections;
 using Lucky;
 
+public enum Where
+{
+    Train = 0,
+    AirPlane = 1,
+    City = 2
+}
+
 public class UserTicketsModel : BaseInstance<UserTicketsModel> {
 
     public float money = 0;
+
+    public string city;
+    public Where where;
 
     //public Dictionary<long, >
 
@@ -20,7 +30,9 @@ public class UserTicketsModel : BaseInstance<UserTicketsModel> {
             money = PlayerPrefs.GetFloat("money", 0);
 
         money += 3000;
-        
+
+        where = Where.City;
+        city = "上海";
     }
     
 }

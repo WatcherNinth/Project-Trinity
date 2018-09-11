@@ -18,6 +18,7 @@ namespace Lucky
         public const string InfoPanel = "Prefabs/InfoPanel";
         public const string NoteBook = "Prefabs/NoteBook";
         public const string OneDayShow = "Prefabs/OneDayShow";
+        public const string Warning = "Prefabs/Warning";
 
 
         public const string MessageItem = "Prefabs/MessageItem";
@@ -55,7 +56,8 @@ namespace Lucky
                 Prefabs.SelectTrain,
                 Prefabs.InfoPanel,
                 Prefabs.NoteBook,
-                Prefabs.OneDayShow
+                Prefabs.OneDayShow,
+                Prefabs.Warning
             };
 
             foreach(string prefab in s)
