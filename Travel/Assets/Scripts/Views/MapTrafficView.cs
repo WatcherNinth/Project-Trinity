@@ -40,6 +40,12 @@ public class MapTrafficView : MonoBehaviour {
     public void TrainGo(TicketParam tp)
     {
         Debug.Log("train go" + tp.rt.GetBeginTime());
+        Debug.Log("airplane fly" + tp.rt.GetBeginTime());
+        Vector3 start = Vector3.zero;
+        LocationsModel.cityslocation.TryGetValue(tp.rt.GetRoutineStartNode(), out start);
+        Vector3 stop = Vector3.zero;
+        LocationsModel.cityslocation.TryGetValue(tp.rt.GetEndNode(), out stop);
+        airline.Show(start, stop);
     }
 
     public void ShowAccident(BaseAccident ba)

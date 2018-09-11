@@ -27,6 +27,9 @@ public class TicketsController : BaseInstance<TicketsController>
         }
         RoutineTicket ticket=ticket_operation.GetTicketByTickedId(ticketid);
         Debug.Log("ticket " + ticket.GetRoutineStartNode() + " " + ticket.GetBeginTime() + " "+ticket.GetTicketId());
+
+        Debug.Log("buy ticket id " + ticket.GetTicketId() + " routtine id" + ticket.GetRoutineId());
+        ticket.SetBeginTime(TimeManager.instance.NowTime.AddHours(1));
         TimeManager.instance.AddGo(new TicketParam(ticket));
     }
 
@@ -54,9 +57,10 @@ public class TicketsController : BaseInstance<TicketsController>
             TimeSpan ts = stoptime - starttime;
             string usetime = ts.Hours + ":" + ts.Minutes;
             Debug.Log("start time " + starttime);
-            Debug.Log("get id " + id);
-            Debug.Log(TicketsController.Instance.DeleteTickets(id));
-            //data.Add(starttime, new TrafficMessage(starttime.ToString("hh:mm"), start, usetime, ticketname, stoptime.ToString("hh:mm"), stop, money, false, id));
+            Debug.Log("get ticked id " + id);
+            Debug.Log("get routined id  " + rt.GetRoutineId());
+            //Debug.Log(TicketsController.Instance.DeleteTickets(id));
+            data.Add(starttime, new TrafficMessage(starttime.ToString("hh:mm"), start, usetime, ticketname, stoptime.ToString("hh:mm"), stop, money, false, id));
             //TimeManager.instance.AddGo(new TicketParam(rt));
         }
 
@@ -73,9 +77,15 @@ public class TicketsController : BaseInstance<TicketsController>
 
     public bool DeleteTickets(int id)
     {
+        Debug.Log("delete ticket id " + id);
         TicketsOperaton ticket_operation = new TicketsOperaton();
-        bool abc =ticket_operation.RefundTicket(id);
-        TimeManager.instance.RemoveGo(id);
+
+        RoutineTicket ticket = ticket_operation.GetTicketByTickedId(id);
+        Debug.Log("delte routine id " + ticket.GetRoutineId());
+
+        
+        bool abc = ticket_operation.RefundTicket(id);
+        TimeManager.instance.RemoveGo(ticket.GetRoutineId());
         return abc;
     }
 

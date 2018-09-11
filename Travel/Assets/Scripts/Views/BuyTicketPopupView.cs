@@ -36,7 +36,7 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
 
     private void BuyTickets()
     {
-        Debug.Log("buy ticket popup " + trafficMessage.id);
+        Debug.Log("buy ticket popup ticked id" + trafficMessage.id);
         float money = Convert.ToSingle(trafficMessage.Money);
         TicketsController.Instance.BuyTickets(trafficMessage.id);
         MessageBus.Post(new UseMoney(-money));

@@ -144,10 +144,12 @@ public class TimeManager : MonoBehaviour {
         //旅游路线查找
         lock (golock)
         {
+            
             if(waitingGo.Count!=0)
             {
                 var etor = waitingGo.GetEnumerator();
                 etor.MoveNext();
+                Debug.Log("start time " + etor.Current.Key);
                 if (DateTime.Compare(etor.Current.Key, NowTime) < 0)
                 {
                     Dictionary<long, TicketParam> dics = etor.Current.Value;
@@ -159,6 +161,7 @@ public class TimeManager : MonoBehaviour {
                     waitingGo.Remove(etor.Current.Key);
                 }
             } 
+            
         }
 
         //旅游路线执行
@@ -197,7 +200,7 @@ public class TimeManager : MonoBehaviour {
         {
             long id = value.rt.GetRoutineId();
             DateTime start = value.rt.GetBeginTime();
-            Debug.Log("add id "+id);
+            Debug.Log("add routine id "+id);
             GoId.Add(id, start);
             if (waitingGo.ContainsKey(start))
             {
