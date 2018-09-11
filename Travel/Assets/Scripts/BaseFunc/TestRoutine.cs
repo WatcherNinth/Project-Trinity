@@ -8,7 +8,7 @@ public class TestRoutine : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         RoutineOperation operation = new RoutineOperation();
-        List <Routine> tickets = operation.GetAllTicket("上海", "杭州", 0,  new DateTime());
+        List <Routine> tickets = operation.GetAllTicket("上海", "南京", 0,  new DateTime());
 
         foreach (Routine t in tickets)
         {

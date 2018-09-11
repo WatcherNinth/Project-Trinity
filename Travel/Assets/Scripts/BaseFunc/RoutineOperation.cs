@@ -183,12 +183,15 @@ public class RoutineOperation {
             ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
             ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
             int start_time = reader.GetInt32(reader.GetOrdinal("start_time"));
-            Debug.Log(start_time);
+
             ticket.SetBeginTime(TicketsOperaton.GetTodayTime(start_time));
 
             ticket.SetEndTime(TicketsOperaton.GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
             ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
-            ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
+            Debug.Log(ticket.GetRoutineId());
+
+
+            ticket.SetTicketName(reader.GetOrdinal("ticket_name").ToString());
             res.Add(ticket);
         }
         return res;

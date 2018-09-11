@@ -56,46 +56,63 @@ public class TicketsOperaton
     {
         operation.InitConnection(data_resource);
 
-        string sql = "insert into purchased_tickets(routine_id) values(" + routine_id + ")";
-        Debug.Log(sql);
-        SqliteDataReader reader = operation.ExecuteQuery(sql);
-        if (reader.RecordsAffected == 1)
+        try
         {
-            string get_ticket_id_sql = "select max(ticket_id) as insert_ticket_id from purchased_tickets";
-            reader = operation.ExecuteQuery(get_ticket_id_sql);
+            string sql = "insert into purchased_tickets(routine_id) values(" + routine_id + ")";
+            Debug.Log(sql);
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+            if (reader.RecordsAffected == 1)
+            {
+                string get_ticket_id_sql = "select max(ticket_id) as insert_ticket_id from purchased_tickets";
+                reader = operation.ExecuteQuery(get_ticket_id_sql);
 
-            reader.Read();
+                reader.Read();
 
-            int inserted_ticket_id = reader.GetInt32(reader.GetOrdinal("insert_ticket_id"));
+                int inserted_ticket_id = reader.GetInt32(reader.GetOrdinal("insert_ticket_id"));
 
-            operation.CloseConnection();
-            return inserted_ticket_id;
-        }
-        else
+                operation.CloseConnection();
+                return inserted_ticket_id;
+            }
+            else
+            {
+                operation.CloseConnection();
+                return 0;
+            }
+
+        } finally
         {
             operation.CloseConnection();
-            return 0;
         }
+    
+       
     }
 
     public bool RefundTicket(int ticket_id)
     {
 
-        operation.InitConnection(data_resource);
+        try
+        {
+            operation.InitConnection(data_resource);
 
-        string sql = "delete from purchased_tickets where ticket_id = " + ticket_id; 
-        Debug.Log(sql);
-        SqliteDataReader reader = operation.ExecuteQuery(sql);
-        if (reader.RecordsAffected == 1)
+            string sql = "delete from purchased_tickets where ticket_id = " + ticket_id;
+            Debug.Log(sql);
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+            if (reader.RecordsAffected == 1)
+            {
+                operation.CloseConnection();
+                return true;
+            }
+            else
+            {
+                operation.CloseConnection();
+                return false;
+            }
+        }
+        finally
         {
             operation.CloseConnection();
-            return true;
         }
-        else
-        {
-            operation.CloseConnection();
-            return false;
-        }
+       
     }
 
     public List<RoutineTicket> GetUserTickets(DateTime time)
@@ -107,28 +124,42 @@ public class TicketsOperaton
         string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and routine.start_time > " + ts;
 
         Debug.Log(sql);
-        SqliteDataReader reader = operation.ExecuteQuery(sql);
         List<RoutineTicket> res = new List<RoutineTicket>();
 
-        while (reader.Read())
+        try
         {
-            RoutineTicket ticket = new RoutineTicket();
-            long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
-            long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
-            ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
-            ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
-            ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
-            ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
-            ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
-            ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
-            ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
-            ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
-            ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
-            res.Add(ticket);
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                RoutineTicket ticket = new RoutineTicket();
+                long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
+                long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
+                ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
+                ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
+                ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
+                ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
+                ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
+                ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
+                ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
+                ticket.SetTicketName(reader.GetOrdinal("ticket_name").ToString());
+                ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
+                res.Add(ticket);
+            }
+
         }
-        operation.CloseConnection();
-        Debug.Log(res.Count);
+        catch (Exception e)
+        {
+            Debug.Log(e.StackTrace);
+        }
+        finally
+        {
+
+            operation.CloseConnection();
+            Debug.Log(res.Count);
+          
+        }
         return res;
+
     }
 
     public RoutineTicket GetTicketByTickedId(int id)
@@ -138,28 +169,39 @@ public class TicketsOperaton
         string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and purchased_tickets.ticket_id = " + id;
 
         Debug.Log(sql);
-        SqliteDataReader reader = operation.ExecuteQuery(sql);
         RoutineTicket ticket = new RoutineTicket();
 
-        if (reader.HasRows)
+        try
         {
-            reader.Read();
-           
-            long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
-            long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
-            ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
-            ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
-            ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
-            ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
-            ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
-            ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
-            ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
-            ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
-            ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+   
+            if (reader.HasRows)
+            {
+                reader.Read();
+
+                long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
+                long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
+                ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
+                ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
+                ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
+                ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
+                ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
+                ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
+                ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
+                ticket.SetTicketName(reader.GetOrdinal("ticket_name").ToString());
+                ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
+
+            }
+
+
+        } catch(Exception e)
+        {
 
         }
-    
-        operation.CloseConnection();
+        finally
+        {
+            operation.CloseConnection();
+        }      
         return ticket;
     }
 
