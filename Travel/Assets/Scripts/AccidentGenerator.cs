@@ -64,18 +64,19 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         };
         return (accident);
     }
+    static System.Random rnd = new System.Random();
     public void AccidentGenerate()
     {
         Accident accident = new Accident();
-        System.Random rnd = new System.Random();
-        //通过某个函数返回Accidenttext总表
+        
+        
         for (int i = 0; i < AirportAccident; i++)
         {
             accident.type = AccidentType.airport;
             accident.location = AirportList[rnd.Next(0, AirportList.Count)];
-            accident.duration = rnd.Next(0, 30) * 10;
-            accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2880));
-            accident.text = accidentTexts[rnd.Next(0, 4)];
+            accident.duration = rnd.Next(0, 31) * 10;
+            accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2881));
+            accident.text = accidentTexts[rnd.Next(0, 5)];
             AccidentList.Add(accident);
         }
         for (int i = 0; i < RailAccident; i++)
@@ -84,7 +85,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             accident.location = RailList[rnd.Next(0, RailList.Count)];
             accident.duration = rnd.Next(0, 30) * 10;
             accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2880));
-            accident.text = accidentTexts[rnd.Next(5, 7)];
+            accident.text = accidentTexts[rnd.Next(5, 8)];
             AccidentList.Add(accident);
         }
         PushAccidentList();
@@ -124,10 +125,14 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
 
     public void HandleAccident(BaseAccident taccident)
     {
+        //handle ticket delay
         Accident accident = taccident as Accident;
         Debug.Log("callback "+accident.starttime + " " + accident.location);
+
         //delay
     }
+
+
     DateTime SetTime(int hour,int min,int sec)
     {
         return new DateTime(DateTime.Now.Year, 2, 4, hour, min, sec);
