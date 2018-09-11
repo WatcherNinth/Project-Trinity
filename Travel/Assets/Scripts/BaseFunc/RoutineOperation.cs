@@ -244,4 +244,9 @@ public class RoutineOperation {
         return res;
     }
 
+    public bool DelayTickets()
+    {
+        return true;
+    }
+
 }
