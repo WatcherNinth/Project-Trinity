@@ -6,10 +6,13 @@ public class MapTrafficView : MonoBehaviour {
 
     public AirLineView airline;
     public GameObject airplane;
-
+    public GameObject train;
     public Animator animator;
-    private AnimatorOverrideController aoc;
-    public double speed;
+
+    private float traveltime;
+    private float cliptime;
+    private string animationName;
+    private int ticketid;
 
     private static MapTrafficView _instance;
     public static MapTrafficView instance
@@ -22,17 +25,24 @@ public class MapTrafficView : MonoBehaviour {
         _instance = this;
     }
 
-	// Use this for initialization
-	void Start () {
-        
-        
+    private void Start()
+    {
+        train.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update () {
-        animator.speed = (float)speed;
-        if (speed == 0.5)
-            animator.Stop();
+
+    private void Update()
+    {
+        if(train.activeSelf)
+        {
+            AnimatorStateInfo asi = animator.GetCurrentAnimatorStateInfo(0);
+            if ((asi.normalizedTime > 1.0f) && (asi.IsName(animationName)))
+            {
+                Debug.Log("arrive");
+                train.SetActive(false);
+                TicketsController.Instance.DeleteTickets(ticketid);
+            }
+        }
+        
     }
 
     public void AirPlaneFly(TicketParam tp)
@@ -61,17 +71,21 @@ public class MapTrafficView : MonoBehaviour {
         DateTime stoptime = new DateTime(2018, 1, 6, 12, 0, 0);
         TimeSpan ts = stoptime - starttime;
 
-        double realtime = ts.TotalMinutes / TimeManager.instance.TimeSpeed;
-        string animationname = start + "To" + stop;
+        ticketid = tp.rt.GetTicketId();
 
-        AnimationClip clip = FindClip(animator, animationname);
+        traveltime = (float)ts.TotalMinutes;
+        double realtime = traveltime / TimeManager.instance.TimeSpeed;
+        animationName = start + "To" + stop;
+
+        AnimationClip clip = FindClip(animator, animationName);
         if(clip!=null)
         {
-            speed = clip.length / realtime;
+            cliptime = clip.length;
+            double speed = cliptime / realtime;
+            train.SetActive(true);
+            animator.Play(animationName, 0, 0);
+            animator.speed = (float)speed;
         }
-        animator.Play(animationname, 0, 0);
-        animator.speed = (float)speed;
-
 
     }
 
@@ -100,5 +114,20 @@ public class MapTrafficView : MonoBehaviour {
                 return clip;
         }
         return null;
+    }
+
+    public void SetAnimatorSpeed()
+    {
+        AnimatorStateInfo asi=animator.GetCurrentAnimatorStateInfo(0);
+        float walktime = asi.normalizedTime * cliptime;
+        float travelwalktime = asi.normalizedTime * traveltime;
+        float realtime = travelwalktime / TimeManager.instance.TimeSpeed;
+        float speed = walktime / realtime;
+        animator.speed = speed;
+    }
+    
+    public void AnimatorStop()
+    {
+        animator.Stop();
     }
 }

@@ -90,7 +90,6 @@ public class TicketsController : BaseInstance<TicketsController>
 
         RoutineTicket ticket = ticket_operation.GetTicketByTickedId(id);
         Debug.Log("delte routine id " + ticket.GetRoutineId());
-
         
         bool abc = ticket_operation.RefundTicket(id);
         TimeManager.instance.RemoveGo(ticket.GetRoutineId());

@@ -36,6 +36,9 @@ public class MapsView : BaseUI {
 
     private void OnGoClick()
     {
+        TimeManager.instance.TimeSpeed = 1;
+        MapTrafficView.instance.SetAnimatorSpeed();
+        /*
         if(!isPlay)
         {
             TimeManager.instance.GoToNextStartTime();
@@ -47,6 +50,7 @@ public class MapsView : BaseUI {
             TimeManager.instance.TimeSpeed = 0;
             isPlay = false;
         }
+        */
     }
 
 
