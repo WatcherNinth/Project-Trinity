@@ -43,8 +43,9 @@ public class TimeManager : MonoBehaviour {
 
     public Text timeText;
 
-    public int timespeed = 1;
-    public int TimeSpeed
+    public float timespeed = 0.25f;
+    //public float timespeed = 1.0f;
+    public float TimeSpeed
     {
         get { return timespeed; }
         set { timespeed = value; }
@@ -89,17 +90,21 @@ public class TimeManager : MonoBehaviour {
     private void FixedUpdate()
     {
         i++;
-        if(i%(60) ==0)
+        //if(i%(15) ==0)
+        if(i%(15) ==0)
         {
-            if (timespeed < 60)
-                nowTime = nowTime.AddMinutes(timespeed);
+            //if (timespeed < )
+            nowTime = nowTime.AddMinutes(timespeed);
+            /*
             else if (timespeed < 1440)
                 nowTime = nowTime.AddHours(timespeed / 60.0f);
             else
                 nowTime = nowTime.AddDays(timespeed / 1440.0f);
+            */
             if(timeText!=null)
                 timeText.text = nowTime.ToString(DateFormat);
             i = 0;
+            //Debug.Log("check");
             Check();
         }
     }
@@ -152,6 +157,7 @@ public class TimeManager : MonoBehaviour {
                 Debug.Log("start time " + etor.Current.Key);
                 if (DateTime.Compare(etor.Current.Key, NowTime) < 0)
                 {
+                    
                     Dictionary<long, TicketParam> dics = etor.Current.Value;
                     foreach (KeyValuePair<long, TicketParam> kvp in dics)
                     {
@@ -167,6 +173,7 @@ public class TimeManager : MonoBehaviour {
         //旅游路线执行
         foreach (TicketParam tp in doTickets)
         {
+            Debug.Log("actual time" + nowTime);
             if (tp.rt.Type() == 0)
                 MapTrafficView.instance.TrainGo(tp);
             else

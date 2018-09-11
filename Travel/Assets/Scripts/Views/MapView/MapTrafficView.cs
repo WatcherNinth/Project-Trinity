@@ -107,7 +107,6 @@ public class MapTrafficView : MonoBehaviour {
 
         AnimationClip[] clips = ac.animationClips;
 
-
         foreach (AnimationClip clip in clips)
         {
             if (clip.name == name)
