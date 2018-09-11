@@ -11,6 +11,8 @@ public class Routine
     private string end_node;
     private int type;
     private int routine_id;
+    private DateTime begin_time;
+    private DateTime end_time;
     // 车次信息
     private string ticket_name;
 
@@ -60,15 +62,6 @@ public class Routine
     {
         this.ticket_name = ticket_name;
     }
-
-}
-
-public class RoutineTicket : Routine {
-    DateTime begin_time;
-    DateTime end_time;
-    int money;
-    int ticket_id;
-
     public void SetBeginTime(DateTime time)
     {
         begin_time = time;
@@ -86,7 +79,18 @@ public class RoutineTicket : Routine {
     {
         return end_time;
     }
+}
 
+public class RoutineTicket : Routine {
+  
+
+    DateTime actual_begin_time;
+    DateTime actual_end_time;
+
+    int money;
+    int ticket_id;
+
+  
     public void SetMoney(int money)
     {
         this.money = money;
@@ -101,10 +105,28 @@ public class RoutineTicket : Routine {
     {
         return ticket_id;
     }
+
     public void SetTicketid(int ticket_id)
     {
         this.ticket_id = ticket_id;
     }
+    public void SetActualBeginTime(DateTime time)
+    {
+        this.actual_begin_time = time;
+    }
+    public void SetActualEndTime(DateTime time)
+    {
+        this.actual_end_time = time;
+    }
+    public DateTime GetActualBeginTime()
+    {
+        return this.actual_begin_time;
+    }
+    public DateTime GetAcutalEndTime()
+    {
+        return this.actual_end_time;
+    }
+    
 }
 
 public class RoutineOperation {
@@ -160,8 +182,11 @@ public class RoutineOperation {
             ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
             ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
             ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
-            ticket.SetBeginTime(GetTime(reader.GetInt32(reader.GetOrdinal("start_time")).ToString(), false));
-            ticket.SetEndTime(GetTime(reader.GetInt32(reader.GetOrdinal("end_time")).ToString(), false));
+            int start_time = reader.GetInt32(reader.GetOrdinal("start_time"));
+            Debug.Log(start_time);
+            ticket.SetBeginTime(TicketsOperaton.GetTodayTime(start_time));
+
+            ticket.SetEndTime(TicketsOperaton.GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
             ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
             ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
             res.Add(ticket);
@@ -207,8 +232,8 @@ public class RoutineOperation {
 
         operation.InitConnection(data_resource);
 
-        string sql = "select * from routine where start_node = \"" + start_node + "\" and "
-            + "end_node = \"" + end_node + "\"" + " and type = " + ticket_type;
+        string sql = "select * from routine where start_node like \"%" + start_node + "%\" and "
+            + "end_node like \"%" + end_node + "%\"" + " and type = " + ticket_type;
 
         Debug.Log(sql);
         SqliteDataReader reader = operation.ExecuteQuery(sql);

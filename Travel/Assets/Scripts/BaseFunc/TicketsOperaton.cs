@@ -40,6 +40,18 @@ public class TicketsOperaton
 
     }
 
+    public static DateTime GetTodayTime(int seconds)
+    {
+        DateTime now = DateTime.Now;
+        DateTime new_now = new DateTime(now.Year, now.Month, now.Day);
+        int hour = seconds / 3600;
+        int minutes = (seconds - hour * 3600) / 60;
+        
+        
+        new_now  = new_now.Add(new TimeSpan(hour, minutes, 0));
+        return new_now;
+    }
+
     public int BuyTickets(int routine_id)
     {
         operation.InitConnection(data_resource);
@@ -107,8 +119,8 @@ public class TicketsOperaton
             ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
             ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
             ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
-            ticket.SetBeginTime(RoutineOperation.GetTime(reader.GetInt32(reader.GetOrdinal("start_time")).ToString(), false));
-            ticket.SetEndTime(RoutineOperation.GetTime(reader.GetInt32(reader.GetOrdinal("end_time")).ToString(), false));
+            ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
+            ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
             ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
             ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
             ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
@@ -139,8 +151,8 @@ public class TicketsOperaton
             ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
             ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
             ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
-            ticket.SetBeginTime(RoutineOperation.GetTime(reader.GetInt32(reader.GetOrdinal("start_time")).ToString(), false));
-            ticket.SetEndTime(RoutineOperation.GetTime(reader.GetInt32(reader.GetOrdinal("end_time")).ToString(), false));
+            ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
+            ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
             ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
             ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
             ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
