@@ -43,7 +43,7 @@ public class TimeManager : MonoBehaviour {
         }
     }
 
-    public Text timeText;
+    private Text timeText;
 
     public float timespeed = 1.0f;
     public float TimeSpeed
