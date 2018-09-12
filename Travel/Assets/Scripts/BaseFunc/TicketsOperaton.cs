@@ -216,11 +216,12 @@ public class TicketsOperaton
     }
 
 
-    public bool DelayTickets(DateTime accident_happen_time, int city_id, int duration, AccidentType type)
+    public List<int> DelayTickets(DateTime accident_happen_time, int city_id, int duration, AccidentType type)
     {
         string city_name = CityUtil.Instance.GetCityName(city_id);
         Debug.Log("city name " + city_name);
         Debug.Log("accdent happen time " + accident_happen_time.ToString());
+        List<int> affected_routine_ids = new List<int>();
 
         if (type == AccidentType.rail)
         {
@@ -228,7 +229,7 @@ public class TicketsOperaton
             try
             {
                 operation.InitConnection(data_resource);
-                string sql = "select * from routine where start_node like \"%" + city_name + "%\" order by start_time";
+                string sql = "select * from routine where start_node like \"%" + city_name + "%\" and type =0 order by start_time";
 
                 Debug.Log("select all the start node sql " + sql);
 
@@ -240,6 +241,7 @@ public class TicketsOperaton
                 List<Routine> delay_routine = new List<Routine>();
                 UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
                 Debug.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
+               
 
                 foreach (Routine t in res)
                 {
@@ -258,14 +260,14 @@ public class TicketsOperaton
                         sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time  + ", event_happen_time = " + accident_happen_time_seconds
                             + " where routine_id = " + routine_id;
 
-
                         operation.InitConnection(data_resource);
                         reader = operation.ExecuteQuery(sql);//
 
-                        if (reader.RecordsAffected == 0)
+                        if (reader.RecordsAffected == 1)
                         {
+                            affected_routine_ids.Add(routine_id);
                             operation.CloseConnection();
-                            return false;
+                           
                         }
                     }
                 }
@@ -276,16 +278,15 @@ public class TicketsOperaton
                 operation.CloseConnection();
 
             }
-            return true;
+            return affected_routine_ids;
 
         }
-        return true;
-
-        if (type == AccidentType.rail)
+  
+        if (type == AccidentType.airport)
         {
-            return true;
+            return affected_routine_ids;
         }
-        return true;
+        return affected_routine_ids;
     }
 }
 
