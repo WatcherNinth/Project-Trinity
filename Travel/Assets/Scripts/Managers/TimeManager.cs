@@ -247,6 +247,58 @@ public class TimeManager : MonoBehaviour {
         }
     }
 
+    public bool AddNews(NewMessage message, Action<NewMessage> callback)
+    {
+        if(DateTime.Compare(message.date, nowTime) < 0)
+        {
+            Debug.Log("error " + message.title);
+            return false;
+        }
+        else
+        {
+            if(waitingNew.ContainsKey(message.date))
+            {
+                List<MessageParam<NewMessage>> list;
+                waitingNew.TryGetValue(message.date, out list);
+                if (list != null)
+                    list.Add(new MessageParam<NewMessage>(message, callback));
+            }
+            else
+            {
+                List<MessageParam<NewMessage>> list = new List<MessageParam<NewMessage>>();
+                list.Add(new MessageParam<NewMessage>(message, callback));
+                waitingNew.Add(message.date, list);
+            }
+            return true;
+        }
+    }
+
+    public bool AddWeChat(WeChatMessage message, Action<WeChatMessage> callback)
+    {
+        if (DateTime.Compare(message.date, nowTime) < 0)
+        {
+            Debug.Log("error " + message.name);
+            return false;
+        }
+        else
+        {
+            if (waitingWeChat.ContainsKey(message.date))
+            {
+                List<MessageParam<WeChatMessage>> list;
+                waitingWeChat.TryGetValue(message.date, out list);
+                if (list != null)
+                    list.Add(new MessageParam<WeChatMessage>(message, callback));
+            }
+            else
+            {
+                List<MessageParam<WeChatMessage>> list = new List<MessageParam<WeChatMessage>>();
+                list.Add(new MessageParam<WeChatMessage>(message, callback));
+                waitingWeChat.Add(message.date, list);
+            }
+            return true;
+        }
+    }
+
     public bool AddAccidentExecute (BaseAccident value, Action<BaseAccident> callback, bool isDestroy=false)
     {
         if (DateTime.Compare(value.starttime, nowTime) < 0)
