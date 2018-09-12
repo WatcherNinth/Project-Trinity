@@ -47,6 +47,7 @@ public class MapTrafficView : MonoBehaviour {
                 train.SetActive(false);
                 UserTicketsModel.Instance.where = Where.City;
                 UserTicketsModel.Instance.city = dst;
+                EventHappenManager.Instance.EveryLocation(dst);
             }
         }
 
@@ -60,9 +61,20 @@ public class MapTrafficView : MonoBehaviour {
                 
                 UserTicketsModel.Instance.where = Where.City;
                 UserTicketsModel.Instance.city = dst;
+                EventHappenManager.Instance.EveryLocation(dst);
             }
         }
         
+    }
+
+    public void DisplayMessage(BaseAccident data)
+    {
+        if (data.GetType() == typeof(Accident))
+        {
+            Accident accident = data as Accident;
+            Destroy(warndic[accident.location]);
+            warndic.Remove(accident.location);
+        }
     }
 
     public void ShowAccidentMessage(BaseAccident data)

@@ -56,6 +56,8 @@ public class TimeManager : MonoBehaviour {
     private object accidentlock = new object();
     private object golock = new object();
 
+    private DateTime nextTime;
+
     public DateTime nowTime;
 
     public DateTime NowTime
@@ -84,6 +86,7 @@ public class TimeManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         nowTime = GameModel.Instance.Start;
+        nextTime = nowTime.AddMinutes(30);
         Time.fixedDeltaTime = 1.0f/60.0f;
         DontDestroyOnLoad(gameObject);
     }
@@ -110,9 +113,13 @@ public class TimeManager : MonoBehaviour {
         doTickets.Clear();
         doAccidents.Clear();
 
-        //事故事件查找
-        lock(accidentlock)
+        if(DateTime.Compare(nextTime, nowTime)<0)
         {
+            nextTime = nowTime.AddMinutes(30);
+            EventHappenManager.Instance.EveryThirtyMinutes(nowTime);
+        }
+
+        //事故事件查找
             if(waitingAccidents.Count!=0)
             {
                 var enumerator = waitingAccidents.GetEnumerator();
@@ -125,7 +132,6 @@ public class TimeManager : MonoBehaviour {
                     waitingAccidents.Remove(enumerator.Current.Key);
                 }
             }      
-        }
 
         //事故事件执行
         foreach (TimeExecuteParam tep in doAccidents)
@@ -142,7 +148,7 @@ public class TimeManager : MonoBehaviour {
             }
             else
             {
-
+                MapTrafficView.instance.DisplayMessage(tep.accident);
             }
         }
 

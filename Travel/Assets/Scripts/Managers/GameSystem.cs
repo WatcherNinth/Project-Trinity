@@ -31,7 +31,6 @@ public class GameSystem : MonoBehaviour {
     {
         MessageBus.Update(20);
         PopUpManager.Instance.Update();
-        EventHappenManager.Instance.Update();
         if( Time.realtimeSinceStartup-lasttime > 20 )
         {
             Resources.UnloadUnusedAssets();
