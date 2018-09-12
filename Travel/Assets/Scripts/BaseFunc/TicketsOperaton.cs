@@ -134,8 +134,7 @@ public class TicketsOperaton
         operation.InitConnection(data_resource);
 
         // string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id ";
-        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and routine.start_time > "
-            + ts;
+        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id";
 
         Debug.Log(sql);
         List<RoutineTicket> res = new List<RoutineTicket>();
@@ -236,40 +235,38 @@ public class TicketsOperaton
                 SqliteDataReader reader = operation.ExecuteQuery(sql);
                 List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
                 operation.CloseConnection();
+                Debug.Log("res result " + res.Count);
 
                 List<Routine> delay_routine = new List<Routine>();
                 UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
+                Debug.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
 
                 foreach (Routine t in res)
                 {
-                  
+               
                     UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
+                    Debug.Log("begin time " + begin_time);
+
                     UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
 
-                    if (begin_time > accident_happen_time_seconds)
+                    if (begin_time >= accident_happen_time_seconds)
                     {
                         int routine_id = t.GetRoutineId();
                         UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
                         UInt64 actual_end_time = end_time + (UInt32)duration * 60;
 
-                        sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time + " where routine_id = " + routine_id;
-                        Debug.Log("sql is " + sql);
-                        return true;
+                        sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time  + ", event_happen_time = " + accident_happen_time_seconds
+                            + " where routine_id = " + routine_id;
 
-                        //operation.InitConnection(data_resource);
-                        //reader = operation.ExecuteQuery(sql);
 
-                        //if (reader.RecordsAffected == 0)
-                        //{
-                        //    operation.CloseConnection();
-                        //    return false;
-                        //}
-                        //else
-                        //{
-                        //    operation.CloseConnection();
-                        //    return true;
-                        //}
+                        operation.InitConnection(data_resource);
+                        reader = operation.ExecuteQuery(sql);//
 
+                        if (reader.RecordsAffected == 0)
+                        {
+                            operation.CloseConnection();
+                            return false;
+                        }
                     }
                 }
             }
@@ -283,7 +280,12 @@ public class TicketsOperaton
 
         }
         return true;
-    }
 
+        if (type == AccidentType.rail)
+        {
+            return true;
+        }
+        return true;
+    }
 }
 

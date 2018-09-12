@@ -152,13 +152,13 @@ public class RoutineOperation {
     public static UInt64 GetSeconds(DateTime dt)
     {
         DateTime dateStart = GameModel.Instance.SqlStart;
-        Debug.Log(" date start " + dateStart.ToString());
-        Debug.Log("dt " + dt.ToString());
+        // Debug.Log(" date start " + dateStart.ToString());
+        // Debug.Log("dt " + dt.ToString());
 
-        Debug.Log("seconds " + (dt - dateStart).TotalSeconds);
+        // Debug.Log("seconds " + (dt - dateStart).TotalSeconds);
 
         UInt64 timeStamp = Convert.ToUInt64((dt - dateStart).TotalSeconds);
-        Debug.Log("timestamp " + timeStamp);
+        // Debug.Log("timestamp " + timeStamp);
         return timeStamp;
     }
 
