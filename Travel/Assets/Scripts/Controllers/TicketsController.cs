@@ -37,7 +37,7 @@ public class TicketsController : BaseInstance<TicketsController>
     {
         Debug.Log(dt);
         TicketsOperaton ticket_operation = new TicketsOperaton();
-        List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(new DateTime());
+        List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(dt);
 
         SortedDictionary<DateTime, TrafficMessage> data = new SortedDictionary<DateTime, TrafficMessage>();
 
