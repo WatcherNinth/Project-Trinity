@@ -15,6 +15,7 @@ public class MapTrafficView : MonoBehaviour {
     private float cliptime;
     private string animationName;
     private int ticketid;
+    private string dst;
 
     private Dictionary<int, WarningView> warndic = new Dictionary<int, WarningView>();
 
@@ -44,9 +45,8 @@ public class MapTrafficView : MonoBehaviour {
             {
                 Debug.Log("train arrive");
                 train.SetActive(false);
-                TicketsController.Instance.DeleteTickets(ticketid);
                 UserTicketsModel.Instance.where = Where.City;
-                UserTicketsModel.Instance.city = "";
+                UserTicketsModel.Instance.city = dst;
             }
         }
 
@@ -57,9 +57,9 @@ public class MapTrafficView : MonoBehaviour {
             {
                 Debug.Log("airplane arrive");
                 airplane.SetActive(false);
-                TicketsController.Instance.DeleteTickets(ticketid);
+                
                 UserTicketsModel.Instance.where = Where.City;
-                UserTicketsModel.Instance.city = "";
+                UserTicketsModel.Instance.city = dst;
             }
         }
         
@@ -122,12 +122,14 @@ public class MapTrafficView : MonoBehaviour {
 
         string start = tp.rt.GetRoutineStartNode();
         string stop = tp.rt.GetEndNode();
+        dst = stop;
 
         DateTime starttime = tp.rt.GetBeginTime();
         DateTime stoptime = tp.rt.GetEndTime();
         TimeSpan ts = stoptime - starttime;
 
         ticketid = tp.rt.GetTicketId();
+        TicketsController.Instance.DeleteTickets(ticketid);
 
         traveltime = (float)ts.TotalMinutes;
         double realtime = traveltime / TimeManager.instance.TimeSpeed;
@@ -146,16 +148,19 @@ public class MapTrafficView : MonoBehaviour {
 
     public void TrainGo(TicketParam tp)
     {
+
         UserTicketsModel.Instance.where = Where.Train;
         Debug.Log("train go" + tp.rt.GetBeginTime());
         string start = tp.rt.GetRoutineStartNode();
         string stop = tp.rt.GetEndNode();
+        dst = stop;
 
         DateTime starttime = tp.rt.GetBeginTime();
         DateTime stoptime = tp.rt.GetEndTime();
         TimeSpan ts=stoptime - starttime;
 
         ticketid = tp.rt.GetTicketId();
+        TicketsController.Instance.DeleteTickets(ticketid);
 
         traveltime = (float)ts.TotalMinutes;
         double realtime = traveltime / TimeManager.instance.TimeSpeed;

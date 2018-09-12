@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Lucky;
+using UnityEngine.UI;
 
 public enum ViewID
 {
@@ -12,6 +13,8 @@ public enum ViewID
 }
 
 public class MainContent : MonoBehaviour {
+
+    public Image bg;
 
     [SerializeField]
     private string[] mChildViews;
@@ -33,6 +36,11 @@ public class MainContent : MonoBehaviour {
 
     public void ShowView(ViewID index)
     {
+        if (index == ViewID.Maps)
+            bg.gameObject.SetActive(false);
+        else
+            bg.gameObject.SetActive(true);
+
         var view = GetView(index);
         if (view)
         {

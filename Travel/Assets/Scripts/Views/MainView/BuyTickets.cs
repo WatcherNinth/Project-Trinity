@@ -25,12 +25,11 @@ public class BuyTickets : BaseUI {
     public Button DateChosen;
     public Text DateText;
 
-    public Toggle HighWaysToggle;
     public Button Search;
 
     public BaseGrid grid;
 
-    public Color Blue = Color.blue;
+    public Sprite Chosen;
 
     private Toggle TrainToggle;
     private Toggle AirPlaneToggle;
@@ -82,7 +81,8 @@ public class BuyTickets : BaseUI {
     {
         StartText.text = BuyTicketsModel.Instance.startlocation;
         StopText.text = BuyTicketsModel.Instance.stoplocation;
-        DateText.text = BuyTicketsModel.Instance.date.ToString(DateFormat);
+        if(DateText!=null)
+            DateText.text = BuyTicketsModel.Instance.date.ToString(DateFormat);
 
         SetToggle(BuyTicketsModel.Instance.type);
     }
@@ -141,15 +141,19 @@ public class BuyTickets : BaseUI {
             SetStopText(temp);
         });
 
-        DateChosen.onClick.AddListener(delegate ()
+        if (DateChosen != null)
         {
-            GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.Calendar);
-            CalendarView cv = go.GetComponent<CalendarView>();
-            cv.Date = BuyTicketsModel.Instance.date;
-            cv.AddCallback(SetDate);
-            
-            PopUpManager.Instance.SetPopupPanelAutoClose(go);
-        });
+            DateChosen.onClick.AddListener(delegate ()
+            {
+                GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.Calendar);
+                CalendarView cv = go.GetComponent<CalendarView>();
+                cv.Date = BuyTicketsModel.Instance.date;
+                cv.AddCallback(SetDate);
+
+                PopUpManager.Instance.SetPopupPanelAutoClose(go);
+            });
+        }
+        
 
         Search.onClick.AddListener(delegate ()
         {
@@ -177,7 +181,8 @@ public class BuyTickets : BaseUI {
 
     public void SetDate(DateTime date)
     {
-        DateText.text = date.ToString(DateFormat);
+        if (DateText != null)
+            DateText.text = date.ToString(DateFormat);
         BuyTicketsModel.Instance.date = date;
     }
 
@@ -185,13 +190,13 @@ public class BuyTickets : BaseUI {
     {
         if (type == TrafficType.Plane)
         {
-            AirPlaneImage.color = Blue;
-            TrainImage.color = Color.white;
+            AirPlaneImage.enabled = true;
+            TrainImage.enabled = false;
         }
         else
         {
-            TrainImage.color = Blue;
-            AirPlaneImage.color = Color.white;
+            TrainImage.enabled = true;
+            AirPlaneImage.enabled = false;
         }
         BuyTicketsModel.Instance.type = type;
     }

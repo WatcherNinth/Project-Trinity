@@ -59,6 +59,7 @@ namespace Lucky
 
         protected PoolObjectManager _poolManager;
         protected RectTransform _rectTransform;
+        protected LayoutElement _layoutElement;
         protected List<ItemRender> _itemChildren;
 
         protected int actualOffsetTop = 0;
@@ -74,6 +75,7 @@ namespace Lucky
         {
             base.Awake();
             _rectTransform = GetComponent<RectTransform>();
+            _layoutElement = GetComponent<LayoutElement>();
             _poolManager = GetComponent<PoolObjectManager>();
 
         }
@@ -233,6 +235,7 @@ namespace Lucky
                     _rectTransform.sizeDelta = new Vector2(_rectTransform.sizeDelta.x, ItemHeight);
                     _rectTransform.offsetMin = new Vector2(0, _rectTransform.offsetMin.y);
                     _rectTransform.offsetMax = new Vector2(0, _rectTransform.offsetMax.y);
+                    SetLayoutElement();
                 }
                 else
                 {
@@ -241,12 +244,14 @@ namespace Lucky
                         _rectTransform.sizeDelta = new Vector2(ItemWidth, _rectTransform.sizeDelta.y);
                         _rectTransform.offsetMin = new Vector2(_rectTransform.offsetMin.x, 0);
                         _rectTransform.offsetMax = new Vector2(_rectTransform.offsetMax.x, 0);
+                        SetLayoutElement();
                     }
                     else if (scrollRect.vertical && !scrollRect.horizontal)
                     {
                         _rectTransform.sizeDelta = new Vector2(_rectTransform.sizeDelta.x, ItemHeight);
                         _rectTransform.offsetMin = new Vector2(0, _rectTransform.offsetMin.y);
                         _rectTransform.offsetMax = new Vector2(0, _rectTransform.offsetMax.y);
+                        SetLayoutElement();
                     }
                 }
                 InitListView();
@@ -352,6 +357,7 @@ namespace Lucky
                 _rectTransform.sizeDelta = new Vector2(ViewWidth, sizeDeltaY);
                 _rectTransform.offsetMin = new Vector2(0, _rectTransform.offsetMin.y);
                 _rectTransform.offsetMax = new Vector2(0, _rectTransform.offsetMax.y);
+                SetLayoutElement();
                 MoveToIndex();
                 AdjustmentItemActiveVertical();
                 
@@ -361,6 +367,7 @@ namespace Lucky
                 _rectTransform.sizeDelta = new Vector2(sizeDeltaX, ViewWidth);
                 _rectTransform.offsetMin = new Vector2(_rectTransform.offsetMin.x, 0);
                 _rectTransform.offsetMax = new Vector2(_rectTransform.offsetMax.x, 0);
+                SetLayoutElement();
                 MoveToIndex();
                 AdjusetmentItemActiveHorizontal();
             }
@@ -631,6 +638,15 @@ namespace Lucky
             _source = null;
             _poolManager = null;
             base.OnDestroy();
+        }
+
+        protected void SetLayoutElement()
+        {
+            if(_layoutElement!=null)
+            {
+                _layoutElement.preferredHeight = _rectTransform.sizeDelta.y;
+                _layoutElement.preferredWidth = _rectTransform.sizeDelta.x;
+            }
         }
 
     }

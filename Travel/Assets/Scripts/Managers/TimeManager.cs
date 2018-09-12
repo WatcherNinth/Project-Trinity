@@ -91,33 +91,18 @@ public class TimeManager : MonoBehaviour {
     private void FixedUpdate()
     {
         i++;
-        //if(i%(15) ==0)
         if(i%(15) ==0)
         {
-            //if (timespeed < )
             nowTime = nowTime.AddMinutes(timespeed/4);
-            /*
-            else if (timespeed < 1440)
-                nowTime = nowTime.AddHours(timespeed / 60.0f);
-            else
-                nowTime = nowTime.AddDays(timespeed / 1440.0f);
-            */
             if(timeText!=null)
                 timeText.text = nowTime.ToString(DateFormat);
             i = 0;
-            //Debug.Log("check");
             Check();
         }
     }
 
     private void Update()
     {
-        if(timeText==null)
-        {
-            //GameObject go = GameObject.FindGameObjectWithTag("TimeText");
-            //if (go!=null)
-            //    timeText = go.GetComponent<Text>();
-        }
     }
 
     public void Check()
@@ -132,7 +117,7 @@ public class TimeManager : MonoBehaviour {
             {
                 var enumerator = waitingAccidents.GetEnumerator();
                 enumerator.MoveNext();
-                Debug.Log("next starttiem "+enumerator.Current.Key);
+                //Debug.Log("next starttiem "+enumerator.Current.Key);
                 if (DateTime.Compare(enumerator.Current.Key, NowTime) < 0)
                 {
                     List<TimeExecuteParam> teps = enumerator.Current.Value;
@@ -194,9 +179,14 @@ public class TimeManager : MonoBehaviour {
         }
     }
 
-    public void AddAccidentExecute (BaseAccident value, Action<BaseAccident> callback, bool isDestroy=false)
+    public bool AddAccidentExecute (BaseAccident value, Action<BaseAccident> callback, bool isDestroy=false)
     {
-        lock(accidentlock)
+        if (DateTime.Compare(value.starttime, nowTime) < 0)
+        {
+            Debug.Log("error " + value.starttime);
+            return false;
+        }
+        lock (accidentlock)
         {
             if (waitingAccidents.ContainsKey(value.starttime))
             {
@@ -212,10 +202,16 @@ public class TimeManager : MonoBehaviour {
                 waitingAccidents.Add(value.starttime, list);
             }
         }
+        return true;
     }
 
-    public void AddGo(TicketParam value)
+    public bool AddGo(TicketParam value)
     {
+        if (DateTime.Compare(value.rt.GetBeginTime(), nowTime) < 0)
+        {
+            Debug.Log("error " + value.rt.GetBeginTime());
+            return false;
+        }
         lock (golock)
         {
             long id = value.rt.GetRoutineId();
@@ -236,6 +232,7 @@ public class TimeManager : MonoBehaviour {
             }
             Debug.Log("goid " + GoId.Count);
         }
+        return true;
     }
 
     public void RemoveGo(long id)
@@ -282,5 +279,10 @@ public class TimeManager : MonoBehaviour {
     public void GoToNextStartTime()
     {
 
+    }
+
+    public void SetText(Text t)
+    {
+        timeText = t;
     }
 }
