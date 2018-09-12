@@ -44,8 +44,8 @@ public class TicketsController : BaseInstance<TicketsController>
 
         foreach (RoutineTicket rt in all_tickets)
         {
-            DateTime starttime = rt.GetBeginTime();
-            DateTime stoptime = rt.GetEndTime();
+            DateTime starttime = rt.GetActualBeginTime();
+            DateTime stoptime = rt.GetAcutalEndTime();
 
             string start = rt.GetRoutineStartNode();
             string stop = rt.GetEndNode();
@@ -71,13 +71,13 @@ public class TicketsController : BaseInstance<TicketsController>
                 isFirstLoad = true;
             }
             */
-            finaldata.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, id));
 
-                
+            if( (DateTime.Compare(starttime, rt.GetBeginTime())==0) && (DateTime.Compare(stoptime, rt.GetEndTime())==0) )
+                finaldata.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, false, id));
+            else
+                finaldata.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, true, id));
+
         }
-
-        
-
         
         Debug.Log("count " + finaldata.Count);
 
@@ -107,8 +107,8 @@ public class TicketsController : BaseInstance<TicketsController>
 
         foreach (RoutineTicket rt in tickets)
         {
-            DateTime starttime = rt.GetBeginTime();
-            DateTime stoptime = rt.GetEndTime();
+            DateTime starttime = rt.GetActualBeginTime();
+            DateTime stoptime = rt.GetAcutalEndTime();
 
             string start = rt.GetRoutineStartNode();
             string stop = rt.GetEndNode();
@@ -121,7 +121,10 @@ public class TicketsController : BaseInstance<TicketsController>
             TimeSpan ts = stoptime - starttime;
             string usetime = ts.Hours + ":" + ts.Minutes;
 
-            data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, id));
+            if ((DateTime.Compare(starttime, rt.GetBeginTime()) == 0) && (DateTime.Compare(stoptime, rt.GetEndTime()) == 0))
+                data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, false, id));
+            else
+                data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, true, id));
         }
         return data;
     }

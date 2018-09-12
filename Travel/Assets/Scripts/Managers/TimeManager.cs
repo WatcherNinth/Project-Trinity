@@ -27,6 +27,26 @@ public class TimeExecuteParam
     }
 }
 
+public class MessageParam<T>
+{
+    public T message;
+    public Action<T> callback;
+
+    public MessageParam(T tmessage, Action<T> tcallback)
+    {
+        message = tmessage;
+        callback = tcallback;
+    }
+
+    public void Callback()
+    {
+        if(callback!=null)
+        {
+            callback(message);
+        }
+    }
+}
+
 public class TimeManager : MonoBehaviour {
 
     private static TimeManager _instance = null;
@@ -68,12 +88,16 @@ public class TimeManager : MonoBehaviour {
     private int i = 0;
 
     private SortedDictionary<DateTime, List<TimeExecuteParam>> waitingAccidents = new SortedDictionary<DateTime, List<TimeExecuteParam>>();
-
     private SortedDictionary<DateTime, Dictionary<long, TicketParam>> waitingGo = new SortedDictionary<DateTime, Dictionary<long, TicketParam>>();
+    private SortedDictionary<DateTime, List<MessageParam<WeChatMessage>>> waitingWeChat = new SortedDictionary<DateTime, List<MessageParam<WeChatMessage>>>();
+    private SortedDictionary<DateTime, List<MessageParam<NewMessage>>> waitingNew = new SortedDictionary<DateTime, List<MessageParam<NewMessage>>>();
+
     private Dictionary<long, DateTime> GoId = new Dictionary<long, DateTime>();
 
     private List<TimeExecuteParam> doAccidents = new List<TimeExecuteParam>();
     private List<TicketParam> doTickets = new List<TicketParam>();
+    private List<MessageParam<WeChatMessage>> doWechat = new List<MessageParam<WeChatMessage>>();
+    private List<MessageParam<NewMessage>> doNew = new List<MessageParam<NewMessage>>();
 
     private string DateFormat = "MM/dd\nhh:mm";
 
@@ -120,18 +144,18 @@ public class TimeManager : MonoBehaviour {
         }
 
         //事故事件查找
-            if(waitingAccidents.Count!=0)
+        if(waitingAccidents.Count!=0)
+        {
+            var enumerator = waitingAccidents.GetEnumerator();
+            enumerator.MoveNext();
+            //Debug.Log("next starttiem "+enumerator.Current.Key);
+            if (DateTime.Compare(enumerator.Current.Key, NowTime) < 0)
             {
-                var enumerator = waitingAccidents.GetEnumerator();
-                enumerator.MoveNext();
-                //Debug.Log("next starttiem "+enumerator.Current.Key);
-                if (DateTime.Compare(enumerator.Current.Key, NowTime) < 0)
-                {
-                    List<TimeExecuteParam> teps = enumerator.Current.Value;
-                    doAccidents.AddRange(teps);
-                    waitingAccidents.Remove(enumerator.Current.Key);
-                }
-            }      
+                List<TimeExecuteParam> teps = enumerator.Current.Value;
+                doAccidents.AddRange(teps);
+                waitingAccidents.Remove(enumerator.Current.Key);
+            }
+        }      
 
         //事故事件执行
         foreach (TimeExecuteParam tep in doAccidents)
@@ -182,6 +206,44 @@ public class TimeManager : MonoBehaviour {
                 MapTrafficView.instance.TrainGo(tp);
             else
                 MapTrafficView.instance.AirPlaneFly(tp);
+        }
+
+        //微信事件查找
+        if(waitingWeChat.Count!=0)
+        {
+            var etor = waitingWeChat.GetEnumerator();
+            etor.MoveNext();
+            if (DateTime.Compare(etor.Current.Key, NowTime) < 0)
+            {
+
+                List<MessageParam<WeChatMessage>> teps = etor.Current.Value;
+                doWechat.AddRange(teps);
+                waitingWeChat.Remove(etor.Current.Key);
+            }
+        }
+
+        foreach(MessageParam<WeChatMessage> mp in doWechat)
+        {
+            mp.Callback();
+        }
+
+        //新闻事件查找
+        if (waitingNew.Count != 0)
+        {
+            var etor = waitingNew.GetEnumerator();
+            etor.MoveNext();
+            if (DateTime.Compare(etor.Current.Key, NowTime) < 0)
+            {
+
+                List<MessageParam<NewMessage>> teps = etor.Current.Value;
+                doNew.AddRange(teps);
+                waitingNew.Remove(etor.Current.Key);
+            }
+        }
+
+        foreach (MessageParam<NewMessage> mp in doNew)
+        {
+            mp.Callback();
         }
     }
 
