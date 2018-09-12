@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour {
     private Dictionary<string, AudioClip> audioclipDic = new Dictionary<string, AudioClip>();
 
     private static AudioManager _instance;
-    private static AudioManager Instance
+    public static AudioManager Instance
     {
         get { return _instance; }
     }

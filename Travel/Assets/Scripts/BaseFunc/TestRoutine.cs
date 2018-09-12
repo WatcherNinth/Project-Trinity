@@ -9,17 +9,9 @@ public class TestRoutine : MonoBehaviour {
 	void Start () {
         RoutineOperation operation = new RoutineOperation();
         List <Routine> tickets = operation.GetAllTicket("上海", "南京", 0,  new DateTime());
-
-        foreach (Routine t in tickets)
-        {
-            TicketsOperaton ticket_operation = new TicketsOperaton();
-            if (ticket_operation.BuyTickets(1) != 0)
-            {
-                Debug.Log(t.GetBeginTime());
-                Debug.Log(t.GetTicketName());
-            }
-        }
-
+        TicketsOperaton ticket_operation = new TicketsOperaton();
+        DateTime now = DateTime.Now;
+        ticket_operation.DelayTickets(now, 8, 60, AccidentType.rail);
         //DateTime begin_time = DateTime.Now;
         //DateTime end_time = DateTime.Now.AddHours(10);
 
