@@ -23,12 +23,15 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
         string description = accident.text.description;
         string[] dictIn, dictOut;
         int duration = accident.duration;
-        string eDate = accident.starttime.AddMinutes(duration).Date.ToString();
-        string eTime = accident.starttime.AddMinutes(duration).TimeOfDay.ToString();
+
+        string sDate = accident.starttime.Month.ToString()+"月"+accident.starttime.Day.ToString() + "日";
+        string sTime = accident.starttime.TimeOfDay.ToString().Remove(5,3);
+        string eDate = accident.starttime.AddMinutes(duration).Month.ToString() + "月"+accident.starttime.AddMinutes(duration).Day.ToString()+"日";
+        string eTime = accident.starttime.AddMinutes(duration).TimeOfDay.ToString().Remove(5, 3);
         duration = duration / 60;
         
         dictIn = new string[7] {"<Spos>","<Epos>", "<Sdate>","<Edate>","<Stime>","<Etime>","<Duration>" };
-        dictOut = new string[7] { "Spos", "Epos", accident.starttime.Date.ToString(), eDate, accident.starttime.Date.ToString(), eTime, duration.ToString() };
+        dictOut = new string[7] { "Spos", "Epos", sDate, eDate, sTime, eTime, duration.ToString() };
         Debug.Log(accident.type);
         switch(accident.type){
             case AccidentType.rail:
@@ -46,9 +49,9 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
         for(int i = 0; i < dictIn.Length; i++)
         {
             accident.text.title = accident.text.title.Replace(dictIn[i], dictOut[i]);
-            //Debug.Log(accident.text.title);
             accident.text.description = accident.text.description.Replace(dictIn[i], dictOut[i]);
         }
+        Debug.Log(accident.text.description);
         return (accident);
     }
    public bool EventStringProcess()

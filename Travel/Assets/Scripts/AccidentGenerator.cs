@@ -76,11 +76,10 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             accident.type = AccidentType.airport;
             accident.location = AirportList[rnd.Next(0, AirportList.Count)];
             AirportList.RemoveAll(x => x == accident.location);
-            accident.duration = rnd.Next(0, 31) * 10;
+            accident.duration = rnd.Next(3, 31) * 10;
             accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2881));
             accident.text = accidentTexts[rnd.Next(5, 8)];
             accident = stringProcess.AccidentStringProcess(accident);
-            Debug.Log(accident.text.title);
             AccidentList.Add(accident);
         }
         for (int i = 0; i < RailAccident; i++)
@@ -88,8 +87,8 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             accident.type = AccidentType.rail;
             accident.location = RailList[rnd.Next(0, RailList.Count)];
             RailList.RemoveAll(x => x == accident.location);
-            accident.duration = rnd.Next(0, 30) * 10;
-            accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2880));
+            accident.duration = rnd.Next(3, 31) * 10;
+            accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2881));
             accident.text = accidentTexts[rnd.Next(0, 5)];
             accident = stringProcess.AccidentStringProcess(accident);
 
@@ -119,13 +118,19 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         int rndNum;
         for (int i = 0; i < AccidentWarningAccurency.Length; i++)
         {
+            warning.starttime = accident.starttime.AddMinutes(-AccidentWarningAccurency[i]);
             warning.location = accident.location;
             warning.type = accident.type;
-            warning.starttime = accident.starttime.AddMinutes(-AccidentWarningAccurency[i]);
             warning.Accidentstarttime = accident.starttime;
             rndNum = rnd.Next(0, AccidentWarningAccurency[i] / 2);
             warning.min = accident.duration - rndNum;
             warning.max = accident.duration + AccidentWarningAccurency[i] - rndNum;
+            if (DateTime.Compare(accident.starttime, InitTime) < 0)
+            {
+                warning.starttime = InitTime;
+                AccidentWarningList.Add(warning);
+                break;
+            }
             AccidentWarningList.Add(warning);
         }
     }
@@ -155,14 +160,12 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
 
         RailList.Remove(4);
         RailList.Remove(10);
-        RailList.Remove(9);
         RailList.Remove(24);
         RailList.Remove(26);
 
-        AirportList.Remove(27);
         AirportList.Remove(1);
 
-        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, InitTime, accidentTexts[1]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, SetTime(9, 15, 0), accidentTexts[1]));
         AccidentList.Add(CreateAccident(AccidentType.rail, 10, 30, SetTime(13, 0, 0), accidentTexts[2]));
         AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, SetTime(17, 0, 0), accidentTexts[1]));
         AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, SetTime(18, 30, 0), accidentTexts[4]));

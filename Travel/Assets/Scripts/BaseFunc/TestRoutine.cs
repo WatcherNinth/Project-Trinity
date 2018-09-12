@@ -10,7 +10,7 @@ public class TestRoutine : MonoBehaviour {
         RoutineOperation operation = new RoutineOperation();
         List <Routine> tickets = operation.GetAllTicket("上海", "南京", 0,  new DateTime());
         TicketsOperaton ticket_operation = new TicketsOperaton();
-        DateTime now = DateTime.Now;
+        DateTime now = GameModel.Instance.SqlStart;
         ticket_operation.DelayTickets(now, 8, 60, AccidentType.rail);
         //DateTime begin_time = DateTime.Now;
         //DateTime end_time = DateTime.Now.AddHours(10);
