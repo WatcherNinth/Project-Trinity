@@ -29,6 +29,7 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
         
         dictIn = new string[7] {"<Spos>","<Epos>", "<Sdate>","<Edate>","<Stime>","<Etime>","<Duration>" };
         dictOut = new string[7] { "Spos", "Epos", accident.starttime.Date.ToString(), eDate, accident.starttime.Date.ToString(), eTime, duration.ToString() };
+        Debug.Log(accident.type);
         switch(accident.type){
             case AccidentType.rail:
                 {
@@ -44,8 +45,9 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
         }
         for(int i = 0; i < dictIn.Length; i++)
         {
-            accident.text.title.Replace(dictIn[i], dictOut[i]);
-            accident.text.description.Replace(dictIn[i], dictOut[i]);
+            accident.text.title = accident.text.title.Replace(dictIn[i], dictOut[i]);
+            Debug.Log(accident.text.title);
+            accident.text.description = accident.text.description.Replace(dictIn[i], dictOut[i]);
         }
         return (accident);
     }
