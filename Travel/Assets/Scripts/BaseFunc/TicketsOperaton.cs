@@ -214,8 +214,7 @@ public class TicketsOperaton
         }      
         return ticket;
     }
-
-
+   
     public List<int> DelayTickets(DateTime accident_happen_time, int city_id, int duration, AccidentType type)
     {
         string city_name = CityUtil.Instance.GetCityName(city_id);
@@ -226,33 +225,33 @@ public class TicketsOperaton
         if (type == AccidentType.rail)
         {
 
-            try
-            {
-                operation.InitConnection(data_resource);
-                string sql = "select * from routine where start_node like \"%" + city_name + "%\" and type =0 order by start_time";
-
-                Debug.Log("select all the start node sql " + sql);
-
-                SqliteDataReader reader = operation.ExecuteQuery(sql);
-                List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
-                operation.CloseConnection();
-                Debug.Log("res result " + res.Count);
-
-                List<Routine> delay_routine = new List<Routine>();
-                UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
-                Debug.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
-               
-
-                foreach (Routine t in res)
+                try
                 {
+                    operation.InitConnection(data_resource);
+                    string sql = "select * from routine where start_node like \"%" + city_name + "%\" and type =0 order by start_time";
+
+                    Debug.Log("select all the start node sql " + sql);
+
+                    SqliteDataReader reader = operation.ExecuteQuery(sql);
+                    List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
+                    operation.CloseConnection();
+                    Debug.Log("res result " + res.Count);
+
+                    List<Routine> delay_routine = new List<Routine>();
+                    UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
+                    Debug.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
                
-                    UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
-                    Debug.Log("begin time " + begin_time);
 
-                    UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
-
-                    if (begin_time >= accident_happen_time_seconds)
+                    foreach (Routine t in res)
                     {
+               
+                        UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
+                        Debug.Log("begin time " + begin_time);
+
+                        UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
+
+                        if (begin_time >= accident_happen_time_seconds)
+                        {
                         int routine_id = t.GetRoutineId();
                         UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
                         UInt64 actual_end_time = end_time + (UInt32)duration * 60;
@@ -282,8 +281,61 @@ public class TicketsOperaton
 
         }
   
+
         if (type == AccidentType.airport)
         {
+            try
+            {
+                operation.InitConnection(data_resource);
+                string sql = "select * from routine where (start_node like \"%" + city_name + "%\"  or end_node like \"%"  + city_name + "%\")" + " and type = 1 order by start_time";
+
+                Debug.Log("select all the start node sql " + sql);
+
+                SqliteDataReader reader = operation.ExecuteQuery(sql);
+                List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
+                operation.CloseConnection();
+                Debug.Log("res result " + res.Count);
+
+                List<Routine> delay_routine = new List<Routine>();
+                UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
+                Debug.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
+
+
+                foreach (Routine t in res)
+                {
+
+                    UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
+                    Debug.Log("begin time " + begin_time);
+
+                    UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
+
+                    if (begin_time >= accident_happen_time_seconds)
+                    {
+                        int routine_id = t.GetRoutineId();
+                        UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
+                        UInt64 actual_end_time = end_time + (UInt32)duration * 60;
+
+                        sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time + ", event_happen_time = " + accident_happen_time_seconds
+                            + " where routine_id = " + routine_id;
+
+                        operation.InitConnection(data_resource);
+                        reader = operation.ExecuteQuery(sql);//
+
+                        if (reader.RecordsAffected == 1)
+                        {
+                            affected_routine_ids.Add(routine_id);
+                            operation.CloseConnection();
+
+                        }
+                    }
+                }
+            }
+            finally
+            {
+
+                operation.CloseConnection();
+
+            }
             return affected_routine_ids;
         }
         return affected_routine_ids;
