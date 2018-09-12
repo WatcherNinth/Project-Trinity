@@ -52,6 +52,8 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
     public List<AccidentWarning> AccidentWarningList;
     int[] AccidentWarningAccurency = { 60, 180, 300 };
 
+    StringProcessScript stringProcess = new StringProcessScript();
+
     Accident CreateAccident(AccidentType type, int location, int duration, DateTime starttime, AccidentText text)
     {
         Accident accident = new Accident
@@ -62,13 +64,13 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             type = type,
             text = text
         };
+        accident = stringProcess.AccidentStringProcess(accident);
         return (accident);
     }
     static System.Random rnd = new System.Random();
     public void AccidentGenerate()
     {
         Accident accident = new Accident();
-        StringProcessScript stringProcess = new StringProcessScript();
         for (int i = 0; i < AirportAccident; i++)
         {
             accident.type = AccidentType.airport;
@@ -76,9 +78,9 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             AirportList.RemoveAll(x => x == accident.location);
             accident.duration = rnd.Next(0, 31) * 10;
             accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2881));
-            accident.text = accidentTexts[rnd.Next(0, 5)];
-            Debug.Log("location "+accident.location);
+            accident.text = accidentTexts[rnd.Next(5, 8)];
             accident = stringProcess.AccidentStringProcess(accident);
+            Debug.Log(accident.text.title);
             AccidentList.Add(accident);
         }
         for (int i = 0; i < RailAccident; i++)
@@ -88,8 +90,9 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             RailList.RemoveAll(x => x == accident.location);
             accident.duration = rnd.Next(0, 30) * 10;
             accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2880));
-            accident.text = accidentTexts[rnd.Next(5, 8)];
+            accident.text = accidentTexts[rnd.Next(0, 5)];
             accident = stringProcess.AccidentStringProcess(accident);
+
             AccidentList.Add(accident);
         }
         PushAccidentList();
@@ -147,8 +150,6 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         yield return null;
         AccidentList = new List<Accident>();
         AccidentWarningList = new List<AccidentWarning>();
-        //CityUtil util = new CityUtil();
-        //util.Init();
         RailList = CityUtil.Instance.GetAllCityEdgeNum();
         AirportList = CityUtil.Instance.GetAllCityNodeNum();
 
@@ -166,7 +167,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, SetTime(17, 0, 0), accidentTexts[1]));
         AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, SetTime(18, 30, 0), accidentTexts[4]));
         AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, SetTime(18, 30, 0), accidentTexts[7]));
-        AccidentList.Add(CreateAccident(AccidentType.airport, 27, 90, SetTime(20, 50, 0), accidentTexts[7]));
+        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 90, SetTime(20, 50, 0), accidentTexts[7]));
         yield return null;
         AccidentGenerate();
     }
