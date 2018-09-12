@@ -42,7 +42,7 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
                     break;
                 }
         }
-        for(int i = 0; i <= dictIn.Length; i++)
+        for(int i = 0; i < dictIn.Length; i++)
         {
             accident.text.title.Replace(dictIn[i], dictOut[i]);
             accident.text.description.Replace(dictIn[i], dictOut[i]);

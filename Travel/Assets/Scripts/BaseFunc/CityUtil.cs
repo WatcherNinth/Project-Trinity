@@ -160,7 +160,7 @@ public class CityUtil : BaseInstance<CityUtil> {
     private AdjacencyList<string> city_list = new AdjacencyList<string>();
     private Dictionary<int, CityMapping> city_mapping_list = new Dictionary<int, CityMapping>();
 
-    public void Init()
+    public CityUtil()
     {
         city_dict.Add(0, "沈阳");
         city_dict.Add(1, "北京");

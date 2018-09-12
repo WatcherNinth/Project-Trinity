@@ -77,6 +77,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             accident.duration = rnd.Next(0, 31) * 10;
             accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2881));
             accident.text = accidentTexts[rnd.Next(0, 5)];
+            Debug.Log("location "+accident.location);
             accident = stringProcess.AccidentStringProcess(accident);
             AccidentList.Add(accident);
         }
@@ -146,10 +147,10 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         yield return null;
         AccidentList = new List<Accident>();
         AccidentWarningList = new List<AccidentWarning>();
-        CityUtil util = new CityUtil();
-        util.Init();
-        RailList = util.GetAllCityEdgeNum();
-        AirportList = util.GetAllCityNodeNum();
+        //CityUtil util = new CityUtil();
+        //util.Init();
+        RailList = CityUtil.Instance.GetAllCityEdgeNum();
+        AirportList = CityUtil.Instance.GetAllCityNodeNum();
 
         RailList.Remove(4);
         RailList.Remove(10);

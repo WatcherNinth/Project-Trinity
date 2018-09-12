@@ -114,9 +114,9 @@ public class TimeManager : MonoBehaviour {
     {
         if(timeText==null)
         {
-            GameObject go = GameObject.FindGameObjectWithTag("TimeText");
-            if (go!=null)
-                timeText = go.GetComponent<Text>();
+            //GameObject go = GameObject.FindGameObjectWithTag("TimeText");
+            //if (go!=null)
+            //    timeText = go.GetComponent<Text>();
         }
     }
 
@@ -148,6 +148,11 @@ public class TimeManager : MonoBehaviour {
             if(!tep.isDestroy)
             {
                 tep.Callback(tep.accident);
+                if(MapTrafficView.instance==null)
+                {
+                    Debug.Log("is null");
+                }
+                
                 MapTrafficView.instance.ShowAccidentMessage(tep.accident);
             }
             else
