@@ -27,4 +27,16 @@ public class NoteBookView : BaseSceneEaseInOut {
         panelObj.SetActive(true);
         return false;
     }
+
+    protected override void RegisterMsg(bool isOn)
+    {
+        if (isOn)
+        {
+            MessageBus.Register<OnePageNoteBook>(CreateNewNote);
+        }
+        else
+        {
+            MessageBus.UnRegister<OnePageNoteBook>(CreateNewNote);
+        }
+    }
 }
