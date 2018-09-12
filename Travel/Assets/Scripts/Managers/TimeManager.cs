@@ -183,7 +183,7 @@ public class TimeManager : MonoBehaviour {
     {
         if (DateTime.Compare(value.starttime, nowTime) < 0)
         {
-            Debug.Log("error " + value.starttime);
+            Debug.Log("error " + value.starttime+nowTime);
             return false;
         }
         lock (accidentlock)
