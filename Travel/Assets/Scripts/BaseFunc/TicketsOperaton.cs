@@ -145,8 +145,8 @@ public class TicketsOperaton
             while (reader.Read())
             {
                 RoutineTicket ticket = new RoutineTicket();
-                long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
-                long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
+                int begin_time = reader.GetInt32(reader.GetOrdinal("start_time"));
+                int end_time = reader.GetInt32(reader.GetOrdinal("end_time"));
                 ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
                 ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
                 ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
@@ -155,7 +155,30 @@ public class TicketsOperaton
                 ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
                 ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
                 SetTicketName(reader, ticket);
+                int actual_begin_time = reader.GetInt32(reader.GetOrdinal("actual_start_time"));
+                int actual_end_time = reader.GetInt32(reader.GetOrdinal("actual_end_time"));
+
+                if (actual_begin_time == 0)
+                {
+                    ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(begin_time));
+
+                }
+                else
+                {
+                    ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(actual_begin_time));
+                }
+
+                if (actual_end_time != 0)
+                {
+                    ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(actual_end_time));
+                }
+                else
+                {
+                    ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(end_time));
+                }
+
                 ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
+                
                 res.Add(ticket);
             }
 
@@ -191,8 +214,8 @@ public class TicketsOperaton
             {
                 reader.Read();
 
-                long begin_time = reader.GetInt64(reader.GetOrdinal("start_time"));
-                long end_time = reader.GetInt64(reader.GetOrdinal("end_time"));
+                int begin_time = reader.GetInt32(reader.GetOrdinal("start_time"));
+                int end_time = reader.GetInt32(reader.GetOrdinal("end_time"));
                 ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
                 ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
                 ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
@@ -202,6 +225,29 @@ public class TicketsOperaton
                 ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
                 SetTicketName(reader, ticket);
                 ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
+
+                int actual_begin_time = reader.GetInt32(reader.GetOrdinal("actual_start_time"));
+                int actual_end_time = reader.GetInt32(reader.GetOrdinal("actual_end_time"));
+
+                if (actual_begin_time == 0)
+                {
+                    ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(begin_time));
+
+                }
+                else
+                {
+                    ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(actual_begin_time));
+                }
+
+                if (actual_end_time != 0)
+                {
+                    ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(actual_end_time));
+                }
+                else
+                {
+                    ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(end_time));
+                }
+
             }
 
         } catch(Exception e)

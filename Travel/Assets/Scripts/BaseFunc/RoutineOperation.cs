@@ -188,15 +188,21 @@ public class RoutineOperation {
             if (actual_begin_time == 0)
             {
                 ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(begin_time));
-                ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(end_time));
 
-            }
-            else
+            } else
             {
                 ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(actual_begin_time));
-                ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(actual_end_time));
+            }
+            
+            if(actual_end_time != 0)
+            {
+               ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(actual_end_time));
+            } else {
+                ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(end_time));
             }
 
+           
+           
             // Debug.Log(ticket.GetRoutineId());
 
             TicketsOperaton.SetTicketName(reader, ticket);
