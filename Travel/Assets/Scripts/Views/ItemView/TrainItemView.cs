@@ -14,10 +14,11 @@ public class TrafficMessage
     public string EndLocation = "";
     public string Money = "";
     public bool buy = true;
+    public bool isDelay = false;
 
     public int id = 0;
 
-    public TrafficMessage(string st,string sl,string t,string n,string et,string el,string m, bool b, int i)
+    public TrafficMessage(string st,string sl,string t,string n,string et,string el,string m, bool b,bool d, int i)
     {
         StartTime = st;
         StartLocation = sl;
@@ -27,6 +28,7 @@ public class TrafficMessage
         EndLocation = el;
         Money = m;
         buy = b;
+        isDelay = d;
         id = i;
     }
 
@@ -45,6 +47,8 @@ public class TrainItemView : ItemRender {
     public Text EndTime;
     public Text EndLocation;
     public Text Money;
+    public Image Delay;
+    public Image Type;
 
     public Button btn;
 
@@ -74,6 +78,8 @@ public class TrainItemView : ItemRender {
         EndTime.text = data.EndTime;
         EndLocation.text = data.EndLocation;
         Money.text = "￥"+data.Money;
+        if (data.isDelay)
+            Delay.gameObject.SetActive(true);
         id = data.id;
         btn.onClick.RemoveAllListeners();
         btn.onClick.AddListener(Popup);

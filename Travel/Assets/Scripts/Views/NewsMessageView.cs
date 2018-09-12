@@ -3,10 +3,10 @@ using System.Collections;
 using Lucky;
 using System.Collections.Generic;
 
-public class AccidentMessageView : BaseUI {
+public class NewsMessageView : BaseUI {
 
     public BaseGrid baseGrid;
-    private List<WeChatMessage> messages;
+    private List<NewMessage> messages;
 
     protected override void UpdateView()
     {
@@ -15,7 +15,7 @@ public class AccidentMessageView : BaseUI {
             baseGrid.source = messages.ToArray();
     }
 
-    public void SetMessages(List<WeChatMessage> data)
+    public void SetMessages(List<NewMessage> data)
     {
         messages = data;
         InvalidView();

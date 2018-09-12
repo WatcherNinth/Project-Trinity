@@ -31,7 +31,6 @@ namespace Lucky
     public class PrefabManager : BaseInstance<PrefabManager>
     {
 
-
         private Dictionary<string, GameObject> prefabsdict = new Dictionary<string, GameObject>();
 
         public GameObject GetPrefabs(string name)
@@ -40,7 +39,12 @@ namespace Lucky
             {
                 return prefabsdict[name];
             }
-            return null;
+            else
+            {
+                GameObject go = Resources.Load<GameObject>(name);
+                prefabsdict.Add(name, go);
+                return go;
+            }
         }
 
         public IEnumerator Init()

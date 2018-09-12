@@ -190,18 +190,6 @@ public class MapTrafficView : MonoBehaviour {
 
     }
 
-    public void ShowAccident(BaseAccident ba)
-    {
-        if(ba.GetType() == typeof(Accident))
-        {
-            
-        }
-        else if(ba.GetType() == typeof(AccidentWarning))
-        {
-
-        }
-    }
-
     private AnimationClip FindClip(Animator animator, string name)
     {
         RuntimeAnimatorController ac = animator.runtimeAnimatorController;

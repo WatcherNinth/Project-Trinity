@@ -139,7 +139,8 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
     {
         //handle ticket delay
         Accident accident = taccident as Accident;
-
+        TicketsOperaton tickets = new TicketsOperaton();
+        tickets.DelayTickets(accident.starttime, accident.location, accident.duration, accident.type);
         //delay
     }
 

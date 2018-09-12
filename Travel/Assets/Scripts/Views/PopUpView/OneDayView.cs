@@ -34,7 +34,7 @@ public class OneDayView : BaseUI {
 
     private void SetData(OnePageNoteBook data)
     {
-        DayImage.sprite = LuckyUtils.LoadImageFromResouce(data.imagePath);
+        DayImage.sprite = SpriteManager.Instance.GetSprite(data.imagePath);
         FirstText.text = data.FirstText;
 
         InitEvent(data);

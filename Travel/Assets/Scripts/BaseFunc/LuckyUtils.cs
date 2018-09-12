@@ -5,10 +5,6 @@ namespace Lucky
 {
     public class LuckyUtils
     {
-        public static Sprite LoadImageFromResouce(string imagePath)
-        {
-            return Resources.Load<Sprite>(imagePath);
-        }
 
         public static T CreatePanelFromResource<T>(string prefabPath, Transform parent) where T : MonoBehaviour
         {
