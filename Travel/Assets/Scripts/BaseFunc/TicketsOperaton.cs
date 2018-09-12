@@ -292,42 +292,40 @@ public class TicketsOperaton
                     {
                
                         UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
-                        Debug.Log("begin time " + begin_time);
+                        // Debug.Log("begin time " + begin_time);
 
                         UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
 
                         if (begin_time >= accident_happen_time_seconds)
                         {
-                        int routine_id = t.GetRoutineId();
-                        UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
-                        UInt64 actual_end_time = end_time + (UInt32)duration * 60;
+                            int routine_id = t.GetRoutineId();
+                            UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
+                            UInt64 actual_end_time = end_time + (UInt32)duration * 60;
 
-                        sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time  + ", event_happen_time = " + accident_happen_time_seconds
-                            + " where routine_id = " + routine_id;
+                            sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time  + ", event_happen_time = " + accident_happen_time_seconds
+                                + " where routine_id = " + routine_id;
 
-                        operation.InitConnection(data_resource);
-                        reader = operation.ExecuteQuery(sql);//
+                            operation.InitConnection(data_resource);
+                            reader = operation.ExecuteQuery(sql);//
 
-                        if (reader.RecordsAffected == 1)
-                        {
-                            affected_routine_ids.Add(routine_id);
-                            operation.CloseConnection();
+                            if (reader.RecordsAffected == 1)
+                            {
+                                affected_routine_ids.Add(routine_id);
+                                operation.CloseConnection();
                            
+                            }
                         }
                     }
                 }
-            }
-            finally
-            {
+                finally
+                {
 
-                operation.CloseConnection();
+                    operation.CloseConnection();
 
-            }
-            return affected_routine_ids;
-
+                }
+                return affected_routine_ids;
         }
   
-
         if (type == AccidentType.airport)
         {
             try
