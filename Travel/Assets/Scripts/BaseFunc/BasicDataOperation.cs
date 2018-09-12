@@ -12,14 +12,13 @@ public class BasicDataOperation : BaseInstance<BasicDataOperation> {
     public void InitConnection(string connectionString)
     {
         try {
-            Debug.Log("connection str " + connectionString);
+            // Debug.Log("connection str " + connectionString);
             db_connection = new SqliteConnection(connectionString);
-            Debug.Log("connection str  " + connectionString);
-
+            // Debug.Log("connection str  " + connectionString);
             db_connection.Open();
         } catch(Exception e) { 
-            Debug.Log("connection str 1 " + connectionString);
-            Debug.Log(e.Message);
+           // Debug.Log("connection str 1 " + connectionString);
+           // Debug.Log(e.Message);
         }
         
     }
