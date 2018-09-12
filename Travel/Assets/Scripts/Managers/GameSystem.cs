@@ -48,6 +48,8 @@ public class GameSystem : MonoBehaviour {
         yield return StartCoroutine(AccidentGenerator.Instance.Init());
         Debug.Log("load event");
         yield return StartCoroutine(EventHappenManager.Instance.Init());
+        Debug.Log("load audio");
+        yield return StartCoroutine(AudioManager.Instance.Init());
         Debug.Log("load scene");
         AsyncOperation ao = SceneManager.LoadSceneAsync("Main");
         yield return ao;
