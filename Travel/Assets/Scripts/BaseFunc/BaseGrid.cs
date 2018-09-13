@@ -43,6 +43,9 @@ namespace Lucky
         [SerializeField]
         protected RectTransform m_ViewPort;
 
+        [SerializeField]
+        protected RectTransform _rectTransform;
+
         public int ViewHeihgt { get { return m_ViewHeight; } set { m_ViewHeight = value; } }
 
         //初始位置偏移量
@@ -58,7 +61,7 @@ namespace Lucky
         public int mPageCounts = 0;
 
         protected PoolObjectManager _poolManager;
-        protected RectTransform _rectTransform;
+        
         protected LayoutElement _layoutElement;
         protected List<ItemRender> _itemChildren;
 
@@ -74,7 +77,8 @@ namespace Lucky
         protected override void Awake()
         {
             base.Awake();
-            _rectTransform = GetComponent<RectTransform>();
+            if(_rectTransform==null)
+                _rectTransform = GetComponent<RectTransform>();
             _layoutElement = GetComponent<LayoutElement>();
             _poolManager = GetComponent<PoolObjectManager>();
 

@@ -17,18 +17,20 @@ public class MultiScrollViewRect : MonoBehaviour, IBeginDragHandler, IDragHandle
     public bool thisIsUpAndDown = true;
 
     private ScrollRect thisScrollRect;
+    private float angle;
 
     void Awake()
     {
         thisScrollRect = GetComponent<ScrollRect>();
-        //if (anotherScrollRect == null)
-            //anotherScrollRect = GetComponentsInParent<ScrollRect>()[1];
+        angle = 361;
     }
 
-    private void Update()
+    private void Start()
     {
         if (anotherScrollRect == null)
+        {
             anotherScrollRect = GetComponentsInParent<ScrollRect>()[1];
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -39,17 +41,20 @@ public class MultiScrollViewRect : MonoBehaviour, IBeginDragHandler, IDragHandle
     public void OnDrag(PointerEventData eventData)
     {
         anotherScrollRect.OnDrag(eventData);
-        float angle = Vector2.Angle(eventData.delta, Vector2.up);
-        //判断拖动方向，防止水平与垂直方向同时响应导致的拖动时整个界面都会动
-        if (angle > 45f && angle < 135f)
+        if(angle == 361)
         {
-            thisScrollRect.enabled = !thisIsUpAndDown;
-            anotherScrollRect.enabled = thisIsUpAndDown;
-        }
-        else
-        {
-            anotherScrollRect.enabled = !thisIsUpAndDown;
-            thisScrollRect.enabled = thisIsUpAndDown;
+            angle = Vector2.Angle(eventData.delta, Vector2.up);
+            //判断拖动方向，防止水平与垂直方向同时响应导致的拖动时整个界面都会动
+            if (angle > 45f && angle < 135f)
+            {
+                thisScrollRect.enabled = !thisIsUpAndDown;
+                anotherScrollRect.enabled = thisIsUpAndDown;
+            }
+            else
+            {
+                anotherScrollRect.enabled = !thisIsUpAndDown;
+                thisScrollRect.enabled = thisIsUpAndDown;
+            }
         }
     }
 
@@ -58,5 +63,6 @@ public class MultiScrollViewRect : MonoBehaviour, IBeginDragHandler, IDragHandle
         anotherScrollRect.OnEndDrag(eventData);
         anotherScrollRect.enabled = true;
         thisScrollRect.enabled = true;
+        angle = 361;
     }
 }

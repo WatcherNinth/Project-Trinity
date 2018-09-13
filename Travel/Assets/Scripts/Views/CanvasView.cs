@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class CanvasView : MonoBehaviour {
 
     public Button NoteBtn;
+    public Image RedPoints;
 
     private Vector3 dst = new Vector3(395, 644, 0);
     private Vector3 src = new Vector3(546, 369, 0);
@@ -39,6 +40,7 @@ public class CanvasView : MonoBehaviour {
                 }
             }
             */
+            RedPoints.gameObject.SetActive(false);
 
         });
     }
@@ -71,6 +73,7 @@ public class CanvasView : MonoBehaviour {
     private bool AddNote(OnePageNoteBook data)
     {
         Debug.Log("add note");
+        RedPoints.gameObject.SetActive(true);
         NoteBookModel.Instance.noteBookList.Add(data);
         return false;
     }

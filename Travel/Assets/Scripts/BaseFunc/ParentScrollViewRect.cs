@@ -4,15 +4,23 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
+public enum Direction
+{
+    LeftToRight = 0,
+    RightToLeft = 1
+}
+
 public class ParentScrollViewRect : ScrollRect
 {
     public Text text;
 
     private float time = 0.3f;
-    private int width = 940;
+    private float width;
     private RectTransform rt;
 
     private bool drag = true;
+    private float firstx;
+    private Direction direct;
 
     protected override void Awake()
     {
@@ -20,80 +28,104 @@ public class ParentScrollViewRect : ScrollRect
         rt = content.GetComponent<RectTransform>();
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        width = GetComponent<RectTransform>().rect.width;
+    }
+
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        if(drag)
+        if (drag)
+        {
             base.OnBeginDrag(eventData);
+            firstx = rt.anchoredPosition.x;
+        }
+
     }
 
     public override void OnDrag(PointerEventData eventData)
     {
-        if(drag)
+        if (drag)
             base.OnDrag(eventData);
     }
 
     public override void OnEndDrag(PointerEventData eventData)
     {
         base.OnEndDrag(eventData);
-        int x = (int)base.content.GetComponent<RectTransform>().anchoredPosition.x;
+        float x = base.content.GetComponent<RectTransform>().anchoredPosition.x;
 
-        drag = false;
-
-        //x = Mathf.Abs(x);
-        int i = x / width;
-        int temp = x % width;
-        Debug.Log("temp " + temp);
-        float tx = x;
-        if(Mathf.Abs(temp) < width/2)
+        if (x > firstx)
         {
-            float dst = tx - temp;
-            Debug.Log("last start " + x + " dst " + dst);
-            Tween tween = DOTween.To(
-               () => tx,
-               t => tx = t,
-               dst,
-               time
-           );
-
-            tween.OnUpdate
-            (
-                 () => onMoveUpdate(tx)
-            );
-
-            tween.OnComplete
-            (
-                () => Complete()
-            );
-
+            direct = Direction.LeftToRight;
         }
         else
         {
-            float dst = x - (width + temp);
-            Debug.Log("next start " + x + " dst " + dst);
-            Tween tween = DOTween.To(
-               () => tx,
-               t => tx = t,
-               dst,
+            direct = Direction.RightToLeft;
+        }
+
+        drag = false;
+
+        int k = (int)(-firstx / width);
+        float move = Mathf.Abs(x - firstx);
+        float dst = 0;
+        if (direct == Direction.LeftToRight)
+        {
+            if (move * 2 > width)
+            {
+                if (firstx == 0)
+                    dst = 0;
+                else
+                    dst = (k - 1) * width;
+            }
+            else
+            {
+                dst = k * width;
+
+            }
+        }
+        else
+        {
+            if(move * 2 > width)
+            {
+                int count=base.content.transform.childCount;
+                if (firstx == (1 - count) * width)
+                    dst = (count - 1) * width;
+                else
+                    dst = (k + 1) * width;
+            }
+            else
+            {
+                dst = k * width;
+            }
+        }
+
+        Move(x, dst);
+    }
+
+    private void Move(float start, float end)
+    {
+        end = -end;
+        Tween tween = DOTween.To(
+               () => start,
+               t => start = t,
+               end,
                time
-           );
-
-            tween.OnUpdate
-            (
-                 () => onMoveUpdate(tx)
             );
 
-            tween.OnComplete
-            (
-                () => Complete()
-            );
-        } 
-        
+        tween.OnUpdate
+        (
+             () => onMoveUpdate(start)
+        );
 
+        tween.OnComplete
+        (
+            () => Complete()
+        );
     }
 
     private void onMoveUpdate(float num)
     {
-        Debug.Log("num " + num);
         rt.anchoredPosition = new Vector2(num, rt.anchoredPosition.y);
     }
 
@@ -101,7 +133,4 @@ public class ParentScrollViewRect : ScrollRect
     {
         drag = true;
     }
-
-    
-
 }
