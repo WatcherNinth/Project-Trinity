@@ -11,32 +11,26 @@ public class NoteBookView : BaseSceneEaseInOut {
     protected override void InitUI()
     {
         base.InitUI();
-
+        InitData();
         Enter();
-        CreateNewNote(null);
-        CreateNewNote(null);
     }
 
-    public bool CreateNewNote(OnePageNoteBook data)
+    private bool CreateNewNote(OnePageNoteBook data)
     {
         GameObject prefab = PrefabManager.Instance.GetPrefabs(Prefabs.OneDayShow);
         GameObject panelObj = GameObject.Instantiate<GameObject>(prefab);
         panelObj.transform.SetParent(content);
         LuckyUtils.MakeIndentity(panelObj.transform);
-        //panelObj.GetComponent<OneDayView>().contentMessage = data;
+        panelObj.GetComponent<OneDayView>().contentMessage = data;
         panelObj.SetActive(true);
         return false;
     }
 
-    protected override void RegisterMsg(bool isOn)
+    private void InitData()
     {
-        if (isOn)
+        foreach(OnePageNoteBook data in NoteBookModel.Instance.noteBookList)
         {
-            MessageBus.Register<OnePageNoteBook>(CreateNewNote);
-        }
-        else
-        {
-            MessageBus.UnRegister<OnePageNoteBook>(CreateNewNote);
+            CreateNewNote(data);
         }
     }
 }

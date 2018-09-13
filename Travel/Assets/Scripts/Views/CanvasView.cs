@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using DG.Tweening;
 using Lucky;
+using System.Collections.Generic;
 
 public class CanvasView : MonoBehaviour {
 
@@ -16,8 +17,11 @@ public class CanvasView : MonoBehaviour {
 
     void Start()
     {
+        RegisterMsg(true);
         NoteBtn.onClick.AddListener(delegate() 
         {
+            Show();
+            /*
             if(!isOn)
             {
                 Tweener tween = NoteBtn.transform.DOMove(dst, 0.3f);
@@ -34,8 +38,14 @@ public class CanvasView : MonoBehaviour {
                     Tweener tween = NoteBtn.transform.DOMove(src, 1);
                 }
             }
-            
+            */
+
         });
+    }
+
+    private void OnDestroy()
+    {
+        RegisterMsg(false);
     }
 
     private void Show()
@@ -44,6 +54,25 @@ public class CanvasView : MonoBehaviour {
         nbv = go.GetComponent<NoteBookView>();
         PopUpManager.Instance.SetPopupPanelAutoClose(go);
         isOn = true;
+    }
+
+    private void RegisterMsg(bool isOn)
+    {
+        if (isOn)
+        {
+            MessageBus.Register<OnePageNoteBook>(AddNote);
+        }
+        else
+        {
+            MessageBus.UnRegister<OnePageNoteBook>(AddNote);
+        }
+    }
+
+    private bool AddNote(OnePageNoteBook data)
+    {
+        Debug.Log("add note");
+        NoteBookModel.Instance.noteBookList.Add(data);
+        return false;
     }
 
     

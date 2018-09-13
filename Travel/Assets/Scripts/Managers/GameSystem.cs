@@ -49,6 +49,10 @@ public class GameSystem : MonoBehaviour {
         yield return StartCoroutine(EventHappenManager.Instance.Init());
         Debug.Log("load audio");
         yield return StartCoroutine(AudioManager.Instance.Init());
+        Debug.Log("load wechat");
+        yield return StartCoroutine(WeChatManager.Instance.Init());
+        Debug.Log("load new ");
+        yield return StartCoroutine(NewManager.Instance.Init());
         Debug.Log("load scene");
         AsyncOperation ao = SceneManager.LoadSceneAsync("Main");
         yield return ao;

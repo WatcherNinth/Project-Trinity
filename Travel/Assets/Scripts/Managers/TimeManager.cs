@@ -136,6 +136,8 @@ public class TimeManager : MonoBehaviour {
     {
         doTickets.Clear();
         doAccidents.Clear();
+        doNew.Clear();
+        doWechat.Clear();
 
         if(DateTime.Compare(nextTime, nowTime)<0)
         {

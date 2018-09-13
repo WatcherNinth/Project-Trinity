@@ -44,28 +44,49 @@ public class OneDayView : BaseUI {
 
     private void InitEvent(OnePageNoteBook data)
     {
-        int count = data.buttontext.Count;
-        for(int i=0;i<buttons.Count;i++)
+        if(data.chosen==-1)
         {
-            if(i<count)
+            int count = data.buttontext.Count;
+            for (int i = 0; i < buttons.Count; i++)
             {
-                buttons[i].gameObject.SetActive(true);
-                texts[i].text = data.buttontext[i];
-                buttons[i].onClick.AddListener(delegate ()
+                if (i < count)
                 {
-                    for (int j = 0; j < buttons.Count; j++)
+                    buttons[i].gameObject.SetActive(true);
+                    texts[i].text = data.buttontext[i];
+                    int temp = i;
+                    buttons[i].onClick.AddListener(delegate ()
                     {
-                        if (j == i)
-                            continue;
-                        else
-                            buttons[i].gameObject.SetActive(false);
-                    }
-                    SecondText.text = data.finaltext[i];
-                });
+                        for (int j = 0; j < buttons.Count; j++)
+                        {
+                            if (j == temp)
+                                continue;
+                            else
+                                buttons[j].gameObject.SetActive(false);
+                        }
+                        SecondText.text = data.finaltext[temp];
+                        data.chosen = temp;
+                    });
+                }
+                else
+                {
+                    buttons[i].gameObject.SetActive(false);
+                }
             }
-            else
+        }
+        else
+        {
+            for (int i = 0; i < buttons.Count; i++)
             {
-                buttons[i].gameObject.SetActive(false);
+                if(i == data.chosen)
+                {
+                    buttons[i].gameObject.SetActive(true);
+                    texts[i].text = data.buttontext[i];
+                    SecondText.text = data.finaltext[i];
+                }
+                else
+                {
+                    buttons[i].gameObject.SetActive(false);
+                }
             }
         }
     }

@@ -15,6 +15,7 @@ public class TrafficMessage
     public string Money = "";
     public bool buy = true;
     public bool isDelay = false;
+    public TrafficType trafficType = TrafficType.Train;
 
     public int id = 0;
 
@@ -78,9 +79,20 @@ public class TrainItemView : ItemRender {
         EndTime.text = data.EndTime;
         EndLocation.text = data.EndLocation;
         Money.text = "￥"+data.Money;
-        if (data.isDelay)
-            Delay.gameObject.SetActive(true);
         id = data.id;
+        Delay.gameObject.SetActive(data.isDelay);
+
+        if (!data.buy)
+        {
+            Type.gameObject.SetActive(true);
+            if (data.trafficType == TrafficType.Plane)
+                Type.sprite = SpriteManager.Instance.GetSprite(Sprites.ticket_airplane);
+            else
+                Type.sprite = SpriteManager.Instance.GetSprite(Sprites.ticket_train);
+        }
+        else
+            Type.gameObject.SetActive(false);
+
         btn.onClick.RemoveAllListeners();
         btn.onClick.AddListener(Popup);
     }
