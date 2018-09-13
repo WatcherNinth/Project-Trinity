@@ -124,7 +124,7 @@ public class TimeManager : MonoBehaviour {
             if(timeText!=null)
                 timeText.text = nowTime.ToString(DateFormat);
             i = 0;
-            Check();
+            //Check();
         }
     }
 

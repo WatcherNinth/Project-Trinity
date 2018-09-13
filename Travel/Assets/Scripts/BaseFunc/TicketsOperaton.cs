@@ -263,18 +263,22 @@ public class TicketsOperaton
    
     public List<int> DelayTickets(DateTime accident_happen_time, int city_id, int duration, AccidentType type)
     {
-        string city_name = CityUtil.Instance.GetCityName(city_id);
-        Debug.Log("city name " + city_name);
+        
+        
         Debug.Log("accdent happen time " + accident_happen_time.ToString());
         List<int> affected_routine_ids = new List<int>();
 
         if (type == AccidentType.rail)
         {
+            CityMapping nodes = CityUtil.Instance.GetEdgeCity(city_id);
+            string start_node = nodes.start_node;
+            string end_node = nodes.end_node;
 
-                try
+            try
                 {
                     operation.InitConnection(data_resource);
-                    string sql = "select * from routine where start_node like \"%" + city_name + "%\" and type =0 order by start_time";
+                    string sql = "select * from routine where start_node like \"%" + start_node + "%\"" + " and end_node like \"%" + end_node + "%\"" 
+                        + " and type = 0 order by start_time";
 
                     Debug.Log("select all the start node sql " + sql);
 
@@ -328,6 +332,9 @@ public class TicketsOperaton
   
         if (type == AccidentType.airport)
         {
+            string city_name = CityUtil.Instance.GetCityName(city_id);
+            Debug.Log("city name " + city_name);
+
             try
             {
                 operation.InitConnection(data_resource);
@@ -349,7 +356,6 @@ public class TicketsOperaton
                 {
 
                     UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
-                    Debug.Log("begin time " + begin_time);
 
                     UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
 
