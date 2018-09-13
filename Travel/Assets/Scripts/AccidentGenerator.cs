@@ -45,7 +45,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
     List<int> RailList, AirportList;
     int AirportAccident = 8;
     int RailAccident = 8;
-    DateTime InitTime = GameModel.Instance.Start;
+    DateTime InitTime = GameModel.Instance.Start.AddMinutes(5);
     List<AccidentText> accidentTexts;
 
     //AccidentWarning property
@@ -101,13 +101,17 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         foreach (Accident item in AccidentList)
         {
             CreateAccidentWarning(item);
-            TimeManager.instance.AddAccidentExecute(item, HandleAccident);
+            TimeManager.instance.AddAccidentExecute(item, HandleAccident,false);
+            Accident eitem = item;
+            eitem.starttime = eitem.starttime.AddMinutes(item.duration);
+            TimeManager.instance.AddAccidentExecute(eitem, HandleAccidentCancel, true);
 
             //timemanager callback
         }
         foreach (AccidentWarning item in AccidentWarningList)
         {
             //timemanager callback
+            TimeManager.instance.AddAccidentExecute(item, HandleAccidentWarning);
         }
     }
     void CreateAccidentWarning(Accident accident)
@@ -143,7 +147,14 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         List<int> routine_id = tickets.DelayTickets(accident.starttime, accident.location, accident.duration, accident.type);
         TimeManager.instance.Delay(routine_id);
     }
+    public void HandleAccidentCancel(BaseAccident taccident)
+    {
 
+    }
+    public void HandleAccidentWarning(BaseAccident taccident)
+    {
+        
+    }
 
     DateTime SetTime(int hour,int min,int sec)
     {
