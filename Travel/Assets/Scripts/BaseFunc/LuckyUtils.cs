@@ -18,7 +18,9 @@ namespace Lucky
             GameObject panelObj = GameObject.Instantiate<GameObject>(prefab);
             panelObj.transform.SetParent(parent);
             MakeIndentity(panelObj.transform);
+            Debug.Log("first transform "+panelObj.GetComponent<RectTransform>().anchoredPosition3D);
             panelObj.SetActive(true);
+            Debug.Log("second transform " + panelObj.GetComponent<RectTransform>().anchoredPosition3D);
             T panel = panelObj.GetComponent<T>();
             return panel;
         }
@@ -27,7 +29,7 @@ namespace Lucky
         {
             RectTransform rt = trans as RectTransform;
             rt.localScale = Vector3.one;
-            rt.position = Vector3.zero;
+            rt.anchoredPosition3D = Vector3.zero;
         }
 
         public static void MakeFullStretch(RectTransform rt)
@@ -48,6 +50,7 @@ namespace Lucky
 
             var rt = trans as RectTransform;
             MakeFullStretch(rt);
+            rt.position = Vector3.zero;
         }
 
     }
