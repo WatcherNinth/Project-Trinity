@@ -313,6 +313,7 @@ public class CityUtil : BaseInstance<CityUtil> {
     }
     public string GetCityName(int ID)
     {
+        Debug.Log(ID);
         return city_dict[ID];
     }
 

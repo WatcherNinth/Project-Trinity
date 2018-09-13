@@ -64,12 +64,22 @@ public class TimeManager : MonoBehaviour {
     }
 
     private Text timeText;
+    private MapsView mv;
 
-    public float timespeed = 1.0f;
+    [SerializeField]
+    private float timespeed = 1.0f;
     public float TimeSpeed
     {
         get { return timespeed; }
-        set { timespeed = value; }
+        set
+        {
+            timespeed = value;
+            if(timespeed == 1.0f)
+            {
+                if(mv!=null)
+                    mv.ChangeGoButton();
+            }    
+        }
     }
 
     private float time = 0;
@@ -77,9 +87,9 @@ public class TimeManager : MonoBehaviour {
     private object golock = new object();
 
     private DateTime nextTime;
+    private DateTime nextSlowTime;
 
-    public DateTime nowTime;
-
+    private DateTime nowTime;
     public DateTime NowTime
     {
         get { return nowTime; }
@@ -120,16 +130,12 @@ public class TimeManager : MonoBehaviour {
         i++;
         if(i%(15) ==0)
         {
-            nowTime = nowTime.AddMinutes(timespeed/4);
+            nowTime = nowTime.AddMinutes(TimeSpeed/ 4);
             if(timeText!=null)
                 timeText.text = nowTime.ToString(DateFormat);
             i = 0;
             Check();
         }
-    }
-
-    private void Update()
-    {
     }
 
     public void Check()
@@ -138,6 +144,11 @@ public class TimeManager : MonoBehaviour {
         doAccidents.Clear();
         doNew.Clear();
         doWechat.Clear();
+
+        if(DateTime.Compare(nextSlowTime, nowTime)<0)
+        {
+            TimeSpeed = 1.0f;
+        }
 
         if(DateTime.Compare(nextTime, nowTime)<0)
         {
@@ -162,7 +173,8 @@ public class TimeManager : MonoBehaviour {
         //事故事件执行
         foreach (TimeExecuteParam tep in doAccidents)
         {
-            if(!tep.isDestroy)
+            TimeSpeed=1.0f;
+            if (!tep.isDestroy)
             {
                 tep.Callback(tep.accident);
                 if(MapTrafficView.instance==null)
@@ -204,6 +216,7 @@ public class TimeManager : MonoBehaviour {
         //旅游路线执行
         foreach (TicketParam tp in doTickets)
         {
+            TimeSpeed = 1.0f;
             if (tp.rt.Type() == 0)
                 MapTrafficView.instance.TrainGo(tp);
             else
@@ -226,6 +239,7 @@ public class TimeManager : MonoBehaviour {
 
         foreach(MessageParam<WeChatMessage> mp in doWechat)
         {
+            TimeSpeed = 1.0f;
             mp.Callback();
         }
 
@@ -245,6 +259,7 @@ public class TimeManager : MonoBehaviour {
 
         foreach (MessageParam<NewMessage> mp in doNew)
         {
+            TimeSpeed = 1.0f;
             mp.Callback();
         }
     }
@@ -398,13 +413,78 @@ public class TimeManager : MonoBehaviour {
         }
     }
 
+    public void Delay(List<int> delayid)
+    {
+        foreach (int id in delayid)
+        {
+            lock (golock)
+            {
+                if (GoId.ContainsKey(id))
+                {
+                    RemoveGo(id);
+                    TicketsOperaton ticket_operation = new TicketsOperaton();
+                    RoutineTicket ticket = ticket_operation.GetTicketByTickedId(id);
+                    Debug.Log("delay " + ticket.GetActualBeginTime());
+                    AddGo(new TicketParam(ticket));
+                }
+            }
+        }
+    }
+
     public void GoToNextStartTime()
     {
+        DateTime dt = DateTime.MaxValue;
+        if(waitingAccidents.Count!=0)
+        {
+            var etor = waitingAccidents.GetEnumerator();
+            etor.MoveNext();
+            if (DateTime.Compare(etor.Current.Key, dt) < 0)
+            {
+                dt = etor.Current.Key;
+            }
+        }
+        if(waitingGo.Count!=0)
+        {
+            var etor = waitingGo.GetEnumerator();
+            etor.MoveNext();
+            if (DateTime.Compare(etor.Current.Key, dt) < 0)
+            {
+                dt = etor.Current.Key;
+            }
+        }
+        if(waitingNew.Count!=0)
+        {
+            var etor = waitingNew.GetEnumerator();
+            etor.MoveNext();
+            if (DateTime.Compare(etor.Current.Key, dt) < 0)
+            {
+                dt = etor.Current.Key;
+            }
+        }
+        if(waitingWeChat.Count!=0)
+        {
+            var etor = waitingWeChat.GetEnumerator();
+            etor.MoveNext();
+            if (DateTime.Compare(etor.Current.Key, dt) < 0)
+            {
+                dt = etor.Current.Key;
+            }
+        }
+        if(DateTime.Compare(dt , DateTime.MaxValue) != 0)
+        {
+            nextSlowTime = dt.AddMinutes(-10);
+        }
+        TimeSpeed = 5.0f;
 
     }
 
     public void SetText(Text t)
     {
         timeText = t;
+    }
+
+    public void SetMapsView(MapsView tmv)
+    {
+        mv = tmv;
     }
 }
