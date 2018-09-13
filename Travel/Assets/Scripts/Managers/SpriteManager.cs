@@ -3,6 +3,12 @@ using System.Collections;
 using Lucky;
 using System.Collections.Generic;
 
+public class Sprites
+{
+    public const string ticket_airplane = "ticket_airplane";
+    public const string ticket_train = "ticket_train";
+}
+
 public class SpriteManager : BaseInstance<SpriteManager> {
 
     private const string spritePath = "Sprites/";

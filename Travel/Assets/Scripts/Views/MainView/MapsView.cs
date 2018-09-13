@@ -10,6 +10,8 @@ public class MapsView : BaseUI {
     public Button BuyBtn;
     public Button GoBtn;
 
+    public Text GoBtnText;
+
     private bool isPlay = false;
 
     private void Awake()
@@ -18,10 +20,13 @@ public class MapsView : BaseUI {
     }
 
     // Use this for initialization
-    void Start () {
+    protected override void Start()
+    {
+        base.Start();
         mainContent = transform.parent.gameObject.GetComponent<MainContent>();
         BuyBtn.onClick.AddListener(OnClick);
         GoBtn.onClick.AddListener(OnGoClick);
+        TimeManager.instance.SetMapsView(this);
 	}
 
     protected override void OnDestroy()
@@ -36,21 +41,25 @@ public class MapsView : BaseUI {
 
     private void OnGoClick()
     {
-        TimeManager.instance.TimeSpeed = 1;
-        MapTrafficView.instance.SetAnimatorSpeed();
-        /*
         if(!isPlay)
         {
+            isPlay = true;
             TimeManager.instance.GoToNextStartTime();
-            TimeManager.instance.TimeSpeed = 1;
-            isPlay = true; 
+            MapTrafficView.instance.SetAnimatorSpeed();
+            GoBtnText.text = "休息";
         }
         else
         {
-            TimeManager.instance.TimeSpeed = 0;
             isPlay = false;
+            GoBtnText.text = "出发";
+            TimeManager.instance.TimeSpeed = 1.0f;
         }
-        */
+    }
+
+    public void ChangeGoButton()
+    {
+        isPlay = false;
+        GoBtnText.text = "出发";
     }
 
 

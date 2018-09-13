@@ -100,13 +100,17 @@ public class TopMenuView : MonoBehaviour {
     {
         if (isOn)
         {
+            MessageBus.Register<WeChatMessage>(AddWeChatMessage);
+            MessageBus.Register<NewMessage>(AddNewMessage);
             MessageBus.Register<UseMoney>(HandleMoney);
         }
         else
         {
+            MessageBus.UnRegister<WeChatMessage>(AddWeChatMessage);
+            MessageBus.UnRegister<NewMessage>(AddNewMessage);
             MessageBus.UnRegister<UseMoney>(HandleMoney);
         }
-    }
+}
 
     private bool HandleMoney(UseMoney m)
     {
@@ -115,6 +119,18 @@ public class TopMenuView : MonoBehaviour {
         Money.text = "￥" + money;
         UserTicketsModel.Instance.money = money;
         PlayerPrefs.SetFloat("money", money);
+        return false;
+    }
+
+    private bool AddWeChatMessage(WeChatMessage data)
+    {
+        MessageModel.Instance.WeChatList.Add(data);
+        return false;
+    }
+
+    private bool AddNewMessage(NewMessage data)
+    {
+        MessageModel.Instance.NewsList.Add(data);
         return false;
     }
 }

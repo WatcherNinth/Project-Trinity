@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using Lucky;
 
-public class MessagePanelView : MonoBehaviour {
+public class MessagePanelView : BaseUI {
 
     public GameObject WeChat;
     public GameObject Accident;
@@ -21,26 +21,37 @@ public class MessagePanelView : MonoBehaviour {
     private Image WeChatImage;
     private Image AccidentImage;
 
-    private List<WeChatMessage> weChatList = new List<WeChatMessage>();
-    private List<NewMessage> newsList = new List<NewMessage>();
-
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         WeChatToggle = WeChat.GetComponent<Toggle>();
         AccidentToogle = Accident.GetComponent<Toggle>();
 
         WeChatImage = WeChat.GetComponent<Image>();
         AccidentImage = Accident.GetComponent<Image>();
+    }
 
+    private void OnEnable()
+    {
+        InvalidView();
     }
 
     // Use this for initialization
-    void Start () {
+    protected override void Start () {
+        base.Start();
         InitEvent();
         WeChatImage.color = Blue;
         AccidentImage.color = Color.white;
         nview.gameObject.SetActive(false);
         wview.gameObject.SetActive(true);
+        
+    }
+
+    protected override void UpdateView()
+    {
+        base.UpdateView();
+        nview.SetMessages(MessageModel.Instance.NewsList);
+        wview.SetMessages(MessageModel.Instance.WeChatList);
     }
 
     private void InitEvent()
@@ -66,45 +77,6 @@ public class MessagePanelView : MonoBehaviour {
                 nview.gameObject.SetActive(true);
             }
         });
-
-        /*
-        List<WeChatMessage> list = new List<WeChatMessage>();
-        list.Add(new WeChatMessage("lucky", "asdads", new DateTime(2018, 1, 2)));
-        list.Add(new WeChatMessage("lucky", "asdads", new DateTime(2018, 1, 6)));
-        list.Add(new WeChatMessage("lucky", "asdads", new DateTime(2018, 1, 5, 23, 58, 0)));
-        list.Add(new WeChatMessage("lucky", "asdads", new DateTime(2018, 1, 5, 23, 38, 0)));
-        list.Add(new WeChatMessage("lucky", "asdads", new DateTime(2018, 1, 5, 23, 28, 0)));
-        list.Add(new WeChatMessage("lucky", "asdads", new DateTime(2018, 1, 5, 22, 28, 0)));
-        wview.SetMessages(list);
-        */
-    }
-
-    private void RegisterMsg(bool isOn)
-    {
-        if (isOn)
-        {
-            MessageBus.Register<WeChatMessage>(AddWeChatMessage);
-            MessageBus.Register<NewMessage>(AddNewMessage);
-        }
-        else
-        {
-            MessageBus.UnRegister<WeChatMessage>(AddWeChatMessage);
-            MessageBus.UnRegister<NewMessage>(AddNewMessage);
-        }
-    }
-
-    private bool AddWeChatMessage(WeChatMessage weChatMessage)
-    {
-        weChatList.Add(weChatMessage);
-        wview.SetMessages(weChatList);
-        return false;
-    }
-
-    private bool AddNewMessage(NewMessage newMessage)
-    {
-        newsList.Add(newMessage);
-        nview.SetMessages(newsList);
-        return false;
     }
 
 

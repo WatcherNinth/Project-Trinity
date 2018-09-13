@@ -2,6 +2,7 @@
 using System.Collections;
 using Lucky;
 using UnityEngine.UI;
+using System;
 
 public class NoteBookView : BaseSceneEaseInOut {
 
@@ -11,32 +12,41 @@ public class NoteBookView : BaseSceneEaseInOut {
     protected override void InitUI()
     {
         base.InitUI();
-
+        InitData();
         Enter();
-        CreateNewNote(null);
-        CreateNewNote(null);
     }
 
-    public bool CreateNewNote(OnePageNoteBook data)
+    private bool CreateNewNote(OnePageNoteBook data)
     {
         GameObject prefab = PrefabManager.Instance.GetPrefabs(Prefabs.OneDayShow);
         GameObject panelObj = GameObject.Instantiate<GameObject>(prefab);
         panelObj.transform.SetParent(content);
         LuckyUtils.MakeIndentity(panelObj.transform);
-        //panelObj.GetComponent<OneDayView>().contentMessage = data;
+        panelObj.GetComponent<OneDayView>().contentMessage = data;
         panelObj.SetActive(true);
         return false;
     }
 
-    protected override void RegisterMsg(bool isOn)
+    private void InitData()
     {
-        if (isOn)
+        if(NoteBookModel.Instance.noteBookList.Count==0)
         {
-            MessageBus.Register<OnePageNoteBook>(CreateNewNote);
+
         }
         else
         {
-            MessageBus.UnRegister<OnePageNoteBook>(CreateNewNote);
+            DateTime dt = NoteBookModel.Instance.noteBookList[0].time;
+            DateShow.text = dt.ToString("yyyy/MM/dd HH:mm");
+            foreach (OnePageNoteBook data in NoteBookModel.Instance.noteBookList)
+            {
+                CreateNewNote(data);
+            }
         }
+    }
+
+    public void SetText(int index)
+    {
+        DateTime dt = NoteBookModel.Instance.noteBookList[index].time;
+        DateShow.text = dt.ToString("yyyy/MM/dd HH:mm");
     }
 }

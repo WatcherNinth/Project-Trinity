@@ -48,6 +48,7 @@ public class MapTrafficView : MonoBehaviour {
                 UserTicketsModel.Instance.where = Where.City;
                 UserTicketsModel.Instance.city = dst;
                 EventHappenManager.Instance.EveryLocation(dst);
+                TimeManager.instance.TimeSpeed = 1.0f;
             }
         }
 
@@ -62,6 +63,7 @@ public class MapTrafficView : MonoBehaviour {
                 UserTicketsModel.Instance.where = Where.City;
                 UserTicketsModel.Instance.city = dst;
                 EventHappenManager.Instance.EveryLocation(dst);
+                TimeManager.instance.TimeSpeed = 1.0f;
             }
         }
         
@@ -206,12 +208,15 @@ public class MapTrafficView : MonoBehaviour {
 
     public void SetAnimatorSpeed()
     {
-        AnimatorStateInfo asi=animator.GetCurrentAnimatorStateInfo(0);
-        float walktime = asi.normalizedTime * cliptime;
-        float travelwalktime = asi.normalizedTime * traveltime;
-        float realtime = travelwalktime / TimeManager.instance.TimeSpeed;
-        float speed = walktime / realtime;
-        animator.speed = speed;
+        if(airplane.gameObject.activeSelf || train.gameObject.activeSelf)
+        {
+            AnimatorStateInfo asi = animator.GetCurrentAnimatorStateInfo(0);
+            float walktime = asi.normalizedTime * cliptime;
+            float travelwalktime = asi.normalizedTime * traveltime;
+            float realtime = travelwalktime / TimeManager.instance.TimeSpeed;
+            float speed = walktime / realtime;
+            animator.speed = speed;
+        }
     }
     
     public void AnimatorStop()

@@ -17,6 +17,7 @@ public class WeChatMessageView : BaseUI
 
     public void SetMessages(List<WeChatMessage> data)
     {
+        Debug.Log("set we chat messages");
         messages = data;
         InvalidView();
     }
