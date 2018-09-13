@@ -12,7 +12,7 @@ public enum Direction
 
 public class ParentScrollViewRect : ScrollRect
 {
-    public Text text;
+    protected int index;
 
     private float time = 0.3f;
     private float width;
@@ -25,6 +25,7 @@ public class ParentScrollViewRect : ScrollRect
     protected override void Awake()
     {
         base.Awake();
+        index = 0;
         rt = content.GetComponent<RectTransform>();
     }
 
@@ -99,7 +100,7 @@ public class ParentScrollViewRect : ScrollRect
                 dst = k * width;
             }
         }
-
+        index =(int) (dst / width);
         Move(x, dst);
     }
 
@@ -129,7 +130,7 @@ public class ParentScrollViewRect : ScrollRect
         rt.anchoredPosition = new Vector2(num, rt.anchoredPosition.y);
     }
 
-    private void Complete()
+    protected virtual void Complete()
     {
         drag = true;
     }

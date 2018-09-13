@@ -2,6 +2,7 @@
 using System.Collections;
 using Lucky;
 using UnityEngine.UI;
+using System;
 
 public class NoteBookView : BaseSceneEaseInOut {
 
@@ -28,9 +29,24 @@ public class NoteBookView : BaseSceneEaseInOut {
 
     private void InitData()
     {
-        foreach(OnePageNoteBook data in NoteBookModel.Instance.noteBookList)
+        if(NoteBookModel.Instance.noteBookList.Count==0)
         {
-            CreateNewNote(data);
+
         }
+        else
+        {
+            DateTime dt = NoteBookModel.Instance.noteBookList[0].time;
+            DateShow.text = dt.ToString("yyyy/MM/dd HH:mm");
+            foreach (OnePageNoteBook data in NoteBookModel.Instance.noteBookList)
+            {
+                CreateNewNote(data);
+            }
+        }
+    }
+
+    public void SetText(int index)
+    {
+        DateTime dt = NoteBookModel.Instance.noteBookList[index].time;
+        DateShow.text = dt.ToString("yyyy/MM/dd HH:mm");
     }
 }

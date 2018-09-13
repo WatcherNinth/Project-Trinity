@@ -67,10 +67,8 @@ public class TicketsController : BaseInstance<TicketsController>
             Debug.Log("start time " + starttime);
             Debug.Log("get ticked id " + id);
             Debug.Log("get routined id  " + rt.GetRoutineId());
-            //Debug.Log(TicketsController.Instance.DeleteTickets(id));
+            
             /*
-            data.Add(starttime, new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, id));
-
             // 第一次开启App，将没有加载的数据放入TimeManager
             if (!isFirstLoad)
             {
@@ -128,7 +126,14 @@ public class TicketsController : BaseInstance<TicketsController>
             int id = rt.GetRoutineId();
 
             TimeSpan ts = stoptime - starttime;
-            string usetime = ts.Hours + ":" + ts.Minutes;
+
+            string usetime = "";
+            if (ts.Hours < 10)
+                usetime += "0";
+            usetime += ts.Hours + ":";
+            if (ts.Minutes < 10)
+                usetime += "0";
+            usetime += ts.Minutes;
 
             if ((DateTime.Compare(starttime, rt.GetBeginTime()) == 0) && (DateTime.Compare(stoptime, rt.GetEndTime()) == 0))
                 data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, false, id));
