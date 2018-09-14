@@ -132,9 +132,9 @@ public class TicketsOperaton
     {
         UInt64 ts = RoutineOperation.GetSeconds(time);
         operation.InitConnection(data_resource);
-
+        UInt64  seconds =  RoutineOperation.GetSeconds(time);
         // string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id ";
-        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id";
+        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and routine.start_time > " + seconds;
 
         Debug.Log(sql);
         List<RoutineTicket> res = new List<RoutineTicket>();
