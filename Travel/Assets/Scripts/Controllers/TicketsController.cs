@@ -80,9 +80,9 @@ public class TicketsController : BaseInstance<TicketsController>
             Debug.Log("start time " + starttime + " plan start time " + rt.GetBeginTime());
             Debug.Log("stop time " + stoptime + " plan stop time " + rt.GetEndTime());
             if ( (DateTime.Compare(starttime, rt.GetBeginTime())==0) && (DateTime.Compare(stoptime, rt.GetEndTime())==0) )
-                finaldata.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, false, id));
+                finaldata.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, false, id,(TrafficType)rt.Type()));
             else
-                finaldata.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, true, id));
+                finaldata.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, true, id,(TrafficType)rt.Type()));
 
         }
         
@@ -136,9 +136,9 @@ public class TicketsController : BaseInstance<TicketsController>
             usetime += ts.Minutes;
 
             if ((DateTime.Compare(starttime, rt.GetBeginTime()) == 0) && (DateTime.Compare(stoptime, rt.GetEndTime()) == 0))
-                data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, false, id));
+                data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, false, id, (TrafficType)rt.Type()));
             else
-                data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, true, id));
+                data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, true, id, (TrafficType)rt.Type()));
         }
         return data;
     }

@@ -60,6 +60,7 @@ public class MapsView : BaseUI {
     {
         isPlay = false;
         GoBtnText.text = "出发";
+        MapTrafficView.instance.SetAnimatorSpeed();
     }
 
 

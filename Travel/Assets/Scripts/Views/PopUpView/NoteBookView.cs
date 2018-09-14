@@ -24,6 +24,7 @@ public class NoteBookView : BaseSceneEaseInOut {
         LuckyUtils.MakeIndentity(panelObj.transform);
         panelObj.GetComponent<OneDayView>().contentMessage = data;
         panelObj.SetActive(true);
+        LuckyUtils.MakeIndentity(panelObj.transform);
         return false;
     }
 

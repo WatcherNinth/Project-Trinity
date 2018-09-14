@@ -70,7 +70,6 @@ public class MainContent : MonoBehaviour {
         if(baseUI[i] == null)
         {
             view = LuckyUtils.CreatePanelFromResource<BaseUI>("Prefabs/" + mChildViews[i], transform);
-            Debug.Log("abcdefdasdfsdfsdfasdfdddddddddddddddddddd");
             if (view)
             {
                 LuckyUtils.MakeFullStretch(view.transform);

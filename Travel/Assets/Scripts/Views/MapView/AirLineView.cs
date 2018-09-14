@@ -24,6 +24,7 @@ public class AirLineView : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
         Show();
     }
 
@@ -35,16 +36,25 @@ public class AirLineView : MonoBehaviour {
     public void Show(Vector3 start, Vector3 stop)
     {
         Vector3 middle = (start + stop) / 2.0f;
-        transform.position = middle;
-
+        rt.anchoredPosition3D = middle;
+        Debug.Log("middle " + middle);
         Vector2 diff = stop - start;
-        rt.sizeDelta = new Vector2(Mathf.Abs(diff.x), rt.sizeDelta.y);
 
-        float tan = diff.y / diff.x;
-        float angle = Mathf.Tan(tan) * Mathf.Rad2Deg;
+        Debug.Log("Length "+diff.magnitude);
+        rt.sizeDelta = new Vector2(diff.magnitude, rt.sizeDelta.y);
+
+        Debug.Log("diff " + diff);
+
+
+
+
+        float cos = diff.x / diff.magnitude;
+        float angle = Mathf.Acos(cos) * Mathf.Rad2Deg;
+        Debug.Log("angel " + angle);
         transform.eulerAngles = new Vector3(0, 0, angle);
+        
 
-        float dictance = Vector3.Distance(start,stop);
+        float dictance = diff.magnitude;
         n = (int)dictance / 225;
         gameObject.SetActive(true);
         Show();
@@ -57,13 +67,13 @@ public class AirLineView : MonoBehaviour {
 
     private void Show()
     {
-        airline.uvRect = new Rect(0, 1, n, 1);
+        airline.uvRect = new Rect(Max, 1, n, 1);
 
-        float num = Min;
+        float num = Max;
         tween = DOTween.To(
             () => num,
             x => num = x,
-            Max,
+            Min,
             Time
         ).SetEase(Ease.Linear).SetLoops(-1);
         tween.OnUpdate

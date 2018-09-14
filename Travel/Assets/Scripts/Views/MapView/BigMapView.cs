@@ -8,6 +8,7 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 {
 
     private GameObject Map;
+    private GameObject m_3DMap;
     private RectTransform rt;
 
     private float DoubleTouchLastDis = 0;
@@ -25,6 +26,7 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     private void Awake()
     {
         Map = GameObject.FindGameObjectWithTag("MapCanvas");
+        m_3DMap = GameObject.FindGameObjectWithTag("3DMap");
         rt = GetComponent<RectTransform>();
         parent = transform.parent.gameObject.GetComponent<RectTransform>();
         isMove = false;
@@ -63,10 +65,12 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
                 float deltaPinch = DoubleTouchCurrDis - DoubleTouchLastDis;
                 float zoom = Time.deltaTime * deltaPinch / 25;
                 Vector3 scale = transform.localScale;
+                float smaller = 1.0f;
                 if (zoom < 0)
                 {
                     if (scale.x + zoom > 0.5)
                     {
+                        smaller = (scale.x + zoom) / scale.x;
                         transform.localScale = new Vector3(scale.x + zoom, scale.y + zoom, 1f);
                     }
                 }
@@ -74,10 +78,12 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
                 {
                     if (scale.x + zoom < 1.5)
                     {
+                        smaller = (scale.x + zoom) / scale.x;
                         transform.localScale = new Vector3(scale.x + zoom, scale.y + zoom, 1f);
                     }
                 }
                 Map.transform.localScale = transform.localScale;
+                m_3DMap.transform.localScale *= smaller;
                 DoubleTouchLastDis = DoubleTouchCurrDis;
             }
             else if ((Input.touchCount == 2) && (Input.GetTouch(0).phase == TouchPhase.Ended || Input.GetTouch(1).phase == TouchPhase.Ended))
@@ -97,6 +103,7 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
             }
                 
             Map.transform.position = rt.position;
+            m_3DMap.transform.position = new Vector3(rt.position.x, rt.position.y, m_3DMap.transform.position.z);
         }
         
 
@@ -113,6 +120,8 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
                 Vector3 deltaPosition = globalMousePos - LastPosition;
                 transform.position += deltaPosition;
                 Map.transform.position += deltaPosition;
+                Vector3 tempdeltaPostion = new Vector3(deltaPosition.x, deltaPosition.y, 0);
+                m_3DMap.transform.position += tempdeltaPostion;
                 LastPosition = globalMousePos;   
             }
         }

@@ -54,8 +54,8 @@ namespace Lucky
             {
                 Prefabs.BuyTicketPopup,
                 Prefabs.BuyTickets,
-                Prefabs.Calendar,
-                //Prefabs.LocationPanel,
+                //Prefabs.Calendar,
+                Prefabs.LocationPanel,
                 Prefabs.Maps,
                 Prefabs.SelectTrain,
                 Prefabs.InfoPanel,

@@ -9,8 +9,8 @@ public class MapTrafficView : MonoBehaviour {
     public AirLineView airline;
     public GameObject airplane;
     public GameObject train;
-    public Animator animator;
 
+    private Animator animator;
     private float traveltime;
     private float cliptime;
     private string animationName;
@@ -98,6 +98,7 @@ public class MapTrafficView : MonoBehaviour {
                 warndic.Add(accident.location, wv);
                 warningObj.transform.SetParent(transform);
                 warningObj.SetActive(true);
+                LuckyUtils.MakeIndentity(warningObj.transform);
             }
         }
         else if (data.GetType() == typeof(AccidentWarning))
@@ -117,6 +118,7 @@ public class MapTrafficView : MonoBehaviour {
                 warndic.Add(warning.location, wv);
                 warningObj.transform.SetParent(transform);
                 warningObj.SetActive(true);
+                LuckyUtils.MakeIndentity(warningObj.transform);
             }
             
         }
@@ -129,9 +131,12 @@ public class MapTrafficView : MonoBehaviour {
         UserTicketsModel.Instance.where = Where.AirPlane;
         Debug.Log("airplane fly"+ tp.rt.GetBeginTime());
         Vector3 startPos = Vector3.zero;
+        Debug.Log("start " + tp.rt.GetRoutineStartNode());
+        Debug.Log("stop " + tp.rt.GetEndNode());
         LocationsModel.cityslocation.TryGetValue(tp.rt.GetRoutineStartNode(), out startPos);
         Vector3 stopPos = Vector3.zero;
         LocationsModel.cityslocation.TryGetValue(tp.rt.GetEndNode(), out stopPos);
+        Debug.Log("start stop pos "+startPos + " " + stopPos);
         airline.Show(startPos, stopPos);
 
         string start = tp.rt.GetRoutineStartNode();
@@ -146,15 +151,20 @@ public class MapTrafficView : MonoBehaviour {
         TicketsController.Instance.DeleteTickets(ticketid);
 
         traveltime = (float)ts.TotalMinutes;
+        Debug.Log("travel time " + ts.TotalMinutes);
         double realtime = traveltime / TimeManager.instance.TimeSpeed;
-        animationName = "Airplane" + start + "To" + stop;
+        Debug.Log("realtime " + realtime);
+        animationName = start + "To" + stop;
 
+        animator = airplane.GetComponent<Animator>();
         AnimationClip clip = FindClip(animator, animationName);
         if (clip != null)
         {
+            
             cliptime = clip.length;
             double speed = cliptime / realtime;
-            train.SetActive(true);
+            Debug.Log("speed " + speed);
+            airplane.SetActive(true);
             animator.Play(animationName, 0, 0);
             animator.speed = (float)speed;
         }
@@ -180,6 +190,7 @@ public class MapTrafficView : MonoBehaviour {
         double realtime = traveltime / TimeManager.instance.TimeSpeed;
         animationName = start + "To" + stop;
 
+        animator = train.GetComponent<Animator>();
         AnimationClip clip = FindClip(animator, animationName);
         if(clip!=null)
         {

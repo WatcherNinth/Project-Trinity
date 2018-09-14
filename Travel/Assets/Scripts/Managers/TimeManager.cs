@@ -77,7 +77,10 @@ public class TimeManager : MonoBehaviour {
             if(timespeed == 1.0f)
             {
                 if(mv!=null)
+                {
                     mv.ChangeGoButton();
+                }
+                    
             }    
         }
     }
@@ -134,7 +137,7 @@ public class TimeManager : MonoBehaviour {
             if(timeText!=null)
                 timeText.text = nowTime.ToString(DateFormat);
             i = 0;
-            //Check();
+            Check();
         }
     }
 

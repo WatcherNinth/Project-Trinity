@@ -19,7 +19,7 @@ public class TrafficMessage
 
     public int id = 0;
 
-    public TrafficMessage(string st,string sl,string t,string n,string et,string el,string m, bool b,bool d, int i)
+    public TrafficMessage(string st,string sl,string t,string n,string et,string el,string m, bool b,bool d, int i, TrafficType type)
     {
         StartTime = st;
         StartLocation = sl;
@@ -31,6 +31,7 @@ public class TrafficMessage
         buy = b;
         isDelay = d;
         id = i;
+        trafficType = type;
     }
 
     public TrafficMessage()
