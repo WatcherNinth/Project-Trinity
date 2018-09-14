@@ -10,11 +10,15 @@ public class TestRoutine : MonoBehaviour {
         EventUtil util = EventUtil.Instance;
         Events events = util.GetAllEvents();
         Debug.Log(events.data.Count);
+        Debug.Log(events.data[0].content[0].text);
+
 
         WechatUtil w_util = WechatUtil.Instance;
         WechatContent diag = w_util.GetAllWechatContent();
 
         Debug.Log(diag.data.Count);
+        Debug.Log(diag.data[1].name);
+  
 
 
 
