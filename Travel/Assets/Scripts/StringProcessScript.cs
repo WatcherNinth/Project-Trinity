@@ -32,7 +32,7 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
         
         dictIn = new string[7] {"<Spos>","<Epos>", "<Sdate>","<Edate>","<Stime>","<Etime>","<Duration>" };
         dictOut = new string[7] { "Spos", "Epos", sDate, eDate, sTime, eTime, duration.ToString() };
-        Debug.Log(accident.type);
+        //Debug.Log(accident.type);
         switch(accident.type){
             case AccidentType.rail:
                 {
@@ -51,7 +51,7 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
             accident.text.title = accident.text.title.Replace(dictIn[i], dictOut[i]);
             accident.text.description = accident.text.description.Replace(dictIn[i], dictOut[i]);
         }
-        Debug.Log(accident.text.description);
+        //Debug.Log(accident.text.description);
         return (accident);
     }
    public bool EventStringProcess()

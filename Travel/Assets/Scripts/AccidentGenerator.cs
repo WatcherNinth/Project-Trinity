@@ -77,7 +77,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             accident.location = AirportList[rnd.Next(0, AirportList.Count)];
             AirportList.RemoveAll(x => x == accident.location);
             accident.duration = rnd.Next(3, 31) * 10;
-            accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2881));
+            accident.starttime = InitTime.AddMinutes(rnd.Next(0, 901));
             accident.text = accidentTexts[rnd.Next(5, 8)];
             accident = stringProcess.AccidentStringProcess(accident);
             AccidentList.Add(accident);
@@ -88,7 +88,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             accident.location = RailList[rnd.Next(0, RailList.Count)];
             RailList.RemoveAll(x => x == accident.location);
             accident.duration = rnd.Next(3, 31) * 10;
-            accident.starttime = InitTime.AddMinutes(rnd.Next(0, 2881));
+            accident.starttime = InitTime.AddMinutes(rnd.Next(0, 901));
             accident.text = accidentTexts[rnd.Next(0, 5)];
             accident = stringProcess.AccidentStringProcess(accident);
 
@@ -129,8 +129,9 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             rndNum = rnd.Next(0, AccidentWarningAccurency[i] / 2);
             warning.min = accident.duration - rndNum;
             warning.max = accident.duration + AccidentWarningAccurency[i] - rndNum;
-            if (DateTime.Compare(accident.starttime, InitTime) < 0)
+            if (DateTime.Compare(warning.starttime, InitTime) < 0)
             {
+                Debug.Log("too early warning " + warning.starttime+" "+accident.starttime);
                 warning.starttime = InitTime;
                 AccidentWarningList.Add(warning);
                 break;
