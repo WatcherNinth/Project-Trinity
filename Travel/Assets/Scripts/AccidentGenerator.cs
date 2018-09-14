@@ -130,6 +130,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             warning.Accidentstarttime = accident.starttime;
             rndNum = rnd.Next(0, AccidentWarningAccurency[i] / 2);
             warning.min = accident.duration - rndNum;
+            if (warning.min < 0) warning.min = accident.duration;
             warning.max = accident.duration + AccidentWarningAccurency[i] - rndNum;
             if (DateTime.Compare(warning.starttime, InitTime) < 0)
             {
