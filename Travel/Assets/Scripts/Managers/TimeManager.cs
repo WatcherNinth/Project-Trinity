@@ -298,7 +298,7 @@ public class TimeManager : MonoBehaviour {
     {
         if (DateTime.Compare(message.date, nowTime) < 0)
         {
-            Debug.Log("error " + message.name);
+            Debug.Log("error " + message.date);
             return false;
         }
         else
