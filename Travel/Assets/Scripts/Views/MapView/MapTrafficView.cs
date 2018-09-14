@@ -158,6 +158,7 @@ public class MapTrafficView : MonoBehaviour {
         animationName = start + "To" + stop;
 
         animator = airplane.GetComponent<Animator>();
+        animator.Stop();
         AnimationClip clip = FindClip(animator, animationName);
         if (clip != null)
         {
@@ -166,7 +167,7 @@ public class MapTrafficView : MonoBehaviour {
             double speed = cliptime / realtime;
             Debug.Log("speed " + speed);
             airplane.SetActive(true);
-            animator.Play(animationName, 0, 0);
+            animator.Play(animationName);
             animator.speed = (float)speed;
         }
     }
@@ -233,6 +234,7 @@ public class MapTrafficView : MonoBehaviour {
     
     public void AnimatorStop()
     {
+        
         animator.Stop();
     }
 }

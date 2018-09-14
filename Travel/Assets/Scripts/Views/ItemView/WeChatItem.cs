@@ -9,12 +9,14 @@ public class WeChatMessage
     public string name;
     public string content;
     public DateTime date;
+    public Action callback;
 
     public WeChatMessage(string tname, string tcontent, DateTime tdate)
     {
         name = tname;
         content = tcontent;
         date = tdate;
+        callback = null;
     }
 }
 

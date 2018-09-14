@@ -9,12 +9,14 @@ public class NewMessage
     public string title;
     public string content;
     public DateTime date;
+    public Action callback;
 
     public NewMessage(string ttitle, string tcontent, DateTime tdate)
     {
         title = ttitle;
         content = tcontent;
         date = tdate;
+        callback = null;
     }
 }
 
@@ -49,7 +51,7 @@ public class NewItem : ItemRender
 
         btn.onClick.AddListener(delegate ()
         {
-
+            InfoView.Show(new InfoMessage(tdata.content,tdata.title));
         });
 
         TimeSpan delta = TimeManager.instance.NowTime - tdata.date;

@@ -2,14 +2,18 @@
 using System.Collections;
 using Lucky;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System;
 
-public class WarningView : BaseUI {
+public class WarningView : BaseUI, IPointerClickHandler
+{
 
     public Text WarningText;
 
-    private Button Btn;
     private RectTransform rt;
     private string news;
+
+    private Action callback;
 
     private BaseAccident accidentMessage = null;
     public BaseAccident AccidentMessage
@@ -21,10 +25,15 @@ public class WarningView : BaseUI {
         }
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        callback();
+    }
+
     protected override void Awake()
     {
         base.Awake();
-        //Btn = GetComponent<Button>();
+        callback = null;
         rt = GetComponent<RectTransform>();
     }
 
@@ -39,11 +48,7 @@ public class WarningView : BaseUI {
 
     private void SetDate(BaseAccident data)
     {
-        if(Btn==null)
-        {
-            return;
-        }
-        Btn.onClick.RemoveAllListeners();
+        callback = null;
         if(data.GetType()== typeof(Accident))
         {
             WarningText.text = "发生灾害";
@@ -57,11 +62,10 @@ public class WarningView : BaseUI {
 
             news = "灾害持续时间： "+accident.duration+"分钟";
             Debug.Log("add listener");
-            Btn.onClick.AddListener(delegate ()
+            callback=delegate ()
             {
-                Debug.Log("listen listener");
                 InfoView.Show(new InfoMessage(news, "灾害"));
-            });
+            };
         }
         else if(data.GetType() == typeof(AccidentWarning))
         {
@@ -77,11 +81,10 @@ public class WarningView : BaseUI {
             news = "灾害预计时间： " + warning.Accidentstarttime.ToString("HH/mm") + "\n"
                 + "持续最短时间： " + warning.min + "分钟\n"
                 + "持续最长时间： " + warning.max + "分钟";
-            Btn.onClick.AddListener(delegate ()
+           callback=delegate ()
             {
-                Debug.Log("add listener");
                 InfoView.Show(new InfoMessage(news, "灾害预警"));
-            });
+            };
         }
     }
 }
