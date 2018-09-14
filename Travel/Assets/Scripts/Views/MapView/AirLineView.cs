@@ -20,6 +20,7 @@ public class AirLineView : MonoBehaviour {
         airline = GetComponent<RawImage>();
         rt = GetComponent<RectTransform>();
         n = 5;
+        gameObject.SetActive(false);
     }
 
     // Use this for initialization
@@ -37,20 +38,14 @@ public class AirLineView : MonoBehaviour {
     {
         Vector3 middle = (start + stop) / 2.0f;
         rt.anchoredPosition3D = middle;
-        Debug.Log("middle " + middle);
         Vector2 diff = stop - start;
 
-        Debug.Log("Length "+diff.magnitude);
         rt.sizeDelta = new Vector2(diff.magnitude, rt.sizeDelta.y);
-
-        Debug.Log("diff " + diff);
-
-
-
 
         float cos = diff.x / diff.magnitude;
         float angle = Mathf.Acos(cos) * Mathf.Rad2Deg;
-        Debug.Log("angel " + angle);
+        if (diff.y < 0)
+            angle = -angle;
         transform.eulerAngles = new Vector3(0, 0, angle);
         
 

@@ -64,6 +64,7 @@ public class MapTrafficView : MonoBehaviour {
                 UserTicketsModel.Instance.city = dst;
                 EventHappenManager.Instance.EveryLocation(dst);
                 TimeManager.instance.TimeSpeed = 1.0f;
+                airline.gameObject.SetActive(false);
             }
         }
         

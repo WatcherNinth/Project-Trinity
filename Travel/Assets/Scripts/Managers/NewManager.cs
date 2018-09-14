@@ -92,7 +92,7 @@ public class NewManager : BaseInstance<NewManager> {
         foreach(NewMessage item in NewsList)
         {
             TimeManager.instance.AddNews(item, PostNew);
-            //Debug.Log("send News " + item.title + " at " + item.date.ToShortTimeString());
+            Debug.Log("send News " + item.title + " at " + item.date.ToShortTimeString());
         }
     }
 }

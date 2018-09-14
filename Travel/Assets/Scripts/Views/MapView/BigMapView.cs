@@ -112,8 +112,10 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnDrag(PointerEventData eventData)
     {
-        if( Input.touchCount == 1 )
+        //if( Input.touchCount == 1 )
+        if (true)
         {
+            Debug.Log("drag");
             Vector3 globalMousePos;
             if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, eventData.pressEventCamera, out globalMousePos))
             {
@@ -129,7 +131,9 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (Input.touchCount == 1)
+        //if (Input.touchCount == 1)
+        Debug.Log("start drag");
+        if(true)
         {
             Vector3 globalMousePos;
             if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, eventData.pressEventCamera, out globalMousePos))
