@@ -24,9 +24,19 @@ public class NewManager : BaseInstance<NewManager> {
     {
         NewMessage item;
         string title, description;
-        
 
-        title = "熊孩子惹人烦！”熊孩子车厢“或将提上日程";
+
+        title = "【注意】交通运输部发布长程航线，铁路停运令";
+        description = "由于寒潮“罗卡”影响，为了规避风险，现停运所有单次路程大于300千米的列车与航班，恢复时间另行通知。";
+        item = new NewMessage(title, description, InitTime.AddMinutes(1));
+        NewsList.Add(item);
+
+        title = "“罗卡”寒潮或成近五十年春运期间最大灾害天气";
+        description = "专家称本次寒潮造成的影响更甚之前“山竹”热带风暴";
+        item = new NewMessage(title, description, InitTime.AddMinutes(2));
+        NewsList.Add(item);
+
+        title = "熊孩子惹人烦！“熊孩子车厢”或将提上日程";
         description = "春运四天以来，铁路局收到了千万条建议，希望专门设立”熊孩子车厢“，以规避熊孩子给乘客带来的身体和精神上的双重打击。";
         item = new NewMessage(title, description, InitTime.AddMinutes(rnd.Next(10, 901)));
         NewsList.Add(item);
@@ -36,7 +46,7 @@ public class NewManager : BaseInstance<NewManager> {
         item = new NewMessage(title, description, InitTime.AddMinutes(rnd.Next(10, 901)));
         NewsList.Add(item);
 
-        title = "厕所爆裂，”年味“十足";
+        title = "厕所爆裂，“年味”十足";
         description = "上海开往北京段D2443次列车在行驶过程中厕所爆裂，望欲将行驶该段的乘客及时关闭车窗，避免休克。";
         item = new NewMessage(title, description, InitTime.AddMinutes(rnd.Next(10, 901)));
         NewsList.Add(item);
@@ -92,7 +102,7 @@ public class NewManager : BaseInstance<NewManager> {
         foreach(NewMessage item in NewsList)
         {
             TimeManager.instance.AddNews(item, PostNew);
-            Debug.Log("send News " + item.title + " at " + item.date.ToShortTimeString());
+            //Debug.Log("send News " + item.title + " at " + item.date.ToShortTimeString());
         }
     }
 }
