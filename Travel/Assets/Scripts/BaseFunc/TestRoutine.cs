@@ -7,14 +7,25 @@ public class TestRoutine : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        RoutineOperation operation = new RoutineOperation();
-        List <Routine> tickets = operation.GetAllTicket("上海", "南京", 0,  new DateTime());
-        TicketsOperaton ticket_operation = new TicketsOperaton();
+        EventUtil util = EventUtil.Instance;
+        Events events = util.GetAllEvents();
+        Debug.Log(events.data.Count);
+
+        WechatUtil w_util = WechatUtil.Instance;
+        WechatContent diag = w_util.GetAllWechatContent();
+
+        Debug.Log(diag.data.Count);
+
+
+
+        //RoutineOperation operation = new RoutineOperation();
+        //List <Routine> tickets = operation.GetAllTicket("上海", "南京", 0,  new DateTime());
+        //TicketsOperaton ticket_operation = new TicketsOperaton();
 
         // DateTime now = GameModel.Instance.SqlStart;
         // ticket_operation.DelayTickets(now, 8, 60, AccidentType.rail);
 
-        DateTime now = GameModel.Instance.SqlStart;
+        // DateTime now = GameModel.Instance.SqlStart;
         //ticket_operation.DelayTickets(now, 8, 60, AccidentType.rail);
 
         //DateTime begin_time = DateTime.Now;
