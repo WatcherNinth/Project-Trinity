@@ -11,7 +11,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     public List<Event> RandomCityList = new List<Event>();
     public List<Event> RandomTrainList = new List<Event>();
     public List<Event> RandomFlightList = new List<Event>();
-    List<string> ImageList = new List<string>();
+    List<string> ImageList = new List<string>(9);
     static System.Random rnd = new System.Random();
 
     public IEnumerator Init()
@@ -26,6 +26,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     {
         Event target=new Event();
         //get current status
+        Debug.Log("where "+UserTicketsModel.Instance.where);
         switch (UserTicketsModel.Instance.where)
         {
             case Where.City:
@@ -47,16 +48,22 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
         }
         //random a event ,pushout 
         //then del it from xxxxList
-        OnePageNoteBook data = new OnePageNoteBook(target,TimeManager.instance.NowTime,ImageList[target.id]);
-        MessageBus.Post(data);
+        //OnePageNoteBook data = new OnePageNoteBook(target,TimeManager.instance.NowTime,ImageList[target.id]);
+        //MessageBus.Post(data);
     }
 
     public void EveryLocation(string dst)
     {
         Debug.Log("every location " + dst);
         Event target = EventList.Find(x => x.condition == dst);
-        OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);
-        MessageBus.Post(data);
+        //OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);
+        //MessageBus.Post(data);
+        if (dst == "沈阳")
+        {
+            InfoView.Show(new InfoMessage("到家了", "消息！"));
+            TimeManager.instance.TimeSpeed = 0.0f;
+        }
+
         MapTrafficView.instance.ShowLocation(dst);
 
     }
