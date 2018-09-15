@@ -60,7 +60,7 @@ namespace Lucky
 
         protected override void UpdateView()
         {
-            Debug.Log("scene update view");
+            Lucky.LuckyUtils.Log("scene update view");
             base.UpdateView();
         }
 

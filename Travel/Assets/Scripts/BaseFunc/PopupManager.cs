@@ -96,7 +96,7 @@ namespace Lucky
             // added by jackmo at 2017-2-6，扫描bug，popUp判空
             if (popUp == null)
             {
-                Debug.Log("PopupManager, AddPopupNew, Cannot Instantiate the prefab!");
+                Lucky.LuckyUtils.Log("PopupManager, AddPopupNew, Cannot Instantiate the prefab!");
                 return;
             }
             // added end
@@ -157,7 +157,7 @@ namespace Lucky
             // added by jackmo at 2017-2-6，扫描bug，popUp判空
             if (popUp == null)
             {
-                Debug.Log("PopupManager, AddPopupNew, Cannot Instantiate the prefab!");
+                Lucky.LuckyUtils.Log("PopupManager, AddPopupNew, Cannot Instantiate the prefab!");
                 return;
             }
             // added end
@@ -227,7 +227,7 @@ namespace Lucky
         {
             if (parent == null)
             {
-                Debug.Log("AddPopupInParent, parent is null");
+                Lucky.LuckyUtils.Log("AddPopupInParent, parent is null");
                 return null;
             }
 
@@ -250,7 +250,7 @@ namespace Lucky
                 prefab = (GameObject)Resources.Load(prefabName);
                 if (prefab == null)
                 {
-                    Debug.Log("AddPopupInNewCanvas, Cannot find prefab!");
+                    Lucky.LuckyUtils.Log("AddPopupInNewCanvas, Cannot find prefab!");
                     return null;
                 }
             }
@@ -340,7 +340,7 @@ namespace Lucky
             {
                 if (!CanClearDialog(uiLayerPopUps[idx].strId))
                 {
-                    Debug.Log("Try Remove All uiLayerPopUps stop dialogId:" + uiLayerPopUps[idx].strId);
+                    Lucky.LuckyUtils.Log("Try Remove All uiLayerPopUps stop dialogId:" + uiLayerPopUps[idx].strId);
                     return;
                 }
 
@@ -356,7 +356,7 @@ namespace Lucky
             {
                 if (!CanClearDialog(popLayerPopUps[idx].strId))
                 {
-                    Debug.Log("Try Remove All popLayerPopUps stop dialogId:" + popLayerPopUps[idx].strId);
+                    Lucky.LuckyUtils.Log("Try Remove All popLayerPopUps stop dialogId:" + popLayerPopUps[idx].strId);
                     return;
                 }
 
@@ -371,7 +371,7 @@ namespace Lucky
             //销毁掉所有弹窗
             for (int idx = 0; idx < objs.Count; ++idx)
             {
-                Debug.Log("Destroy !!!" + objs[idx].gameObject.name);
+                Lucky.LuckyUtils.Log("Destroy !!!" + objs[idx].gameObject.name);
                 GameObject.Destroy(objs[idx]);
             }
             //队列数据清理
@@ -430,7 +430,7 @@ namespace Lucky
         {
             if (connectFailedDialogId == strId)
             {
-                Debug.Log("Try Remove connectFailedDialog,Failed!");
+                Lucky.LuckyUtils.Log("Try Remove connectFailedDialog,Failed!");
                 return false;
             }
 
@@ -552,11 +552,11 @@ namespace Lucky
             GameObject prefab = PrefabManager.Instance.GetPrefabs(prefabName);
             if (prefab == null)
             {
-                Debug.Log("No preload, use resouce.load:" + prefabName);
+                Lucky.LuckyUtils.Log("No preload, use resouce.load:" + prefabName);
                 prefab = (GameObject)Resources.Load(prefabName);
                 if (prefab == null)
                 {
-                    Debug.Log("AddPopup, Cannot find prefab!");
+                    Lucky.LuckyUtils.Log("AddPopup, Cannot find prefab!");
                     return null;
                 }
 
@@ -573,7 +573,7 @@ namespace Lucky
             // added by jackmo at 2017-2-6，扫描bug，popUp判空
             if (popUp == null)
             {
-                Debug.Log("PopupManager, AddPopupNew, Cannot Instantiate the prefab!");
+                Lucky.LuckyUtils.Log("PopupManager, AddPopupNew, Cannot Instantiate the prefab!");
                 return null;
             }
             // added end
@@ -643,7 +643,7 @@ namespace Lucky
 
             if (prefab == null)
             {
-                Debug.Log("AddPopup, Cannot find prefab!");
+                Lucky.LuckyUtils.Log("AddPopup, Cannot find prefab!");
                 return null;
             }
 
@@ -682,7 +682,7 @@ namespace Lucky
             //uiLayerPopUps和popLayerPopUps队列里面都没有找到，则输出错误日志并返回
             if (parentPopUpInfo == null)
             {
-                Debug.Log("Show Pop in paretn, can not find parent in popups!");
+                Lucky.LuckyUtils.Log("Show Pop in paretn, can not find parent in popups!");
                 return null;
             }
 
@@ -691,7 +691,7 @@ namespace Lucky
             if (canvas == null)
             {
                 //母弹窗不是挂在canvas上的？输出错误日志并返回
-                Debug.Log("AddPopupInParent, parent father is not Canvas!");
+                Lucky.LuckyUtils.Log("AddPopupInParent, parent father is not Canvas!");
                 return null;
             }
 
@@ -908,7 +908,7 @@ namespace Lucky
                     break;
                 }
 
-                Debug.Log("Popup On Dialog destroy, Can not find Dialog!");
+                Lucky.LuckyUtils.Log("Popup On Dialog destroy, Can not find Dialog!");
             } while (false);
 
             if (currentShowPopupInfo != null)

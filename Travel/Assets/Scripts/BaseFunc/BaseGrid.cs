@@ -112,15 +112,15 @@ namespace Lucky
 
         public void OnEndDragEvent(UnityEngine.EventSystems.PointerEventData eventData)
         {
-            //Debug.LogError("OnEndDragEvent！");
+            //Lucky.LuckyUtils.LogError("OnEndDragEvent！");
             //目前只处理垂直的scrollview，水平的暂时没有类似需求，不考虑：
             if (scrollRect != null && scrollRect.vertical)
             {
-               // Debug.LogError("OnEndDragEvent！SizeDeltay:" + _rectTransform.sizeDelta.y);
+               // Lucky.LuckyUtils.LogError("OnEndDragEvent！SizeDeltay:" + _rectTransform.sizeDelta.y);
                 if (_rectTransform.localPosition.y < -70.0f)
                 {
                     //Need RefreshData!!!
-                    //Debug.LogError("触发下拉刷新！");
+                    //Lucky.LuckyUtils.LogError("触发下拉刷新！");
                     if (onRefreshAllData != null)
                     {
                         onRefreshAllData();

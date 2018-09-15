@@ -152,13 +152,13 @@ public class RoutineOperation {
     public static UInt64 GetSeconds(DateTime dt)
     {
         DateTime dateStart = GameModel.Instance.SqlStart;
-        // Debug.Log(" date start " + dateStart.ToString());
-        // Debug.Log("dt " + dt.ToString());
+        // Lucky.LuckyUtils.Log(" date start " + dateStart.ToString());
+        // Lucky.LuckyUtils.Log("dt " + dt.ToString());
 
-        // Debug.Log("seconds " + (dt - dateStart).TotalSeconds);
+        // Lucky.LuckyUtils.Log("seconds " + (dt - dateStart).TotalSeconds);
 
         UInt64 timeStamp = Convert.ToUInt64((dt - dateStart).TotalSeconds);
-        // Debug.Log("timestamp " + timeStamp);
+        // Lucky.LuckyUtils.Log("timestamp " + timeStamp);
         return timeStamp;
     }
 
@@ -203,7 +203,7 @@ public class RoutineOperation {
 
            
            
-            // Debug.Log(ticket.GetRoutineId());
+            // Lucky.LuckyUtils.Log(ticket.GetRoutineId());
 
             TicketsOperaton.SetTicketName(reader, ticket);
             res.Add(ticket);
@@ -231,7 +231,7 @@ public class RoutineOperation {
 
         string sql = "insert into routine (start_node, end_node, start_time, end_time, type, money, ticket_name) values(\""
             + start_node + "\",\"" + end_node + "\"," + begin_time_ts + "," + end_time_ts + ", " + ticket_type + ", " + money + "," + "\"" +ticket_name +"\")";
-        Debug.Log(sql);
+        Lucky.LuckyUtils.Log(sql);
         SqliteDataReader reader = operation.ExecuteQuery(sql);
         if (reader.RecordsAffected == 1)
         {
@@ -255,7 +255,7 @@ public class RoutineOperation {
             string sql = "select * from routine where start_node like \"%" + start_node + "%\" and "
                 + "end_node like \"%" + end_node + "%\"" + " and type = " + ticket_type + " order by start_time asc";
 
-            Debug.Log(sql);
+            Lucky.LuckyUtils.Log(sql);
             SqliteDataReader reader = operation.ExecuteQuery(sql);
             res = GetRoutinInfo(reader);
 
@@ -266,7 +266,7 @@ public class RoutineOperation {
             operation.CloseConnection();
 
         }
-        Debug.Log(res.Count);
+        Lucky.LuckyUtils.Log(res.Count);
         return res;
     }
 }
