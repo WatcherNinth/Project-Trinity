@@ -32,8 +32,12 @@ public class GameModel : BaseInstance<GameModel> {
             string temp = PlayerPrefs.GetString("time", "");
             start = Convert.ToDateTime(temp);
         }
+        else
+        {
+            start = new DateTime(DateTime.Now.Year, 2, 4, 9, 0, 0);
+            PlayerPrefs.SetString("time", start.ToString(datetimeformat));
+        }
         
-        //start = new DateTime(DateTime.Now.Year, 2, 4, 9, 0, 0);
 #endif
 
         SqlStart = new DateTime(DateTime.Now.Year, 2, 4, 0, 0, 0);

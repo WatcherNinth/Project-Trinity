@@ -27,6 +27,7 @@ public class WeChatMessageView : BaseUI
 
     public void Callback(WeChatMessage newMessage)
     {
+        Debug.Log("enter callback");
         InfoView.Show(new InfoMessage(newMessage.content, newMessage.name));
     }
 }
