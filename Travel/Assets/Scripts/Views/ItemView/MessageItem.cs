@@ -101,7 +101,8 @@ public class MessageItem : ItemRender
 
         time.text = "现在";
 
-        if(tdata.callback==null)
+        btn.onClick.RemoveAllListeners();
+        if (tdata.callback==null)
         {
             btn.onClick.AddListener(delegate ()
             {
@@ -131,8 +132,8 @@ public class MessageItem : ItemRender
         else
             content.text = maincontent;
 
-        
 
+        btn.onClick.RemoveAllListeners();
         if (tdata.callback == null)
         {
             btn.onClick.AddListener(delegate ()
@@ -145,6 +146,7 @@ public class MessageItem : ItemRender
         {
             btn.onClick.AddListener(delegate ()
             {
+                Debug.Log("show");
                 tdata.callback(tdata);
             });
             time.text = GetTime(tdata.date);
