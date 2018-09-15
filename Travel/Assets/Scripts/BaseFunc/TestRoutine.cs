@@ -9,15 +9,15 @@ public class TestRoutine : MonoBehaviour {
 	void Start () {
         EventUtil util = EventUtil.Instance;
         Events events = util.GetAllEvents();
-        Debug.Log(events.data.Count);
-        Debug.Log(events.data[0].content[0].text);
+        Lucky.LuckyUtils.Log(events.data.Count);
+        Lucky.LuckyUtils.Log(events.data[0].content[0].text);
 
 
         WechatUtil w_util = WechatUtil.Instance;
         WechatContent diag = w_util.GetAllWechatContent();
 
-        Debug.Log(diag.data.Count);
-        Debug.Log(diag.data[1].name);
+        Lucky.LuckyUtils.Log(diag.data.Count);
+        Lucky.LuckyUtils.Log(diag.data[1].name);
   
 
 
@@ -40,11 +40,11 @@ public class TestRoutine : MonoBehaviour {
         //TicketsOperaton ticket_operation = new TicketsOperaton();
         //if (ticket_operation.BuyTickets(1) != 0)
         //{
-        //    Debug.Log("success");
+        //    Lucky.LuckyUtils.Log("success");
         //}
 
         //RoutineTicket ti = ticket_operation.GetTicketByTickedId(26);
-        //Debug.Log("end node "  + ti.GetEndNode());
+        //Lucky.LuckyUtils.Log("end node "  + ti.GetEndNode());
 
         //List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(DateTime.Now);
 
@@ -52,7 +52,7 @@ public class TestRoutine : MonoBehaviour {
         //util.Init();
 
         //foreach(int i in util.GetAllCityNodeNum()){
-        //    Debug.Log(i);
+        //    Lucky.LuckyUtils.Log(i);
         //}
 
         //AccidentTextOperation accident_text_operation = new AccidentTextOperation();
@@ -60,7 +60,7 @@ public class TestRoutine : MonoBehaviour {
 
         //foreach(AccidentText text in accident_text)
         //{
-        //    Debug.Log(text.description);
+        //    Lucky.LuckyUtils.Log(text.description);
         //}
 
     }

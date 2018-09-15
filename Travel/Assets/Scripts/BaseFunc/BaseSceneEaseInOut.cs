@@ -217,7 +217,7 @@ namespace Lucky
             }
             catch (Exception e)
             {
-                Debug.Log("BaseSceneEaseInOut Dispose:" + e.ToString());
+                Lucky.LuckyUtils.Log("BaseSceneEaseInOut Dispose:" + e.ToString());
             }
         }
 
@@ -281,7 +281,7 @@ namespace Lucky
             GameObject cameraGO = GameObject.Find("UICamera");
             if (cameraGO == null)
             {
-                Debug.Log("curr scene has no UICamera");
+                Lucky.LuckyUtils.Log("curr scene has no UICamera");
                 return null;
             }
             Camera camera = cameraGO.GetComponent<Camera>();

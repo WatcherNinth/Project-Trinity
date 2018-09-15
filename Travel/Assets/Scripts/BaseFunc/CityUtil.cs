@@ -313,7 +313,7 @@ public class CityUtil : BaseInstance<CityUtil> {
     }
     public string GetCityName(int ID)
     {
-        //Debug.Log(ID);
+        //Lucky.LuckyUtils.Log(ID);
         return city_dict[ID];
     }
 

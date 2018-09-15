@@ -34,13 +34,13 @@ public class EventUtil : BaseInstance<EventUtil> {
         TextAsset text = Resources.Load<TextAsset>("Data/Event");
         content = text.text;
 
-        // Debug.Log(text.text);
+        // Lucky.LuckyUtils.Log(text.text);
     }
 
     public Events GetAllEvents()
     {
         List<Event> events = new List<Event>();
-        // Debug.Log(this.content);
+        // Lucky.LuckyUtils.Log(this.content);
         Events res = JsonUtility.FromJson <Events>(content);
         return res;
     }

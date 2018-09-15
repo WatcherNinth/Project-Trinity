@@ -32,7 +32,7 @@ public class AccidentTextOperation  {
 
             while (!loadDB.isDone) { }
             //拷贝至规定的地方
-            Debug.Log("init");
+            Lucky.LuckyUtils.Log("init");
             File.WriteAllBytes(appDBPath, loadDB.bytes);
         }
 #endif

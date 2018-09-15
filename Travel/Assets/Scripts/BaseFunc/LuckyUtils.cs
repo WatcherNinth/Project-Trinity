@@ -12,7 +12,7 @@ namespace Lucky
             GameObject prefab = PrefabManager.Instance.GetPrefabs(prefabPath);
             if (prefab == null)
             {
-                Debug.Log("load prefab from resource failed: " + prefabPath);
+                Lucky.LuckyUtils.Log("load prefab from resource failed: " + prefabPath);
                 return null;
             }
 
@@ -55,12 +55,12 @@ namespace Lucky
         public void Log(string str)
         {
 #if UNITY_EDITOR
-            Debug.Log(str);
+            Lucky.LuckyUtils.Log(str);
 #endif
 
 #if UNITY_ANDROID
             if(debug)
-                Debug.Log(str);
+                Lucky.LuckyUtils.Log(str);
 #endif
         }
 

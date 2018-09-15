@@ -33,7 +33,7 @@ public class TicketsOperaton
 
             while (!loadDB.isDone) { }
             //拷贝至规定的地方
-            Debug.Log("init");
+            Lucky.LuckyUtils.Log("init");
             File.WriteAllBytes(appDBPath, loadDB.bytes);
         }
 #endif
@@ -72,7 +72,7 @@ public class TicketsOperaton
         try
         {
             string sql = "insert into purchased_tickets(routine_id) values(" + routine_id + ")";
-            Debug.Log(sql);
+            Lucky.LuckyUtils.Log(sql);
             SqliteDataReader reader = operation.ExecuteQuery(sql);
             if (reader.RecordsAffected == 1)
             {
@@ -108,7 +108,7 @@ public class TicketsOperaton
             operation.InitConnection(data_resource);
 
             string sql = "delete from purchased_tickets where ticket_id = " + ticket_id;
-            Debug.Log(sql);
+            Lucky.LuckyUtils.Log(sql);
             SqliteDataReader reader = operation.ExecuteQuery(sql);
             if (reader.RecordsAffected == 1)
             {
@@ -136,7 +136,7 @@ public class TicketsOperaton
         // string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id ";
         string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and routine.start_time > " + seconds;
 
-        Debug.Log(sql);
+        Lucky.LuckyUtils.Log(sql);
         List<RoutineTicket> res = new List<RoutineTicket>();
 
         try
@@ -185,12 +185,12 @@ public class TicketsOperaton
         }
         catch (Exception e)
         {
-            Debug.Log(e.StackTrace);
+            Lucky.LuckyUtils.Log(e.StackTrace);
         }
         finally
         {
             operation.CloseConnection();
-            Debug.Log(res.Count);
+            Lucky.LuckyUtils.Log(res.Count);
           
         }
         return res;
@@ -203,7 +203,7 @@ public class TicketsOperaton
 
         string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and purchased_tickets.ticket_id = " + id;
 
-        Debug.Log(sql);
+        Lucky.LuckyUtils.Log(sql);
         RoutineTicket ticket = new RoutineTicket();
 
         try
@@ -265,7 +265,7 @@ public class TicketsOperaton
     {
         
         
-        Debug.Log("accdent happen time " + accident_happen_time.ToString());
+        Lucky.LuckyUtils.Log("accdent happen time " + accident_happen_time.ToString());
         List<int> affected_routine_ids = new List<int>();
 
         if (type == AccidentType.rail)
@@ -280,23 +280,23 @@ public class TicketsOperaton
                     string sql = "select * from routine where start_node like \"%" + start_node + "%\"" + " and end_node like \"%" + end_node + "%\"" 
                         + " and type = 0 order by start_time";
 
-                    Debug.Log("select all the start node sql " + sql);
+                    Lucky.LuckyUtils.Log("select all the start node sql " + sql);
 
                     SqliteDataReader reader = operation.ExecuteQuery(sql);
                     List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
                     operation.CloseConnection();
-                    Debug.Log("res result " + res.Count);
+                    Lucky.LuckyUtils.Log("res result " + res.Count);
 
                     List<Routine> delay_routine = new List<Routine>();
                     UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
-                    Debug.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
+                    Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
                
 
                     foreach (Routine t in res)
                     {
                
                         UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
-                        // Debug.Log("begin time " + begin_time);
+                        // Lucky.LuckyUtils.Log("begin time " + begin_time);
 
                         UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
 
@@ -333,23 +333,23 @@ public class TicketsOperaton
         if (type == AccidentType.airport)
         {
             string city_name = CityUtil.Instance.GetCityName(city_id);
-            Debug.Log("city name " + city_name);
+            Lucky.LuckyUtils.Log("city name " + city_name);
 
             try
             {
                 operation.InitConnection(data_resource);
                 string sql = "select * from routine where (start_node like \"%" + city_name + "%\"  or end_node like \"%"  + city_name + "%\")" + " and type = 1 order by start_time";
 
-                Debug.Log("select all the start node sql " + sql);
+                Lucky.LuckyUtils.Log("select all the start node sql " + sql);
 
                 SqliteDataReader reader = operation.ExecuteQuery(sql);
                 List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
                 operation.CloseConnection();
-                Debug.Log("res result " + res.Count);
+                Lucky.LuckyUtils.Log("res result " + res.Count);
 
                 List<Routine> delay_routine = new List<Routine>();
                 UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
-                Debug.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
+                Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
 
 
                 foreach (Routine t in res)
