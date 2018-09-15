@@ -35,7 +35,7 @@ public class MapTrafficView : MonoBehaviour {
     {
         train.SetActive(false);
         airplane.SetActive(false);
-        ShowLocation("上海");
+        EventHappenManager.Instance.EveryLocation("上海");
     }
 
     private void Update()

@@ -11,7 +11,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     public List<Event> RandomCityList = new List<Event>();
     public List<Event> RandomTrainList = new List<Event>();
     public List<Event> RandomFlightList = new List<Event>();
-    List<string> ImageList = new List<string>(9);
+    List<string> ImageList = new List<string>();
     static System.Random rnd = new System.Random();
 
     public IEnumerator Init()
@@ -19,6 +19,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
         //OnePageNoteBook data = new OnePageNoteBook();
         RandomCityList = EventList.FindAll(x => x.condition == "City");
         RandomTrainList = EventList.FindAll(x => x.condition == "Train");
+        for (int i = 0; i <= 10; i++) ImageList.Add(i.ToString());
         yield return null;
     }
 
@@ -56,8 +57,8 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     {
         Debug.Log("every location " + dst);
         Event target = EventList.Find(x => x.condition == dst);
-        //OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);
-        //MessageBus.Post(data);
+        OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);
+        MessageBus.Post(data);
         if (dst == "沈阳")
         {
             InfoView.Show(new InfoMessage("到家了", "消息！"));
