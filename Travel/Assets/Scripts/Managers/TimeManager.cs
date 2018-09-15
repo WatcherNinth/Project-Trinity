@@ -267,9 +267,10 @@ public class TimeManager : MonoBehaviour {
             mp.Callback();
         }
 
-        if(DateTime.Compare(GameModel.Instance.tomorrow, nowTime)>0)
+        if(DateTime.Compare(GameModel.Instance.tomorrow, nowTime)<0)
         {
             InfoView.Show(new InfoMessage("失败","垃圾"));
+            timespeed = 0.0f;
         }
 
     }
