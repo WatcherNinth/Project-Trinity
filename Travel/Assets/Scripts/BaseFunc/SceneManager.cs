@@ -28,7 +28,7 @@ namespace Lucky
                 if (_instance == null)
                 {
                     _instance = GameSystem.instance.gameObject.AddComponent<MySceneManager>();
-                    Lucky.LuckyUtils.LogError("不应该走到这里");
+                    Lucky.LuckyUtils.Log("不应该走到这里");
                 }
                 return _instance;
             }
