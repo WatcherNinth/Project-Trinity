@@ -112,7 +112,7 @@ public class TimeManager : MonoBehaviour {
     private List<MessageParam<WeChatMessage>> doWechat = new List<MessageParam<WeChatMessage>>();
     private List<MessageParam<NewMessage>> doNew = new List<MessageParam<NewMessage>>();
 
-    private string DateFormat = "MM/dd\nhh:mm";
+    private string DateFormat = "MM/dd\nHH:mm";
 
 
     private void Awake()

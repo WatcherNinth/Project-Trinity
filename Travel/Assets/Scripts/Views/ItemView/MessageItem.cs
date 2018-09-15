@@ -17,33 +17,46 @@ public class MessageItem : ItemRender
     private string maincontent;
     private float height;
     private float EffectDisposeTime = 0.25f;
+    private int timeCountDown=10;
+    private int timeFade = 0;
 
     private RectTransform rt;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Time.fixedDeltaTime = 1;
+    }
+
+    private void FixedUpdate()
+    {
+        if(timeFade != 0)
+        {
+            if (timeCountDown < 0)
+            {
+                HideItem();
+            }
+            timeCountDown-=timeFade;
+        }
+        
+    }
 
     protected override void Start()
     {
         base.Start();
         rt = GetComponent<RectTransform>();
+        
         height = rt.rect.y;
+        Debug.Log("height " + height);
+    }
+
+    protected override void InitUI()
+    {
+        base.InitUI();
+        rt.anchoredPosition = new Vector2(0, height);
     }
 
     public void ShowItem()
-    {
-        float num = 0;
-        Tween tween = DOTween.To(
-               () => num,
-               x => num = x,
-               height,
-               EffectDisposeTime
-           );
-
-        tween.OnUpdate
-        (
-             () => onDisposeUpdate(num)
-        );
-    }
-
-    private void HideItem()
     {
         float num = height;
         Tween tween = DOTween.To(
@@ -59,9 +72,51 @@ public class MessageItem : ItemRender
         );
     }
 
+    public void StartCountDown()
+    {
+        timeFade = 1;
+    }
+
+    public void StopCountDown()
+    {
+        timeFade = 0;
+    }
+
+    private void HideItem()
+    {
+        float num = 0;
+        Tween tween = DOTween.To(
+               () => num,
+               x => num = x,
+               height,
+               EffectDisposeTime
+           );
+
+        tween.OnUpdate
+        (
+             () => onDisposeUpdate(num)
+        );
+
+        tween.OnComplete
+        (
+            () => onHideCompute()
+        );
+    }
+
     private void onDisposeUpdate(float num)
     {
         rt.anchoredPosition = new Vector2(rt.anchoredPosition.x, num);
+    }
+
+    private void onHideCompute()
+    {
+        MessagePopUpView.instance.DestroyMessage();
+        Destroy(gameObject);
+    }
+
+    private void onShowCompute()
+    {
+        StartCountDown();
     }
 
     protected override void UpdateView()
@@ -82,6 +137,11 @@ public class MessageItem : ItemRender
             else if(classtype == typeof(Accident))
             {
                 Accident tdata = m_Data as Accident;
+                SetData(tdata);
+            }
+            else if(classtype == typeof(ItemMessage))
+            {
+                ItemMessage tdata = m_Data as ItemMessage;
                 SetData(tdata);
             }
             
@@ -153,9 +213,22 @@ public class MessageItem : ItemRender
         }
     }
 
-    private void SetData()
+    private void SetData(ItemMessage itemMessage)
     {
+        image.sprite = SpriteManager.Instance.GetSprite(Sprites.shorttext);
+        title.text = itemMessage.name;
+        maincontent = itemMessage.content;
+        if (maincontent.Length > num)
+            content.text = maincontent.Substring(0, num) + "...";
+        else
+            content.text = maincontent;
 
+        btn.onClick.RemoveAllListeners();
+        btn.onClick.AddListener(delegate ()
+        {
+            HideItem();
+        });
+        time.text = "现在";
     }
 
     private void SetData(Accident tdata)

@@ -40,6 +40,7 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
         float money = Convert.ToSingle(trafficMessage.Money);
         TicketsController.Instance.BuyTickets(trafficMessage.id);
         MessageBus.Post(new UseMoney(-money));
+        MessageBus.Post(new ItemMessage("fuck","12306铁路管家"));
         Dispose();
     }
 

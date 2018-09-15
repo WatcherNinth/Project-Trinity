@@ -32,6 +32,7 @@ public class UserTicketsModel : BaseInstance<UserTicketsModel> {
         
 
         firstEnter = PlayerPrefs.GetInt("firstenter", 0);
+        money += 3000;
 #endif 
 
 #if UNITY_EDITOR
