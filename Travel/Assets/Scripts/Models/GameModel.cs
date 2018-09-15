@@ -16,8 +16,11 @@ public class GameModel : BaseInstance<GameModel> {
         set { start = value; }
     }
 
+    public DateTime tomorrow;
+
     public GameModel()
     {
+        tomorrow = new DateTime(DateTime.Now.Year, 2, 5, 9, 0, 0);
 #if UNITY_EDITOR
         start = new DateTime(DateTime.Now.Year, 2, 4, 9, 0, 0);
 #endif
