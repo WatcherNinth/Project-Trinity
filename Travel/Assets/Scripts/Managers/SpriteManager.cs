@@ -7,6 +7,9 @@ public class Sprites
 {
     public const string ticket_airplane = "ticket_airplane";
     public const string ticket_train = "ticket_train";
+    public const string wechat = "WeChat";
+    public const string news = "News";
+    public const string shorttext = "ShortText";
 }
 
 public class SpriteManager : BaseInstance<SpriteManager> {

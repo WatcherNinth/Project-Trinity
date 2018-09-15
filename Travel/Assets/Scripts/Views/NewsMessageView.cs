@@ -15,9 +15,18 @@ public class NewsMessageView : BaseUI {
             baseGrid.source = messages.ToArray();
     }
 
-    public void SetMessages(List<NewMessage> data)
+    public void SetMessages(List<NewMessage> datas)
     {
-        messages = data;
+        foreach(NewMessage data in datas)
+        {
+            data.callback = Callback;
+        }
+        messages = datas;
         InvalidView();
+    }
+
+    public void Callback(NewMessage newMessage)
+    {
+        InfoView.Show(new InfoMessage(newMessage.content, newMessage.title));
     }
 }

@@ -3,8 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
+using System.Collections.Generic;
 
-public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler
 {
 
     private GameObject Map;
@@ -112,8 +113,7 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnDrag(PointerEventData eventData)
     {
-        //if( Input.touchCount == 1 )
-        if (true)
+        if( Input.touchCount == 1 )
         {
             Debug.Log("drag");
             Vector3 globalMousePos;
@@ -131,9 +131,7 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //if (Input.touchCount == 1)
-        Debug.Log("start drag");
-        if(true)
+        if (Input.touchCount == 1)
         {
             Vector3 globalMousePos;
             if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, eventData.pressEventCamera, out globalMousePos))
@@ -195,4 +193,26 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         return true;
     }
 
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        PassEvent(eventData, ExecuteEvents.submitHandler);
+        PassEvent(eventData, ExecuteEvents.pointerClickHandler);
+    }
+
+    public void PassEvent<T>(PointerEventData data, ExecuteEvents.EventFunction<T> function)
+        where T : IEventSystemHandler
+    {
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(data, results);
+        GameObject current = data.pointerCurrentRaycast.gameObject;
+        for (int i = 0; i < results.Count; i++)
+        {
+            if (current != results[i].gameObject)
+            {
+                Debug.Log("results name " + results[i].gameObject.name);
+                if(results[i].gameObject.CompareTag("Warning"))
+                    ExecuteEvents.Execute(results[i].gameObject, data, function);
+            }
+        }
+    }
 }

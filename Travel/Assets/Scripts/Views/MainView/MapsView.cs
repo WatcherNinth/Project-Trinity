@@ -27,7 +27,9 @@ public class MapsView : BaseUI {
         BuyBtn.onClick.AddListener(OnClick);
         GoBtn.onClick.AddListener(OnGoClick);
         TimeManager.instance.SetMapsView(this);
-	}
+        SetFirstPopUp();
+
+    }
 
     protected override void OnDestroy()
     {
@@ -61,6 +63,18 @@ public class MapsView : BaseUI {
         isPlay = false;
         GoBtnText.text = "出发";
         MapTrafficView.instance.SetAnimatorSpeed();
+    }
+
+    private void SetFirstPopUp()
+    {
+        if(UserTicketsModel.Instance.firstEnter==0)
+        {
+            UserTicketsModel.Instance.firstEnter = 1;
+            InfoView.Show(new InfoMessage("要回家，回沈阳","任务！"));
+#if UNITY_ANDROID
+            PlayerPrefs.SetInt("firstenter", 1);
+#endif
+        }
     }
 
 

@@ -25,7 +25,6 @@ public class AirLineView : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
         Show();
     }
 
@@ -38,6 +37,7 @@ public class AirLineView : MonoBehaviour {
     {
         Vector3 middle = (start + stop) / 2.0f;
         rt.anchoredPosition3D = middle;
+        rt.localScale = new Vector3(1, 1, 1);
         Vector2 diff = stop - start;
 
         rt.sizeDelta = new Vector2(diff.magnitude, rt.sizeDelta.y);

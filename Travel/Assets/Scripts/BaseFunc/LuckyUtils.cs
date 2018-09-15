@@ -5,6 +5,7 @@ namespace Lucky
 {
     public class LuckyUtils
     {
+        public const bool debug = true;
 
         public static T CreatePanelFromResource<T>(string prefabPath, Transform parent) where T : MonoBehaviour
         {
@@ -49,6 +50,18 @@ namespace Lucky
             var rt = trans as RectTransform;
             MakeFullStretch(rt);
             rt.position = Vector3.zero;
+        }
+
+        public void Log(string str)
+        {
+#if UNITY_EDITOR
+            Debug.Log(str);
+#endif
+
+#if UNITY_ANDROID
+            if(debug)
+                Debug.Log(str);
+#endif
         }
 
     }

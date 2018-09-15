@@ -6,16 +6,19 @@ using Lucky;
 public class InfoMessage
 {
     public string infos;
+    public string titles;
 
     public InfoMessage(string tinfo, string ttitle)
     {
         infos = tinfo;
+        titles = ttitle;
     }
 }
 
 public class InfoView : BaseSceneEaseInOut
 {
     public Text info;
+    public Text title;
     public Button btn;
 
     private InfoMessage message = null;
@@ -41,6 +44,7 @@ public class InfoView : BaseSceneEaseInOut
         if (message != null )
         {
             info.text = message.infos;
+            title.text = message.titles;
         }
 
     }

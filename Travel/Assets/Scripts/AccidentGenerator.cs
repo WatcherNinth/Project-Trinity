@@ -189,7 +189,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, SetTime(18, 30, 0), accidentTexts[7]));
         AccidentList.Add(CreateAccident(AccidentType.airport, 1, 90, SetTime(20, 50, 0), accidentTexts[7]));
         */
-        //AccidentList.Add(CreateAccident(AccidentType.rail, 8, 30, SetTime(9, 20, 0), accidentTexts[4]));
+        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, SetTime(9, 20, 0), accidentTexts[4]));
         yield return null;
         AccidentGenerate();
     }

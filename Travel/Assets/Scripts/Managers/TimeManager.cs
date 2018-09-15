@@ -151,6 +151,7 @@ public class TimeManager : MonoBehaviour {
         if(DateTime.Compare(nextSlowTime, nowTime)<0)
         {
             TimeSpeed = 1.0f;
+            nextSlowTime = DateTime.MaxValue;
         }
 
         if(DateTime.Compare(nextTime, nowTime)<0)
@@ -265,6 +266,13 @@ public class TimeManager : MonoBehaviour {
             TimeSpeed = 1.0f;
             mp.Callback();
         }
+
+        if(DateTime.Compare(GameModel.Instance.tomorrow, nowTime)<0)
+        {
+            InfoView.Show(new InfoMessage("失败","垃圾"));
+            timespeed = 0.0f;
+        }
+
     }
 
     public bool AddNews(NewMessage message, Action<NewMessage> callback)
@@ -297,7 +305,7 @@ public class TimeManager : MonoBehaviour {
     {
         if (DateTime.Compare(message.date, nowTime) < 0)
         {
-            Debug.Log("error " + message.name);
+            Debug.Log("error " + message.date);
             return false;
         }
         else
@@ -441,6 +449,7 @@ public class TimeManager : MonoBehaviour {
         {
             var etor = waitingAccidents.GetEnumerator();
             etor.MoveNext();
+            Debug.Log("accident next start time " + etor.Current.Key);
             if (DateTime.Compare(etor.Current.Key, dt) < 0)
             {
                 dt = etor.Current.Key;
@@ -450,24 +459,7 @@ public class TimeManager : MonoBehaviour {
         {
             var etor = waitingGo.GetEnumerator();
             etor.MoveNext();
-            if (DateTime.Compare(etor.Current.Key, dt) < 0)
-            {
-                dt = etor.Current.Key;
-            }
-        }
-        if(waitingNew.Count!=0)
-        {
-            var etor = waitingNew.GetEnumerator();
-            etor.MoveNext();
-            if (DateTime.Compare(etor.Current.Key, dt) < 0)
-            {
-                dt = etor.Current.Key;
-            }
-        }
-        if(waitingWeChat.Count!=0)
-        {
-            var etor = waitingWeChat.GetEnumerator();
-            etor.MoveNext();
+            Debug.Log("go next start time " + etor.Current.Key);
             if (DateTime.Compare(etor.Current.Key, dt) < 0)
             {
                 dt = etor.Current.Key;
@@ -477,7 +469,7 @@ public class TimeManager : MonoBehaviour {
         {
             nextSlowTime = dt.AddMinutes(-10);
         }
-        TimeSpeed = 5.0f;
+        TimeSpeed = 10.0f;
 
     }
 
