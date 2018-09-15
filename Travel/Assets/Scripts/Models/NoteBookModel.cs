@@ -13,11 +13,16 @@ public class OnePageNoteBook
     public List<string> finaltext = new List<string>();
     public int chosen = -1;
 
-    public OnePageNoteBook(DateTime ttime,string image, string firstText)
+    public OnePageNoteBook(Event data,DateTime ttime,string image)
     {
         time = ttime;
         imagePath = image;
-        FirstText = firstText;
+        FirstText = data.content[0].text;
+        for(int i = 1; i < data.content.Count; i++)
+        {
+            buttontext.Add(data.content[i].condition);
+            buttontext.Add(data.content[i].text);
+        }
     }
 }
 
