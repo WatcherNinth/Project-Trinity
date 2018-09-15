@@ -19,14 +19,14 @@ public class NewsMessageView : BaseUI {
     {
         foreach(NewMessage data in datas)
         {
-            data.callback = Callback();
+            data.callback = Callback;
         }
         messages = datas;
         InvalidView();
     }
 
-    public void Callback()
+    public void Callback(NewMessage newMessage)
     {
-
+        InfoView.Show(new InfoMessage(newMessage.content, newMessage.title));
     }
 }

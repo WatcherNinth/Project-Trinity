@@ -15,10 +15,18 @@ public class WeChatMessageView : BaseUI
             baseGrid.source = messages.ToArray();
     }
 
-    public void SetMessages(List<WeChatMessage> data)
+    public void SetMessages(List<WeChatMessage> datas)
     {
-        Debug.Log("set we chat messages");
-        messages = data;
+        foreach (WeChatMessage data in datas)
+        {
+            data.callback = Callback;
+        }
+        messages = datas;
         InvalidView();
+    }
+
+    public void Callback(WeChatMessage newMessage)
+    {
+        InfoView.Show(new InfoMessage(newMessage.content, newMessage.name));
     }
 }

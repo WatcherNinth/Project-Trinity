@@ -27,6 +27,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager> {
     public void EveryLocation(string dst)
     {
         Debug.Log("every location " + dst);
+        MapTrafficView.instance.ShowLocation(dst);
         //MessageBus.Post(data);
 
     }

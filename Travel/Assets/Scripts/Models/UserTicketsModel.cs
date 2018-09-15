@@ -12,14 +12,14 @@ public enum Where
 public class UserTicketsModel : BaseInstance<UserTicketsModel> {
 
     public float money = 0;
+    public int firstEnter = 0;
 
     public string city;
     public Where where;
 
-    //public Dictionary<long, >
-
     public UserTicketsModel()
     {
+#if UNITY_ANDROID 
         float temp = PlayerPrefs.GetFloat("money", 0);
         if (temp == 0)
         {
@@ -29,8 +29,15 @@ public class UserTicketsModel : BaseInstance<UserTicketsModel> {
         else
             money = PlayerPrefs.GetFloat("money", 0);
 
-        money += 3000;
+        firstEnter = PlayerPrefs.GetInt("firstenter", 0);
+#endif 
 
+#if UNITY_EDITOR
+
+        money = 1300;
+        firstEnter = 0;
+
+#endif 
         where = Where.City;
         city = "上海";
     }

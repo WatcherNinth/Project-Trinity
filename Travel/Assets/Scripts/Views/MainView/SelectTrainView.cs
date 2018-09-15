@@ -17,6 +17,7 @@ public class SelectTrainView : BaseUI {
     public Text Src;
     public Text Dst;
     public Text GoDate;
+    public Text Tips;
 
     public Button back;
     public Button yesterday;
@@ -56,6 +57,7 @@ public class SelectTrainView : BaseUI {
     protected override void InitUI()
     {
         base.InitUI();
+        Tips.gameObject.SetActive(false);
         date = BuyTicketsModel.Instance.date;
         GoDate.text = date.ToString(DateFormat);
         Src.text = BuyTicketsModel.Instance.startlocation;
@@ -115,12 +117,26 @@ public class SelectTrainView : BaseUI {
 
     private void Search()
     {
+        Tips.gameObject.SetActive(false);
         SetResults(TicketsController.Instance.Search((int)trafficType, Src.text, Dst.text, date));
     }
 
     public void SetResults(List<TrafficMessage> result)
     {
         content.source = result.ToArray();
+        if (result.Count==0)
+        {
+            if(trafficType ==  TrafficType.Plane)
+            {
+                Tips.text = "暂无航班";
+            }
+            else
+            {
+                Tips.text = "暂无列车";
+            }
+            Tips.gameObject.SetActive(true);
+        }
+
     }
 
     public void SetDate(DateTime tdate)

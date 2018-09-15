@@ -9,7 +9,7 @@ public class WeChatMessage
     public string name;
     public string content;
     public DateTime date;
-    public Action callback;
+    public Action<WeChatMessage> callback;
 
     public WeChatMessage(string tname, string tcontent, DateTime tdate)
     {
@@ -51,7 +51,7 @@ public class WeChatItem : ItemRender
 
         btn.onClick.AddListener(delegate()
         {
-
+            
         });
 
         TimeSpan delta = TimeManager.instance.NowTime - tdata.date;

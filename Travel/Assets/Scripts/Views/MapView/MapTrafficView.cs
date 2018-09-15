@@ -9,6 +9,7 @@ public class MapTrafficView : MonoBehaviour {
     public AirLineView airline;
     public GameObject airplane;
     public GameObject train;
+    public GameObject location;
 
     private Animator animator;
     private float traveltime;
@@ -34,6 +35,7 @@ public class MapTrafficView : MonoBehaviour {
     {
         train.SetActive(false);
         airplane.SetActive(false);
+        ShowLocation("上海");
     }
 
     private void Update()
@@ -74,8 +76,9 @@ public class MapTrafficView : MonoBehaviour {
     {
         if (data.GetType() == typeof(Accident))
         {
+            Debug.Log("destroy");
             Accident accident = data as Accident;
-            Destroy(warndic[accident.location]);
+            Destroy(warndic[accident.location].gameObject);
             warndic.Remove(accident.location);
         }
     }
@@ -236,5 +239,28 @@ public class MapTrafficView : MonoBehaviour {
     {
         
         animator.Stop();
+    }
+
+    public void ShowLocation(string str)
+    {
+        location.SetActive(true);
+        RectTransform cityrt = FindPlace(str);
+        location.GetComponent<RectTransform>().anchoredPosition3D = cityrt.anchoredPosition3D;
+    }
+
+    public void HideLocation()
+    {
+        location.SetActive(false);
+    }
+
+    public RectTransform FindPlace(string str)
+    {
+        for(int i=0;i<transform.childCount;i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (child.name == str)
+                return child.GetComponent<RectTransform>() ; 
+        }
+        return null;
     }
 }

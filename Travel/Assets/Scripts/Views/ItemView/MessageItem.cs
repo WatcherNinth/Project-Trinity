@@ -11,7 +11,6 @@ public class MessageItem : ItemRender
     public Text title;
     public Text content;
     public Text time;
-    public Text type;
     public Button btn;
     public int num;
 
@@ -93,7 +92,6 @@ public class MessageItem : ItemRender
     private void SetData(NewMessage tdata)
     {
         image.sprite = SpriteManager.Instance.GetSprite(Sprites.news);
-        type.text = "新闻";
         title.text = tdata.title;
         maincontent = tdata.content;
         if (maincontent.Length > num)
@@ -109,13 +107,15 @@ public class MessageItem : ItemRender
             {
                 HideItem();
             });
+            time.text = "现在";
         }
         else
         {
             btn.onClick.AddListener(delegate ()
             {
-                tdata.callback();
+                tdata.callback(tdata);
             });
+            time.text = GetTime(tdata.date);
         }
 
         return;
@@ -124,7 +124,6 @@ public class MessageItem : ItemRender
     private void SetData(WeChatMessage tdata)
     {
         image.sprite = SpriteManager.Instance.GetSprite(Sprites.wechat);
-        type.text = "微信";
         title.text = tdata.name;
         maincontent = tdata.content;
         if (maincontent.Length > num)
@@ -132,7 +131,7 @@ public class MessageItem : ItemRender
         else
             content.text = maincontent;
 
-        time.text = "现在";
+        
 
         if (tdata.callback == null)
         {
@@ -140,13 +139,15 @@ public class MessageItem : ItemRender
             {
                 HideItem();
             });
+            time.text = "现在";
         }
         else
         {
             btn.onClick.AddListener(delegate ()
             {
-                tdata.callback();
+                tdata.callback(tdata);
             });
+            time.text = GetTime(tdata.date);
         }
     }
 
@@ -157,7 +158,6 @@ public class MessageItem : ItemRender
 
     private void SetData(Accident tdata)
     {
-        type.text = "灾害";
         title.text = tdata.text.title;
         maincontent = tdata.text.description;
         if (maincontent.Length > num)
@@ -171,8 +171,37 @@ public class MessageItem : ItemRender
         {
 
         });
+    }
 
-        
+    public string GetTime(DateTime dt)
+    {
+        TimeSpan delta = TimeManager.instance.NowTime - dt;
+        double min = delta.TotalMinutes;
+        if (min < 30)
+        {
+            return (int)min + "分钟前";
+        }
+        else if (min < 45)
+        {
+            return "半小时前";
+        }
+        else if (min < 60)
+        {
+            return "45分钟前";
+        }
+        else
+        {
+            double hour = delta.TotalHours;
+            if (hour < 24)
+            {
+                return (int)hour + "小时前";
+            }
+            else
+            {
+                double day = delta.TotalDays;
+                return (int)day + "天前";
+            }
+        }
     }
 
 }

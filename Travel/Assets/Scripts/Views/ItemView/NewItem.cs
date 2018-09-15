@@ -9,7 +9,7 @@ public class NewMessage
     public string title;
     public string content;
     public DateTime date;
-    public Action callback;
+    public Action<NewMessage> callback;
 
     public NewMessage(string ttitle, string tcontent, DateTime tdate)
     {

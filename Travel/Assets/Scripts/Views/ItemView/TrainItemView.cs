@@ -107,7 +107,7 @@ public class TrainItemView : ItemRender {
             {
                 if (TimeManager.instance.isTicketBuy(tdata.id))
                 {
-                    InfoView.Show(new InfoMessage("你已经购买了这张车票", "消息"));
+                    InfoView.Show(new InfoMessage("您已购买此行程，请勿重复购买", "提示！"));
                 }
                 else
                 {
@@ -119,7 +119,7 @@ public class TrainItemView : ItemRender {
             }
             else
             {
-                InfoView.Show(new InfoMessage("金额不足", "消息"));
+                InfoView.Show(new InfoMessage("您的余额不足，支付失败", "提示！"));
             }
         }
         else

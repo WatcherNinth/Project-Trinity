@@ -209,6 +209,7 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         {
             if (current != results[i].gameObject)
             {
+                Debug.Log("results name " + results[i].gameObject.name);
                 if(results[i].gameObject.CompareTag("Warning"))
                     ExecuteEvents.Execute(results[i].gameObject, data, function);
             }
