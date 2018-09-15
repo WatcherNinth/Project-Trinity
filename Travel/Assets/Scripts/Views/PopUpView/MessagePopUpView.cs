@@ -3,6 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Lucky;
 
+public class MessageObject
+{
+    public System.Object data;
+
+    public MessageObject(System.Object tdata)
+    {
+        data = tdata;
+    }
+}
+
 public class MessagePopUpView : BaseUI {
 
     public GameObject prefab;
@@ -31,15 +41,15 @@ public class MessagePopUpView : BaseUI {
         base.RegisterMsg(isOn);
         if(isOn)
         {
-            MessageBus.Register<ItemMessage>(AddNewMessage);
+            MessageBus.Register<MessageObject>(AddNewMessage);
         }
         else
         {
-            MessageBus.UnRegister<ItemMessage>(AddNewMessage);
+            MessageBus.UnRegister<MessageObject>(AddNewMessage);
         }
     }
 
-    public bool AddNewMessage(ItemMessage itemMessage)
+    public bool AddNewMessage(MessageObject itemMessage)
     {
         Debug.Log("add new message");
         if(queue.Count!=0)
@@ -50,19 +60,23 @@ public class MessagePopUpView : BaseUI {
         GameObject showItem = Instantiate(prefab);
         MessageItem mi = showItem.GetComponent<MessageItem>();
         showItem.transform.SetParent(transform);
-        mi.data = itemMessage;
+        mi.data = itemMessage.data;
+        mi.Showing = true;
         showItem.SetActive(true);
         LuckyUtils.MakeIndentity(showItem.transform);
         queue.Push(mi);
-        mi.ShowItem();
         return false;
     }
 
     public void DestroyMessage()
     {
-        MessageItem mi = queue.Pop();
-        mi = queue.Peek();
-        mi.StartCountDown();
+        queue.Pop();
+        if (queue.Count!=0)
+        {
+            MessageItem mi = queue.Peek();
+            mi.StartCountDown();
+        }
+        
     }
 
 }

@@ -16,38 +16,53 @@ public class MessageItem : ItemRender
 
     private string maincontent;
     private float height;
-    private float EffectDisposeTime = 0.25f;
-    private int timeCountDown=10;
+    private float EffectDisposeTime = 0.5f;
+    private int timeCountDown=5;
     private int timeFade = 0;
+    private bool show=false;
+    private int i = 0;
+
+    public bool Showing
+    {
+        set { show = value; }
+    }
 
     private RectTransform rt;
 
     protected override void Awake()
     {
         base.Awake();
-        Time.fixedDeltaTime = 1;
     }
 
     private void FixedUpdate()
     {
-        if(timeFade != 0)
+        if(i%60==0)
         {
-            if (timeCountDown < 0)
+            if (timeFade != 0)
             {
-                HideItem();
+                if (timeCountDown < 0)
+                {
+                    HideItem();
+                    timeFade = 0;
+                }
+                timeCountDown -= timeFade;
             }
-            timeCountDown-=timeFade;
+            i = 0;
         }
+        i++;
+        
         
     }
 
     protected override void Start()
     {
-        base.Start();
         rt = GetComponent<RectTransform>();
+        height = Mathf.Abs(rt.rect.y);
+        base.Start();
+        if(show)
+            ShowItem();
         
-        height = rt.rect.y;
-        Debug.Log("height " + height);
+        
     }
 
     protected override void InitUI()
@@ -69,6 +84,11 @@ public class MessageItem : ItemRender
         tween.OnUpdate
         (
              () => onDisposeUpdate(num)
+        );
+
+        tween.OnComplete
+        (
+            () => onShowCompute()
         );
     }
 
@@ -131,6 +151,7 @@ public class MessageItem : ItemRender
             }
             else if(classtype==typeof(WeChatMessage))
             {
+                Debug.Log("we chat message get");
                 WeChatMessage tdata = m_Data as WeChatMessage;
                 SetData(tdata);
             }

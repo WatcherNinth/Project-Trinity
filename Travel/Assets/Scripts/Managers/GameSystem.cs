@@ -57,6 +57,7 @@ public class GameSystem : MonoBehaviour {
         AsyncOperation ao = SceneManager.LoadSceneAsync("Main");
         yield return ao;
         Debug.Log("load finish");
+        AudioManager.Instance.PlayMusic(Audios.BG, true);
     }
 	
 }

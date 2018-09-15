@@ -46,6 +46,7 @@ public class TopMenuView : MonoBehaviour {
 
     private void onShowOrHide()
     {
+        AudioManager.Instance.PlayMusic(Audios.ButtonClip);
         BtnWeChat.interactable = false;
         rt.gameObject.SetActive(true);
         if (!show)

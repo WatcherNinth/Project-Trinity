@@ -17,6 +17,7 @@ public class MapTrafficView : MonoBehaviour {
     private string animationName;
     private int ticketid;
     private string dst;
+    private string[] citys;
 
     private Dictionary<int, WarningView> warndic = new Dictionary<int, WarningView>();
 
@@ -36,6 +37,8 @@ public class MapTrafficView : MonoBehaviour {
         train.SetActive(false);
         airplane.SetActive(false);
         EventHappenManager.Instance.EveryLocation("上海");
+        citys = new string[LocationsModel.cityslocation.Count];
+        LocationsModel.cityslocation.Keys.CopyTo(citys, 0);
     }
 
     private void Update()
@@ -132,78 +135,101 @@ public class MapTrafficView : MonoBehaviour {
 
     public void AirPlaneFly(TicketParam tp)
     {
-        UserTicketsModel.Instance.where = Where.AirPlane;
-        Debug.Log("airplane fly"+ tp.rt.GetBeginTime());
-        Vector3 startPos = Vector3.zero;
-        Debug.Log("start " + tp.rt.GetRoutineStartNode());
-        Debug.Log("stop " + tp.rt.GetEndNode());
-        LocationsModel.cityslocation.TryGetValue(tp.rt.GetRoutineStartNode(), out startPos);
-        Vector3 stopPos = Vector3.zero;
-        LocationsModel.cityslocation.TryGetValue(tp.rt.GetEndNode(), out stopPos);
-        Debug.Log("start stop pos "+startPos + " " + stopPos);
-        airline.Show(startPos, stopPos);
-
-        string start = tp.rt.GetRoutineStartNode();
-        string stop = tp.rt.GetEndNode();
-        dst = stop;
-
-        DateTime starttime = tp.rt.GetBeginTime();
-        DateTime stoptime = tp.rt.GetEndTime();
-        TimeSpan ts = stoptime - starttime;
-
-        ticketid = tp.rt.GetTicketId();
-        TicketsController.Instance.DeleteTickets(ticketid);
-
-        traveltime = (float)ts.TotalMinutes;
-        Debug.Log("travel time " + ts.TotalMinutes);
-        double realtime = traveltime / TimeManager.instance.TimeSpeed;
-        Debug.Log("realtime " + realtime);
-        animationName = start + "To" + stop;
-
-        animator = airplane.GetComponent<Animator>();
-        animator.Stop();
-        AnimationClip clip = FindClip(animator, animationName);
-        if (clip != null)
+        TicketsController.Instance.DeleteTickets(tp.rt.GetTicketId());
+        if (UserTicketsModel.Instance.where==Where.City &&  tp.rt.GetRoutineStartNode().Contains(UserTicketsModel.Instance.city))
         {
+            AudioManager.Instance.PlayMusic(Audios.AirPlaneClip);
+            UserTicketsModel.Instance.where = Where.AirPlane;
+            Debug.Log("airplane fly" + tp.rt.GetBeginTime());
+            Vector3 startPos = Vector3.zero;
+            Debug.Log("start " + tp.rt.GetRoutineStartNode());
+            Debug.Log("stop " + tp.rt.GetEndNode());
+
+            string start = tp.rt.GetRoutineStartNode();
+            string stop = tp.rt.GetEndNode();
+            start = GetCityString(start);
+            stop = GetCityString(stop);
+            LocationsModel.cityslocation.TryGetValue(start, out startPos);
+            Vector3 stopPos = Vector3.zero;
+            LocationsModel.cityslocation.TryGetValue(stop, out stopPos);
+            Debug.Log("start stop pos " + startPos + " " + stopPos);
+            airline.Show(startPos, stopPos);
+
             
-            cliptime = clip.length;
-            double speed = cliptime / realtime;
-            Debug.Log("speed " + speed);
-            airplane.SetActive(true);
-            animator.Play(animationName);
-            animator.speed = (float)speed;
+            dst = stop;
+
+            DateTime starttime = tp.rt.GetBeginTime();
+            DateTime stoptime = tp.rt.GetEndTime();
+            TimeSpan ts = stoptime - starttime;
+
+            ticketid = tp.rt.GetTicketId();
+            TicketsController.Instance.DeleteTickets(ticketid);
+
+            traveltime = (float)ts.TotalMinutes;
+            Debug.Log("travel time " + ts.TotalMinutes);
+            double realtime = traveltime / TimeManager.instance.TimeSpeed;
+            Debug.Log("realtime " + realtime);
+            animationName = start + "To" + stop;
+
+            animator = airplane.GetComponent<Animator>();
+            animator.Stop();
+            AnimationClip clip = FindClip(animator, animationName);
+            if (clip != null)
+            {
+
+                cliptime = clip.length;
+                double speed = cliptime / realtime;
+                Debug.Log("speed " + speed);
+                airplane.SetActive(true);
+                animator.Play(animationName);
+                animator.speed = (float)speed;
+            }
+        }
+        else
+        {
+            InfoView.Show(new InfoMessage("你当前不在出发城市，该机票"+ tp.rt.GetTicketName() + "作废！", "亏大了!"));
         }
     }
 
     public void TrainGo(TicketParam tp)
     {
-
-        UserTicketsModel.Instance.where = Where.Train;
-        Debug.Log("train go" + tp.rt.GetBeginTime());
-        string start = tp.rt.GetRoutineStartNode();
-        string stop = tp.rt.GetEndNode();
-        dst = stop;
-
-        DateTime starttime = tp.rt.GetBeginTime();
-        DateTime stoptime = tp.rt.GetEndTime();
-        TimeSpan ts=stoptime - starttime;
-
-        ticketid = tp.rt.GetTicketId();
-        TicketsController.Instance.DeleteTickets(ticketid);
-
-        traveltime = (float)ts.TotalMinutes;
-        double realtime = traveltime / TimeManager.instance.TimeSpeed;
-        animationName = start + "To" + stop;
-
-        animator = train.GetComponent<Animator>();
-        AnimationClip clip = FindClip(animator, animationName);
-        if(clip!=null)
+        TicketsController.Instance.DeleteTickets(tp.rt.GetTicketId());
+        if (UserTicketsModel.Instance.where == Where.City && tp.rt.GetRoutineStartNode().Contains(UserTicketsModel.Instance.city))
         {
-            cliptime = clip.length;
-            double speed = cliptime / realtime;
-            train.SetActive(true);
-            animator.Play(animationName, 0, 0);
-            animator.speed = (float)speed;
+            AudioManager.Instance.PlayMusic(Audios.RailwayClip);
+            UserTicketsModel.Instance.where = Where.Train;
+            Debug.Log("train go" + tp.rt.GetBeginTime());
+            string start = tp.rt.GetRoutineStartNode();
+            string stop = tp.rt.GetEndNode();
+            dst = stop;
+
+            DateTime starttime = tp.rt.GetBeginTime();
+            DateTime stoptime = tp.rt.GetEndTime();
+            TimeSpan ts = stoptime - starttime;
+
+            ticketid = tp.rt.GetTicketId();
+            TicketsController.Instance.DeleteTickets(ticketid);
+
+            traveltime = (float)ts.TotalMinutes;
+            double realtime = traveltime / TimeManager.instance.TimeSpeed;
+            start = GetCityString(start);
+            stop = GetCityString(stop);
+            animationName = start + "To" + stop;
+
+            animator = train.GetComponent<Animator>();
+            AnimationClip clip = FindClip(animator, animationName);
+            if (clip != null)
+            {
+                cliptime = clip.length;
+                double speed = cliptime / realtime;
+                train.SetActive(true);
+                animator.Play(animationName, 0, 0);
+                animator.speed = (float)speed;
+            }
+        }
+        else
+        {
+            InfoView.Show(new InfoMessage("你当前不在出发城市，该火车票"+tp.rt.GetTicketName()+"作废！", "亏大了!"));
         }
 
     }
@@ -260,6 +286,16 @@ public class MapTrafficView : MonoBehaviour {
             GameObject child = transform.GetChild(i).gameObject;
             if (child.name == str)
                 return child.GetComponent<RectTransform>() ; 
+        }
+        return null;
+    }
+
+    public string GetCityString(string st)
+    {
+        foreach(string city in citys)
+        {
+            if (st.Contains(city))
+                return city;
         }
         return null;
     }

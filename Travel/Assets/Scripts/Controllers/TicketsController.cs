@@ -28,9 +28,9 @@ public class TicketsController : BaseInstance<TicketsController>
         }
         RoutineTicket ticket=ticket_operation.GetTicketByTickedId(ticketid);
         Debug.Log("ticket " + ticket.GetRoutineStartNode() + " " + ticket.GetBeginTime() + " "+ticket.GetTicketId());
-
-        Debug.Log("buy ticket id " + ticket.GetTicketId() + " routtine id" + ticket.GetRoutineId());
         TimeManager.instance.AddGo(new TicketParam(ticket));
+        Debug.Log("buy ticket id " + ticket.GetTicketId() + " routtine id" + ticket.GetRoutineId());
+        
     }
 
     public List<TrafficMessage> GetBuyTickets(DateTime dt)
@@ -115,30 +115,34 @@ public class TicketsController : BaseInstance<TicketsController>
         foreach (RoutineTicket rt in tickets)
         {
             DateTime starttime = rt.GetActualBeginTime();
-            DateTime stoptime = rt.GetAcutalEndTime();
 
-            string start = rt.GetRoutineStartNode();
-            string stop = rt.GetEndNode();
+            if(DateTime.Compare(starttime,TimeManager.instance.NowTime)>0)
+            {
+                DateTime stoptime = rt.GetAcutalEndTime();
 
-            string ticketname = rt.GetTicketName();
-            string money = rt.GetMoney() + "";
+                string start = rt.GetRoutineStartNode();
+                string stop = rt.GetEndNode();
 
-            int id = rt.GetRoutineId();
+                string ticketname = rt.GetTicketName();
+                string money = rt.GetMoney() + "";
 
-            TimeSpan ts = stoptime - starttime;
+                int id = rt.GetRoutineId();
 
-            string usetime = "";
-            if (ts.Hours < 10)
-                usetime += "0";
-            usetime += ts.Hours + ":";
-            if (ts.Minutes < 10)
-                usetime += "0";
-            usetime += ts.Minutes;
+                TimeSpan ts = stoptime - starttime;
 
-            if ((DateTime.Compare(starttime, rt.GetBeginTime()) == 0) && (DateTime.Compare(stoptime, rt.GetEndTime()) == 0))
-                data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, false, id, (TrafficType)rt.Type()));
-            else
-                data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, true, id, (TrafficType)rt.Type()));
+                string usetime = "";
+                if (ts.Hours < 10)
+                    usetime += "0";
+                usetime += ts.Hours + ":";
+                if (ts.Minutes < 10)
+                    usetime += "0";
+                usetime += ts.Minutes;
+
+                if ((DateTime.Compare(starttime, rt.GetBeginTime()) == 0) && (DateTime.Compare(stoptime, rt.GetEndTime()) == 0))
+                    data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, false, id, (TrafficType)rt.Type()));
+                else
+                    data.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, true, true, id, (TrafficType)rt.Type()));
+            }
         }
         return data;
     }

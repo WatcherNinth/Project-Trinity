@@ -38,12 +38,15 @@ public class MapsView : BaseUI {
 
     private void OnClick()
     {
+        AudioManager.Instance.PlayMusic(Audios.ButtonClip);
+        TimeManager.instance.TimeSpeed = 1.0f;
         mainContent.ShowView(ViewID.BuyTickets);
     }
 
     private void OnGoClick()
     {
-        if(!isPlay)
+        AudioManager.Instance.PlayMusic(Audios.ButtonClip);
+        if (!isPlay)
         {
             isPlay = true;
             TimeManager.instance.GoToNextStartTime();

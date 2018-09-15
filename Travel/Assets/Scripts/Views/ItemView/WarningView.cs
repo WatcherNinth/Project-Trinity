@@ -69,6 +69,7 @@ public class WarningView : BaseUI, IPointerClickHandler
         {
             
             AccidentWarning warning = data as AccidentWarning;
+            Debug.Log("location number "+warning.location);
             string city = CityUtil.Instance.GetCityName(warning.location);
             RectTransform cityrt = MapTrafficView.instance.FindPlace(city);
             Vector3 pos = cityrt.anchoredPosition3D + new Vector3(cityrt.rect.width / 2, 0, 0);

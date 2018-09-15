@@ -25,6 +25,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
 
     public void EveryThirtyMinutes(DateTime dt)
     {
+        /*
         Event target=new Event();
         //get current status
         Debug.Log("where "+UserTicketsModel.Instance.where);
@@ -47,6 +48,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
                     break;
                 }
         }
+        */
         //random a event ,pushout 
         //then del it from xxxxList
         //OnePageNoteBook data = new OnePageNoteBook(target,TimeManager.instance.NowTime,ImageList[target.id]);
@@ -56,9 +58,9 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     public void EveryLocation(string dst)
     {
         Debug.Log("every location " + dst);
-        Event target = EventList.Find(x => x.condition == dst);
-        OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);
-        MessageBus.Post(data);
+        //Event target = EventList.Find(x => x.condition == dst);
+        //OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);
+        //MessageBus.Post(data);
         if (dst == "沈阳")
         {
             InfoView.Show(new InfoMessage("到家了", "消息！"));

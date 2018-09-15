@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using Lucky;
 
 public class TimeExecuteParam
 {
@@ -151,7 +152,6 @@ public class TimeManager : MonoBehaviour {
 
         if(DateTime.Compare(nextSlowTime, nowTime)<0)
         {
-            TimeSpeed = 1.0f;
             nextSlowTime = DateTime.MaxValue;
         }
 
@@ -178,9 +178,10 @@ public class TimeManager : MonoBehaviour {
         //事故事件执行
         foreach (TimeExecuteParam tep in doAccidents)
         {
-            TimeSpeed=1.0f;
+            
             if (!tep.isDestroy)
             {
+                TimeSpeed = 1.0f;
                 tep.Callback(tep.accident);
                 if(MapTrafficView.instance==null)
                 {
@@ -244,8 +245,9 @@ public class TimeManager : MonoBehaviour {
 
         foreach(MessageParam<WeChatMessage> mp in doWechat)
         {
-            TimeSpeed = 1.0f;
+            //TimeSpeed = 1.0f;
             mp.Callback();
+            MessageBus.Post(new MessageObject(mp.message));
         }
 
         //新闻事件查找
@@ -264,8 +266,9 @@ public class TimeManager : MonoBehaviour {
 
         foreach (MessageParam<NewMessage> mp in doNew)
         {
-            TimeSpeed = 1.0f;
+            //TimeSpeed = 1.0f;
             mp.Callback();
+            MessageBus.Post(new MessageObject(mp.message));
         }
 
         if(DateTime.Compare(GameModel.Instance.tomorrow, nowTime)<0)
@@ -356,11 +359,13 @@ public class TimeManager : MonoBehaviour {
 
     public bool AddGo(TicketParam value)
     {
+        /*
         if (DateTime.Compare(value.rt.GetBeginTime(), nowTime) < 0)
         {
             Debug.Log("error " + value.rt.GetBeginTime());
             return false;
         }
+        */
         lock (golock)
         {
             long id = value.rt.GetRoutineId();
@@ -468,7 +473,7 @@ public class TimeManager : MonoBehaviour {
         }
         if(DateTime.Compare(dt , DateTime.MaxValue) != 0)
         {
-            nextSlowTime = dt.AddMinutes(-10);
+            nextSlowTime = dt.AddMinutes(-5);
         }
         TimeSpeed = 10.0f;
 
