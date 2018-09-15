@@ -24,12 +24,31 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
 
     public void EveryThirtyMinutes(DateTime dt)
     {
+        Event target=new Event();
         //get current status
+        switch (UserTicketsModel.Instance.where)
+        {
+            case Where.City:
+                {
+                    target = RandomCityList[rnd.Next(0, RandomCityList.Count)];
+                    RandomCityList.Remove(target);
+                    break;
+                }
+            case Where.Train:
+                {
+                    target = RandomTrainList[rnd.Next(0, RandomTrainList.Count)];
+                    RandomTrainList.Remove(target);
+                    break;
+                }
+            case Where.AirPlane:
+                {
+                    break;
+                }
+        }
         //random a event ,pushout 
         //then del it from xxxxList
-        //OnePageNoteBook data = new OnePageNoteBook(target);
-
-        //MessageBus.Post(data);
+        OnePageNoteBook data = new OnePageNoteBook(target,TimeManager.instance.NowTime,ImageList[target.id]);
+        MessageBus.Post(data);
     }
 
     public void EveryLocation(string dst)
