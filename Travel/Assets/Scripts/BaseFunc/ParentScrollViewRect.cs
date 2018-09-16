@@ -12,7 +12,7 @@ public enum Direction
 
 public class ParentScrollViewRect : ScrollRect
 {
-    private float triggerspeed = 4000.0f;
+    private float triggerspeed = 2000.0f;
     protected int index;
 
     private float time = 0.3f;

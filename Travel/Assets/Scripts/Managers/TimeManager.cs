@@ -460,7 +460,16 @@ public class TimeManager : MonoBehaviour {
             Debug.Log("accident next start time " + etor.Current.Key);
             if (DateTime.Compare(etor.Current.Key, dt) < 0)
             {
-                dt = etor.Current.Key;
+                //if(etor.Current.Value.)
+                List<TimeExecuteParam> list = etor.Current.Value;
+                int i = 0;
+                for (;i<list.Count;i++)
+                {
+                    if (list[i].isDestroy == false)
+                        break;
+                }
+                if(i!=list.Count)
+                    dt = etor.Current.Key;
             }
         }
         if(waitingGo.Count!=0)

@@ -51,9 +51,9 @@ public class MapTrafficView : MonoBehaviour {
                 Debug.Log("train arrive");
                 train.SetActive(false);
                 UserTicketsModel.Instance.where = Where.City;
-                UserTicketsModel.Instance.city = dst;
-                EventHappenManager.Instance.EveryLocation(dst);
+                UserTicketsModel.Instance.city = FindPlaceName(dst);
                 TimeManager.instance.TimeSpeed = 1.0f;
+                EventHappenManager.Instance.EveryLocation(dst);
             }
         }
 
@@ -66,10 +66,11 @@ public class MapTrafficView : MonoBehaviour {
                 airplane.SetActive(false);
                 
                 UserTicketsModel.Instance.where = Where.City;
-                UserTicketsModel.Instance.city = dst;
-                EventHappenManager.Instance.EveryLocation(dst);
+                UserTicketsModel.Instance.city = FindPlaceName(dst);
                 TimeManager.instance.TimeSpeed = 1.0f;
                 airline.gameObject.SetActive(false);
+                EventHappenManager.Instance.EveryLocation(dst);
+
             }
         }
         
@@ -284,8 +285,19 @@ public class MapTrafficView : MonoBehaviour {
         for(int i=0;i<transform.childCount;i++)
         {
             GameObject child = transform.GetChild(i).gameObject;
-            if (child.name == str)
+            if (str.Contains(child.name))
                 return child.GetComponent<RectTransform>() ; 
+        }
+        return null;
+    }
+
+    public string FindPlaceName(string str)
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (str.Contains(child.name))
+                return child.name;
         }
         return null;
     }
