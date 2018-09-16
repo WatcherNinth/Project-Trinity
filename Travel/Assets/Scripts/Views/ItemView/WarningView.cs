@@ -51,11 +51,20 @@ public class WarningView : BaseUI, IPointerClickHandler
         {
             
             Accident accident = data as Accident;
-            string city = CityUtil.Instance.GetCityName(accident.location);
-            RectTransform cityrt = MapTrafficView.instance.FindPlace(city);
-            Vector3 pos = cityrt.anchoredPosition3D + new Vector3(cityrt.rect.width / 2, 0, 0);
-            Debug.Log("city warning" + city);
-            rt.anchoredPosition3D = pos;
+            if(accident.type == AccidentType.airport)
+            {
+                string city = CityUtil.Instance.GetCityName(accident.location);
+                RectTransform cityrt = MapTrafficView.instance.FindPlace(city);
+                Vector3 pos = cityrt.anchoredPosition3D + new Vector3(cityrt.rect.width / 2, 0, 0);
+                Debug.Log("city warning" + city);
+                rt.anchoredPosition3D = pos;
+            }
+            else
+            {
+                RectTransform railwayrt = MapTrafficView.instance.FindRailway(accident.location);
+                Vector3 pos = railwayrt.anchoredPosition3D;
+                rt.anchoredPosition3D = pos;
+            }
             rt.localScale = new Vector3(1.5f, 1.5f, 0);
 
             news = "灾害持续时间： "+accident.duration+"分钟";
@@ -69,11 +78,21 @@ public class WarningView : BaseUI, IPointerClickHandler
         {
             
             AccidentWarning warning = data as AccidentWarning;
-            Debug.Log("location number "+warning.location);
-            string city = CityUtil.Instance.GetCityName(warning.location);
-            RectTransform cityrt = MapTrafficView.instance.FindPlace(city);
-            Vector3 pos = cityrt.anchoredPosition3D + new Vector3(cityrt.rect.width / 2, 0, 0);
-            rt.anchoredPosition3D = pos;
+            if (warning.type == AccidentType.airport)
+            {
+                Debug.Log("location number " + warning.location);
+                string city = CityUtil.Instance.GetCityName(warning.location);
+                RectTransform cityrt = MapTrafficView.instance.FindPlace(city);
+                Vector3 pos = cityrt.anchoredPosition3D + new Vector3(cityrt.rect.width / 2, 0, 0);
+                rt.anchoredPosition3D = pos;
+            }
+            else
+            {
+                RectTransform railwayrt = MapTrafficView.instance.FindRailway(warning.location);
+                Vector3 pos = railwayrt.anchoredPosition3D;
+                rt.anchoredPosition3D = pos;
+            }
+            
             rt.localScale = new Vector3(1.5f, 1.5f, 0);
 
             news = "<b><size=60>此地即将发生灾害事件</size></b>\n\n"

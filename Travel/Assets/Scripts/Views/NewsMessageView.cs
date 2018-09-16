@@ -12,7 +12,10 @@ public class NewsMessageView : BaseUI {
     {
         base.UpdateView();
         if (messages != null)
+        {
             baseGrid.source = messages.ToArray();
+        }
+            
     }
 
     public void SetMessages(List<NewMessage> datas)

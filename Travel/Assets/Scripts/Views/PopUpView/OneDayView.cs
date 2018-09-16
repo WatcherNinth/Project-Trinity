@@ -8,6 +8,7 @@ public class OneDayView : BaseUI {
 
     public Image DayImage;
     public Text FirstText;
+    public Text DateText;
 
     public List<Button> buttons;
     public List<Text> texts;
@@ -46,6 +47,7 @@ public class OneDayView : BaseUI {
     {
         if(data.chosen==-1)
         {
+            DateText.text = data.time.ToString("MM/dd HH:mm");
             int count = data.buttontext.Count;
             for (int i = 0; i < buttons.Count; i++)
             {

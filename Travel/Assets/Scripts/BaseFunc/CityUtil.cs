@@ -280,7 +280,7 @@ public class CityUtil : BaseInstance<CityUtil> {
         city_mapping_list[30] = new CityMapping(30, "沈阳", "北京");
 
         city_list.AddEdge("沈阳", "天津");
-        city_mapping_list[31] = new CityMapping(25, "沈阳", "天津");
+        city_mapping_list[31] = new CityMapping(31, "沈阳", "天津");
     }
 
     AdjacencyList<string>.Vertex<string> FindConnectedCity(string city)

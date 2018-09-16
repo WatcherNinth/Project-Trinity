@@ -42,9 +42,13 @@ public class MessagePanelView : BaseUI {
         InitEvent();
         WeChatImage.color = Blue;
         AccidentImage.color = Color.white;
+        Debug.Log("new list "+ MessageModel.Instance.NewsList.Count);
         nview.gameObject.SetActive(false);
         wview.gameObject.SetActive(true);
-        
+        nview.SetMessages(MessageModel.Instance.NewsList);
+        wview.SetMessages(MessageModel.Instance.WeChatList);
+
+
     }
 
     protected override void UpdateView()

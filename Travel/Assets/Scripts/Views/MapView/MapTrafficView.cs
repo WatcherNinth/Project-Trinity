@@ -290,6 +290,18 @@ public class MapTrafficView : MonoBehaviour {
         return null;
     }
 
+    public RectTransform FindRailway(int j)
+    {
+        string num = j + "";
+        for(int i=0;i<transform.childCount;i++)
+        {
+            GameObject child = transform.GetChild(i).gameObject;
+            if (child.name == num)
+                return child.GetComponent<RectTransform>();
+        }
+        return null;
+    }
+
     public string GetCityString(string st)
     {
         foreach(string city in citys)
@@ -299,4 +311,6 @@ public class MapTrafficView : MonoBehaviour {
         }
         return null;
     }
+
+    
 }

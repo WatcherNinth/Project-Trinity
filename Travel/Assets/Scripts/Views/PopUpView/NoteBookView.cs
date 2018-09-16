@@ -6,7 +6,6 @@ using System;
 
 public class NoteBookView : BaseSceneEaseInOut {
 
-    public Text DateShow;
     public Transform content;
 
     protected override void InitUI()
@@ -37,7 +36,6 @@ public class NoteBookView : BaseSceneEaseInOut {
         else
         {
             DateTime dt = NoteBookModel.Instance.noteBookList[0].time;
-            DateShow.text = dt.ToString("yyyy/MM/dd HH:mm");
             foreach (OnePageNoteBook data in NoteBookModel.Instance.noteBookList)
             {
                 CreateNewNote(data);
@@ -48,6 +46,5 @@ public class NoteBookView : BaseSceneEaseInOut {
     public void SetText(int index)
     {
         DateTime dt = NoteBookModel.Instance.noteBookList[index].time;
-        DateShow.text = dt.ToString("yyyy/MM/dd HH:mm");
     }
 }

@@ -13,6 +13,22 @@ public class TicketParam
     }
 }
 
+public class SearchParam
+{
+    public int type;
+    public string startlocation;
+    public string stoplocation;
+    public DateTime dt;
+
+    public SearchParam(int ttype, string tstartlocation, string tstoplocation, DateTime tdt)
+    {
+        type = ttype;
+        startlocation = tstartlocation;
+        stoplocation = tstoplocation;
+        dt = tdt;
+    }
+}
+
 public class TicketsController : BaseInstance<TicketsController>
 {
     private bool isFirstLoad=false;
@@ -33,13 +49,18 @@ public class TicketsController : BaseInstance<TicketsController>
         
     }
 
-    public List<TrafficMessage> GetBuyTickets(DateTime dt)
+    public MultiYield GetBuyTickets(DateTime dt)
     {
-        Debug.Log(dt);
+        return MultiThreadPool.AddNewMission(dt, TicketsController.Instance.GetBuyTickets);
+    }
+
+    public List<TrafficMessage> GetBuyTickets(System.Object tdt)
+    {
+        DateTime dt = (DateTime)tdt;
+        Debug.Log("abc "+dt);
         TicketsOperaton ticket_operation = new TicketsOperaton();
         List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(dt);
 
-        SortedDictionary<DateTime, TrafficMessage> data = new SortedDictionary<DateTime, TrafficMessage>();
         List<TrafficMessage> finaldata = new List<TrafficMessage>();
 
         foreach (RoutineTicket rt in all_tickets)
@@ -104,9 +125,18 @@ public class TicketsController : BaseInstance<TicketsController>
         return abc;
     }
 
-    public List<TrafficMessage> Search(int type, string startlocation, string stoplocation, DateTime dt)
+    public MultiYield Search(int type, string startlocation, string stoplocation, DateTime dt)
     {
+        return MultiThreadPool.AddNewMission(new SearchParam(type, startlocation, stoplocation, dt), Search);
+    }
 
+    public List<TrafficMessage> Search(System.Object tsearchParam)
+    {
+        SearchParam searchParam = tsearchParam as SearchParam;
+        int type = searchParam.type;
+        string startlocation = searchParam.startlocation;
+        string stoplocation = searchParam.stoplocation;
+        DateTime dt = searchParam.dt;
         RoutineOperation operation = new RoutineOperation();
         List<Routine> tickets = operation.GetAllTicket(startlocation, stoplocation, type, dt);
 

@@ -3,18 +3,58 @@ using System.Collections;
 using Lucky;
 using Mono.Data.Sqlite;
 using System;
+using System.IO;
 
 public class BasicDataOperation : BaseInstance<BasicDataOperation> {
-    private SqliteConnection db_connection;
+
+#if UNITY_EDITOR
+    //通过路径找到第三方数据库
+    private static string data_resource = "data source = " + Application.dataPath + "/Plugins/Android/assets/" + "Travel";
+    // 如果运行在Android设备中
+#elif UNITY_ANDROID
+    //将第三方数据库拷贝至Android可找到的地方
+    private static string data_resource = "data source = " + Application.persistentDataPath + "/" + "Travel";
+
+#endif
+
+    static BasicDataOperation()
+    {
+#if UNITY_ANDROID
+
+        string appDBPath = Application.persistentDataPath + "/" + "Travel";
+
+        if (!File.Exists(appDBPath))
+        {
+            //用www先从Unity中下载到数据库
+            WWW loadDB = new WWW("jar:file://" + Application.dataPath + "!/assets/" + "Travel");
+
+            while (!loadDB.isDone) { }
+            //拷贝至规定的地方
+            Lucky.LuckyUtils.Log("init");
+            File.WriteAllBytes(appDBPath, loadDB.bytes);
+        }
+
+#endif
+
+        db_connection = new SqliteConnection(data_resource);
+        db_connection.Open();
+    }
+
+
+    private static SqliteConnection db_connection;
     private SqliteCommand db_command;
     private SqliteDataReader data_reader;
+
+
     
     public void InitConnection(string connectionString)
     {
         try {
             // Lucky.LuckyUtils.Log("connection str " + connectionString);
-            db_connection = new SqliteConnection(connectionString);
+            //db_connection = new SqliteConnection(connectionString);
             // Lucky.LuckyUtils.Log("connection str  " + connectionString);
+            //db_connection.Open();
+            db_connection = new SqliteConnection(data_resource);
             db_connection.Open();
         } catch(Exception e) { 
            // Lucky.LuckyUtils.Log("connection str 1 " + connectionString);
@@ -33,6 +73,7 @@ public class BasicDataOperation : BaseInstance<BasicDataOperation> {
 
     public void CloseConnection()
     {
+        
         if (db_command != null)
         {
             db_command.Cancel();
@@ -48,6 +89,7 @@ public class BasicDataOperation : BaseInstance<BasicDataOperation> {
             db_connection.Close();
         }
         db_connection = null;
+        
     }
 
     public SqliteDataReader ReadFullTable(string tableName)

@@ -96,6 +96,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             AccidentList.Add(accident);
         }
         */
+        
         PushAccidentList();
     }
     void PushAccidentList()
@@ -106,14 +107,14 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             TimeManager.instance.AddAccidentExecute(item, HandleAccident,false);
             Accident eitem = item;
             eitem.starttime = eitem.starttime.AddMinutes(item.duration);
-            TimeManager.instance.AddAccidentExecute(eitem, HandleAccidentCancel, true);
+            TimeManager.instance.AddAccidentExecute(eitem, null, true);
 
             //timemanager callback
         }
         foreach (AccidentWarning item in AccidentWarningList)
         {
             //timemanager callback
-            TimeManager.instance.AddAccidentExecute(item, HandleAccidentWarning);
+            TimeManager.instance.AddAccidentExecute(item, null);
         }
     }
     void CreateAccidentWarning(Accident accident)
@@ -143,21 +144,27 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         }
     }
 
-    public void HandleAccident(BaseAccident taccident)
+    public MultiYield HandleAccident(BaseAccident taccident)
+    {
+        return MultiThreadPool.AddNewMission(taccident, HandlingAccident);
+    }
+
+    public List<TrafficMessage> HandlingAccident(System.Object taccident)
     {
         //handle ticket delay
         Accident accident = taccident as Accident;
         TicketsOperaton tickets = new TicketsOperaton();
         List<int> routine_id = tickets.DelayTickets(accident.starttime, accident.location, accident.duration, accident.type);
         TimeManager.instance.Delay(routine_id);
+        return new List<TrafficMessage>();
     }
-    public void HandleAccidentCancel(BaseAccident taccident)
+    public MultiYield HandleAccidentCancel(BaseAccident taccident)
     {
-
+        return null;
     }
-    public void HandleAccidentWarning(BaseAccident taccident)
+    public MultiYield HandleAccidentWarning(BaseAccident taccident)
     {
-        
+        return null;
     }
 
     DateTime SetTime(int hour,int min,int sec)
@@ -189,8 +196,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, SetTime(18, 30, 0), accidentTexts[7]));
         AccidentList.Add(CreateAccident(AccidentType.airport, 1, 90, SetTime(20, 50, 0), accidentTexts[7]));
         */
-
-        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, SetTime(9, 20, 0), accidentTexts[4]));
+        AccidentList.Add(CreateAccident(AccidentType.airport, 4, 90, SetTime(9, 15, 0), accidentTexts[7]));
         yield return null;
         AccidentGenerate();
     }

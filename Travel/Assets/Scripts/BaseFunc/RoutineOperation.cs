@@ -137,17 +137,7 @@ public class RoutineTicket : Routine {
 public class RoutineOperation {
     private List<RoutineTicket> routines = new List<RoutineTicket>();
     private BasicDataOperation operation = BasicDataOperation.Instance;
-
-#if UNITY_EDITOR
-    //通过路径找到第三方数据库
-    private static string data_resource =  "data source = " + Application.dataPath + "/Plugins/Android/assets/" + "Travel";
-
-    // 如果运行在Android设备中
-#elif UNITY_ANDROID
-		//将第三方数据库拷贝至Android可找到的地方
-    private static string data_resource = "data source = " + Application.persistentDataPath + "/" + "Travel";
-#endif
-
+    private string data_resource="";
 
     public static UInt64 GetSeconds(DateTime dt)
     {

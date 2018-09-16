@@ -72,9 +72,12 @@ public class BuyTickets : BaseUI {
     private IEnumerator ShowTickets()
     {
         yield return null;
-        List<TrafficMessage> data = TicketsController.Instance.GetBuyTickets(TimeManager.instance.NowTime);
-        if(data!=null)
-            grid.source = data.ToArray();
+        MultiYield my = TicketsController.Instance.GetBuyTickets(TimeManager.instance.NowTime);
+        yield return my;
+        if (my.result != null)
+        {
+            grid.source=my.result.ToArray();
+        }
     }
 
     private void InitText()

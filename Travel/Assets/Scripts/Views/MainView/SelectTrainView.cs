@@ -51,7 +51,7 @@ public class SelectTrainView : BaseUI {
     {
         InitUI();
         yield return null;
-        Search();
+        yield return StartCoroutine(Search());
     }
 
     protected override void InitUI()
@@ -76,13 +76,13 @@ public class SelectTrainView : BaseUI {
         yesterday.onClick.AddListener(delegate ()
         {
             SetDate(date.AddDays(-1));
-            Search();
+            StartCoroutine(Search());
         });
 
         tomorrow.onClick.AddListener(delegate ()
         {
             SetDate(date.AddDays(1));
-            Search();
+            StartCoroutine(Search());
         });
 
         BtnGoData.onClick.AddListener(delegate ()
@@ -100,7 +100,7 @@ public class SelectTrainView : BaseUI {
             {
                 trafficType = TrafficType.Train;
                 SetToggle(trafficType);
-                Search();
+                StartCoroutine(Search());
             }
         });
 
@@ -110,15 +110,21 @@ public class SelectTrainView : BaseUI {
             {
                 trafficType = TrafficType.Plane;
                 SetToggle(trafficType);
-                Search();
+                StartCoroutine(Search());
             }
         });
     }
 
-    private void Search()
+    private IEnumerator Search()
     {
         Tips.gameObject.SetActive(false);
-        SetResults(TicketsController.Instance.Search((int)trafficType, Src.text, Dst.text, date));
+        MultiYield my = TicketsController.Instance.Search((int)trafficType, Src.text, Dst.text, date);
+        yield return my;
+        if(my.result!=null)
+        {
+            SetResults(my.result);
+        }
+        
     }
 
     public void SetResults(List<TrafficMessage> result)

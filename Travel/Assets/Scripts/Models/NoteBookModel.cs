@@ -21,7 +21,7 @@ public class OnePageNoteBook
         for(int i = 1; i < data.content.Count; i++)
         {
             buttontext.Add(data.content[i].condition);
-            buttontext.Add(data.content[i].text);
+            finaltext.Add(data.content[i].text);
         }
     }
 }

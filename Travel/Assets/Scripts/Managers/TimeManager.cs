@@ -8,23 +8,25 @@ using Lucky;
 public class TimeExecuteParam
 {
     public BaseAccident accident;
-    public Action<BaseAccident> exectuteCallback;
+    public Func<BaseAccident, MultiYield> exectuteCallback;
     public bool isDestroy;
 
-    public TimeExecuteParam(BaseAccident taccident, Action<BaseAccident> tcallback, bool destroy=false)
+    public TimeExecuteParam(BaseAccident taccident, Func<BaseAccident, MultiYield> tcallback, bool destroy=false)
     {
         accident = taccident;
         exectuteCallback = tcallback;
         isDestroy = destroy;
     }
 
-    public void Callback(BaseAccident value)
+    public IEnumerator Callback(BaseAccident value)
     {
-        if(exectuteCallback!=null)
+        if (exectuteCallback != null)
         {
             Type type = value.GetType();
-            exectuteCallback(value);
+            yield return exectuteCallback(value);
         }
+        else
+            yield return null;
     }
 }
 
@@ -182,7 +184,7 @@ public class TimeManager : MonoBehaviour {
             if (!tep.isDestroy)
             {
                 TimeSpeed = 1.0f;
-                tep.Callback(tep.accident);
+                StartCoroutine(tep.Callback(tep.accident));
                 if(MapTrafficView.instance==null)
                 {
                     Debug.Log("is null");
@@ -331,7 +333,7 @@ public class TimeManager : MonoBehaviour {
         }
     }
 
-    public bool AddAccidentExecute (BaseAccident value, Action<BaseAccident> callback, bool isDestroy=false)
+    public bool AddAccidentExecute (BaseAccident value, Func<BaseAccident, MultiYield> callback, bool isDestroy=false)
     {
         if (DateTime.Compare(value.starttime, nowTime) < 0)
         {

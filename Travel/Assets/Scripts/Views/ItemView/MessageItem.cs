@@ -60,7 +60,10 @@ public class MessageItem : ItemRender
         height = Mathf.Abs(rt.rect.y);
         base.Start();
         if(show)
+        {
             ShowItem();
+        }
+            
         
         
     }
@@ -68,7 +71,8 @@ public class MessageItem : ItemRender
     protected override void InitUI()
     {
         base.InitUI();
-        rt.anchoredPosition = new Vector2(0, height);
+        if(show)
+            rt.anchoredPosition = new Vector2(0, height);
     }
 
     public void ShowItem()

@@ -10,6 +10,14 @@ public class Sprites
     public const string wechat = "WeChat";
     public const string news = "News";
     public const string shorttext = "ShortText";
+    public const string book1 = "book1";
+    public const string book2 = "book2";
+    public const string book3 = "book3";
+    public const string book4 = "book4";
+    public const string book5 = "book5";
+    public const string book6 = "book6";
+    public const string book7 = "book7";
+    public const string book8 = "book8";
 }
 
 public class SpriteManager : BaseInstance<SpriteManager> {
@@ -21,7 +29,14 @@ public class SpriteManager : BaseInstance<SpriteManager> {
     {
         string[] s =
         {
-
+            Sprites.book1,
+            Sprites.book2,
+            Sprites.book3,
+            Sprites.book4,
+            Sprites.book5,
+            Sprites.book6,
+            Sprites.book7,
+            Sprites.book8
         };
 
         foreach(string name in s)
