@@ -194,23 +194,26 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         RailList = CityUtil.Instance.GetAllCityEdgeNum();
         AirportList = CityUtil.Instance.GetAllCityNodeNum();
 
-        //RailList.Remove(4);
-        //RailList.Remove(10);
-        //RailList.Remove(24);
-        //RailList.Remove(26);
 
-        //AirportList.Remove(1);
 
-        
-        //AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, SetTime(9, 15, 0), 1));
-        //AccidentList.Add(CreateAccident(AccidentType.rail, 10, 30, SetTime(13, 0, 0), 2));
-        //AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, SetTime(17, 0, 0), 1));
-        //AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, SetTime(18, 30, 0), 4));
-        //AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, SetTime(18, 30, 0), 7));
-        //AccidentList.Add(CreateAccident(AccidentType.airport, 1, 90, SetTime(20, 50, 0), 7));
+        CreateAccident(AccidentType.rail, 5, 30, SetTime(9, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 8, 60, SetTime(10, 30, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 1, 30, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 17, 60, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 9, 30, SetTime(15, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 20, 30, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 25, 480, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
 
-        //AccidentList.Add(CreateAccident(AccidentType.airport, 4, 90, SetTime(9, 15, 0), accidentTexts[7]));
+        CreateAccident(AccidentType.airport, 5, 60, SetTime(10, 30, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.airport, 5, 30, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.airport, 4, 60, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.airport, 3, 480, SetTime(15, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.airport, 3, 320, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.airport, 2, 240, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.airport, 1, 260, SetTime(19, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.airport, 0, 30, SetTime(21, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+
         yield return null;
-        AccidentGenerate();
+        //AccidentGenerate();
     }
 }
