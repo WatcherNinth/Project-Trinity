@@ -18,8 +18,9 @@ public class TestRoutine : MonoBehaviour {
 
         Lucky.LuckyUtils.Log(diag.data.Count);
         Lucky.LuckyUtils.Log(diag.data[1].name);
-  
 
+        TicketsOperaton operation = new TicketsOperaton();
+        operation.DelayTickets(DateTime.Now, 1, 30 * 60, AccidentType.rail);
 
 
         //RoutineOperation operation = new RoutineOperation();
