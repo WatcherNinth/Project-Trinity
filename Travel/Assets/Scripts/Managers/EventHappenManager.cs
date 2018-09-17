@@ -20,18 +20,20 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
         EventList = EventUtil.Instance.GetAllEvents().data;
         RandomCityList = EventList.FindAll(x => x.condition == "City");
         RandomTrainList = EventList.FindAll(x => x.condition == "Train");
+        Debug.Log("city:"+RandomCityList.Count+"Train:"+RandomTrainList.Count);
         yield return null;
         //for (int i = 0; i <= 10; i++) ImageList.Add(i.ToString());
         ImageList.Add(Sprites.book1);
-        ImageList.Add(Sprites.book2);
+        ImageList.Add(Sprites.book5);
         ImageList.Add(Sprites.book3);
         ImageList.Add(Sprites.book4);
-        ImageList.Add(Sprites.book5);
+        ImageList.Add(Sprites.book8);
         ImageList.Add(Sprites.book6);
         ImageList.Add(Sprites.book7);
+        ImageList.Add(Sprites.book2);
         ImageList.Add(Sprites.book8);
         ImageList.Add(Sprites.book1);
-        ImageList.Add(Sprites.book2);
+        //ImageList.Add(Sprites.book2);
     }
 
     public void EveryThirtyMinutes(DateTime dt)
@@ -70,8 +72,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
                 }
         }
         
-        //random a event ,pushout 
-        //then del it from xxxxList
+
         if(target!=null)
         {
             OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);
