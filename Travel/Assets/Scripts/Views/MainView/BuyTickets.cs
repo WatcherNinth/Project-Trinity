@@ -145,7 +145,7 @@ public class BuyTickets : BaseUI {
             {
                 SetStopText(city);
                 lv.Dispose();
-            }, StopText.text, StartText.text,true);
+            }, StartText.text, StopText.text,true);
             PopUpManager.Instance.SetPopupPanelAutoClose(go);
         });
 

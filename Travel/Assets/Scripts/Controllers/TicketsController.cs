@@ -58,6 +58,7 @@ public class TicketsController : BaseInstance<TicketsController>
 
     public MultiYield GetBuyTickets(DateTime dt)
     {
+        Debug.Log("tttttttttttttt " + dt);
         return MultiThreadPool.AddNewMission(dt, GetingBuyTickets);
     }
 

@@ -24,27 +24,13 @@ public class CanvasView : MonoBehaviour {
         {
             Show();
             TimeManager.instance.SetNormalSpeed();
-            /*
-            if(!isOn)
-            {
-                Tweener tween = NoteBtn.transform.DOMove(dst, 0.3f);
-                tween.OnComplete
-                (
-                    () => Show()
-                );
-            }
-            else
-            {
-                if(nbv!=null)
-                {
-                    nbv.Dispose();
-                    Tweener tween = NoteBtn.transform.DOMove(src, 1);
-                }
-            }
-            */
-            //RedPoints.gameObject.SetActive(false);
 
         });
+        TicketsOperaton to = new TicketsOperaton();
+        if (to.RefundAllTickets())
+            Lucky.LuckyUtils.Log("successful");
+        else
+            Lucky.LuckyUtils.Log("fail");
     }
 
     private void OnDestroy()
