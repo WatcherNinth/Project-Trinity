@@ -100,12 +100,12 @@ public class AudioManager : MonoBehaviour {
             yield return rr;
             if (rr.asset != null)
             {
-                Debug.Log(((AudioClip)rr.asset).name);
+                Lucky.LuckyUtils.Log(((AudioClip)rr.asset).name);
                 audioclipDic.Add(clipname, (AudioClip)rr.asset);
-                Debug.Log("load " + clipname);
+                Lucky.LuckyUtils.Log("load " + clipname);
             }
             else
-                Debug.Log(clipname + "load failed");
+                Lucky.LuckyUtils.Log(clipname + "load failed");
         }
     }
 }

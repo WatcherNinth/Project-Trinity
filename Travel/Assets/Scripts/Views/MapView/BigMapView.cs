@@ -115,7 +115,7 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     {
         if( Input.touchCount == 1 )
         {
-            Debug.Log("drag");
+            Lucky.LuckyUtils.Log("drag");
             Vector3 globalMousePos;
             if (RectTransformUtility.ScreenPointToWorldPointInRectangle(rt, eventData.position, eventData.pressEventCamera, out globalMousePos))
             {

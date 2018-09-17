@@ -71,10 +71,10 @@ namespace Lucky
                 if (rr.asset != null)
                 {
                     prefabsdict.Add(prefab, (GameObject)rr.asset);
-                    Debug.Log("load " + prefab);
+                    Lucky.LuckyUtils.Log("load " + prefab);
                 }
                 else
-                    Debug.Log(prefab + "load failed");
+                    Lucky.LuckyUtils.Log(prefab + "load failed");
             }
         }
 

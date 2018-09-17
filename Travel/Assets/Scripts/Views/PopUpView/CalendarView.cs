@@ -51,7 +51,7 @@ public class CalendarView : BaseSceneEaseInOut
         NextMonth.onClick.AddListener(delegate ()
         {
             date = date.AddMonths(1);
-            Debug.Log(date.ToString(DateFormat));
+            Lucky.LuckyUtils.Log(date.ToString(DateFormat));
             UpdateView();
         });
     }
@@ -109,7 +109,7 @@ public class CalendarView : BaseSceneEaseInOut
         dv.Btn.onClick.AddListener(delegate()
         {
             date = new DateTime(date.Year, date.Month, Convert.ToInt32(day));
-            Debug.Log(date);
+            Lucky.LuckyUtils.Log(date.ToString());
             if(callback!=null)
                 callback(date);
             Dispose();

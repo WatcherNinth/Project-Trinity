@@ -51,7 +51,7 @@ public class MessagePopUpView : BaseUI {
 
     public bool AddNewMessage(MessageObject itemMessage)
     {
-        Debug.Log("add new message");
+        Lucky.LuckyUtils.Log("add new message");
         if(queue.Count!=0)
         {
             MessageItem temp = queue.Peek();

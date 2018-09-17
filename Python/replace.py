@@ -11,7 +11,7 @@ def file_name(file_dir):
 
 
 if __name__ == "__main__":
-    files = file_name("D:\github\Project-Trinity\Travel\Assets\Scripts\Controllers")
+    files = file_name("D:\github\Project-Trinity\Travel\Assets\Scripts\BaseFunc")
     
     for i in range(len(files)):
         file_name = files[i]
@@ -28,7 +28,7 @@ if __name__ == "__main__":
         
               
         base_name = os.path.basename(file_name)
-        saved_file = "D:\minigame\Project-Trinity\Travel\Assets\Scripts\BaseFunc\\" + base_name  
+        saved_file = "D:\github\Project-Trinity\Travel\Assets\Scripts\BaseFunc\\" + base_name  
         print saved_file
 
         with open(saved_file, "w") as f:

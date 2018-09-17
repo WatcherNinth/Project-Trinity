@@ -41,24 +41,24 @@ public class GameSystem : MonoBehaviour {
 
     private IEnumerator Init()
     {
-        Debug.Log("load text");
+        Lucky.LuckyUtils.Log("load text");
         yield return StartCoroutine(TextManager.Instance.Init());
-        Debug.Log("load prefab");
+        Lucky.LuckyUtils.Log("load prefab");
         yield return StartCoroutine(PrefabManager.Instance.Init());
-        Debug.Log("load accident");
+        Lucky.LuckyUtils.Log("load accident");
         yield return StartCoroutine(AccidentGenerator.Instance.Init());
-        Debug.Log("load event");
+        Lucky.LuckyUtils.Log("load event");
         yield return StartCoroutine(EventHappenManager.Instance.Init());
-        Debug.Log("load audio");
+        Lucky.LuckyUtils.Log("load audio");
         yield return StartCoroutine(AudioManager.Instance.Init());
-        Debug.Log("load wechat");
+        Lucky.LuckyUtils.Log("load wechat");
         yield return StartCoroutine(WeChatManager.Instance.Init());
-        Debug.Log("load new ");
+        Lucky.LuckyUtils.Log("load new ");
         yield return StartCoroutine(NewManager.Instance.Init());
-        Debug.Log("load scene");
+        Lucky.LuckyUtils.Log("load scene");
         AsyncOperation ao = SceneManager.LoadSceneAsync("Main");
         yield return ao;
-        Debug.Log("load finish");
+        Lucky.LuckyUtils.Log("load finish");
         AudioManager.Instance.PlayMusic(Audios.BG, true);
     }
 	

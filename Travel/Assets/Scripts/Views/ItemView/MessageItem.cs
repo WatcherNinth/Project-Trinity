@@ -155,7 +155,7 @@ public class MessageItem : ItemRender
             }
             else if(classtype==typeof(WeChatMessage))
             {
-                Debug.Log("we chat message get");
+                Lucky.LuckyUtils.Log("we chat message get");
                 WeChatMessage tdata = m_Data as WeChatMessage;
                 SetData(tdata);
             }
@@ -231,7 +231,7 @@ public class MessageItem : ItemRender
         {
             btn.onClick.AddListener(delegate ()
             {
-                Debug.Log("show");
+                Lucky.LuckyUtils.Log("show");
                 tdata.callback(tdata);
             });
             time.text = GetTime(tdata.date);
