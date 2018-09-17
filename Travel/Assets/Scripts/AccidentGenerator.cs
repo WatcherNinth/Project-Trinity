@@ -68,6 +68,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         };
         accident = stringProcess.AccidentStringProcess(accident);
         PushAccident(accident);
+        CreateAccidentWarning(accident);
     }
 
     static System.Random rnd = new System.Random();
@@ -213,6 +214,12 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         CreateAccident(AccidentType.airport, 2, 240, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.airport, 1, 260, SetTime(19, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.airport, 0, 30, SetTime(21, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+
+        foreach (AccidentWarning item in AccidentWarningList)
+        {
+            //timemanager callback
+            TimeManager.instance.AddAccidentExecute(item, null);
+        }
 
         yield return null;
         //AccidentGenerate();
