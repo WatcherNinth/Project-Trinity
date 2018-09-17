@@ -19,6 +19,7 @@ public class CanvasView : MonoBehaviour {
     void Start()
     {
         RegisterMsg(true);
+        AudioManager.Instance.PlayMusic(Audios.BG, true);
         NoteBtn.onClick.AddListener(delegate() 
         {
             Show();

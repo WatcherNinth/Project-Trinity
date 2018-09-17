@@ -91,7 +91,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
         if (dst == "沈阳")
         {
             InfoView.Show(new InfoMessage("到家了", "消息！"));
-            TimeManager.instance.TimeSpeed = 0.0f;
+            TimeManager.instance.StopTimeManager();
         }
 
         MapTrafficView.instance.ShowLocation(dst);

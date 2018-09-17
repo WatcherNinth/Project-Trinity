@@ -51,6 +51,7 @@ public class MessagePopUpView : BaseUI {
 
     public bool AddNewMessage(MessageObject itemMessage)
     {
+        AudioManager.Instance.PlayMusic(Audios.PopupClip);
         Lucky.LuckyUtils.Log("add new message");
         if(queue.Count!=0)
         {

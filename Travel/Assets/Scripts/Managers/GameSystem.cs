@@ -59,7 +59,6 @@ public class GameSystem : MonoBehaviour {
         AsyncOperation ao = SceneManager.LoadSceneAsync("Main");
         yield return ao;
         Lucky.LuckyUtils.Log("load finish");
-        AudioManager.Instance.PlayMusic(Audios.BG, true);
     }
 	
 }
