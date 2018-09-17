@@ -190,105 +190,58 @@ public class CityUtil : BaseInstance<CityUtil> {
         city_list.AddEdge("合肥", "郑州");
         city_mapping_list[1] = new CityMapping(1, "合肥", "郑州");
 
-        city_list.AddEdge("杭州", "合肥");
-        city_mapping_list[2] = new CityMapping(2, "杭州", "合肥");
-
+  
         city_list.AddEdge("杭州", "郑州");
-        city_mapping_list[3] = new CityMapping(3, "杭州", "郑州");
+        city_mapping_list[2] = new CityMapping(3, "杭州", "郑州");
 
         city_list.AddEdge("杭州", "南京");
-        city_mapping_list[4] = new CityMapping(4, "杭州", "南京");
+        city_mapping_list[3] = new CityMapping(4, "杭州", "南京");
 
         city_list.AddEdge("杭州", "上海");
-        city_mapping_list[5] = new CityMapping(5, "杭州", "上海");
+        city_mapping_list[4] = new CityMapping(5, "杭州", "上海");
 
-        city_list.AddEdge("郑州", "合肥");
-        city_mapping_list[6] = new CityMapping(6, "郑州", "合肥");
-
-        city_list.AddEdge("郑州", "杭州");
-        city_mapping_list[7] = new CityMapping(7, "郑州", "杭州");
 
         city_list.AddEdge("郑州", "南京");
-        city_mapping_list[8] = new CityMapping(8, "郑州", "南京");
+        city_mapping_list[5] = new CityMapping(8, "郑州", "南京");
 
         city_list.AddEdge("郑州", "石家庄");
-        city_mapping_list[9] = new CityMapping(9, "郑州", "石家庄");
-
-        city_list.AddEdge("南京", "郑州");
-        city_mapping_list[10] = new CityMapping(10, "南京", "郑州");
+        city_mapping_list[6] = new CityMapping(9, "郑州", "石家庄");
 
 
         city_list.AddEdge("南京", "石家庄");
-        city_mapping_list[11] = new CityMapping(11, "南京", "石家庄");
+        city_mapping_list[7] = new CityMapping(11, "南京", "石家庄");
 
         city_list.AddEdge("南京", "天津");
-        city_mapping_list[12] = new CityMapping(12, "南京", "天津");
+        city_mapping_list[8] = new CityMapping(12, "南京", "天津");
 
         city_list.AddEdge("南京", "济南");
-        city_mapping_list[13] = new CityMapping(13, "南京", "济南");
+        city_mapping_list[9] = new CityMapping(13, "南京", "济南");
 
         city_list.AddEdge("南京", "上海");
-        city_mapping_list[14] = new CityMapping(14, "南京", "上海");
+        city_mapping_list[10] = new CityMapping(14, "南京", "上海");
 
-        city_list.AddEdge("南京", "杭州");
-        city_mapping_list[32] = new CityMapping(32, "南京", "杭州");
-
-
-        city_list.AddEdge("上海", "杭州");
-        city_mapping_list[15] = new CityMapping(15, "上海", "杭州");
-
-        city_list.AddEdge("上海", "南京");
-        city_mapping_list[16] = new CityMapping(16, "上海", "南京");
 
         city_list.AddEdge("上海", "济南");
-        city_mapping_list[17] = new CityMapping(17, "上海", "济南");
+        city_mapping_list[11] = new CityMapping(17, "上海", "济南");
 
-        city_list.AddEdge("石家庄", "郑州");
-        city_mapping_list[18] = new CityMapping(18, "石家庄", "郑州");
-
-        city_list.AddEdge("石家庄", "南京");
-        city_mapping_list[19] = new CityMapping(19, "石家庄", "南京");
 
         city_list.AddEdge("石家庄", "济南");
-        city_mapping_list[20] = new CityMapping(20, "石家庄", "济南");
+        city_mapping_list[12] = new CityMapping(20, "石家庄", "济南");
 
 
         city_list.AddEdge("石家庄", "北京");
-        city_mapping_list[21] = new CityMapping(21, "石家庄", "北京");
-
-        city_list.AddEdge("济南", "上海");
-        city_mapping_list[22] = new CityMapping(22, "济南", "上海");
-
-        city_list.AddEdge("济南", "南京");
-        city_mapping_list[23] = new CityMapping(23, "济南", "南京");
-
-        city_list.AddEdge("济南", "石家庄");
-        city_mapping_list[24] = new CityMapping(24, "济南", "石家庄");
+        city_mapping_list[13] = new CityMapping(21, "石家庄", "北京");
 
         city_list.AddEdge("济南", "天津");
-        city_mapping_list[25] = new CityMapping(25, "济南", "天津");
+        city_mapping_list[14] = new CityMapping(25, "济南", "天津");
 
-        city_list.AddEdge("北京", "石家庄");
-        city_mapping_list[26] = new CityMapping(26, "北京", "石家庄");
 
         city_list.AddEdge("北京", "沈阳");
-        city_mapping_list[27] = new CityMapping(27, "北京", "沈阳");
-
-        city_list.AddEdge("天津", "济南");
-        city_mapping_list[28] = new CityMapping(28, "天津", "济南");
+        city_mapping_list[15] = new CityMapping(27, "北京", "沈阳");
 
         city_list.AddEdge("天津", "沈阳");
-        city_mapping_list[29] = new CityMapping(29, "天津", "沈阳");
+        city_mapping_list[16] = new CityMapping(29, "天津", "沈阳");
 
-
-        city_list.AddEdge("天津", "南京");
-        city_mapping_list[33] = new CityMapping(33, "天津", "沈阳");
-
-        city_list.AddEdge("沈阳", "北京");
-        city_mapping_list[30] = new CityMapping(30, "沈阳", "北京");
-
-        city_list.AddEdge("沈阳", "天津");
-        city_mapping_list[31] = new CityMapping(31, "沈阳", "天津");
     }
 
     AdjacencyList<string>.Vertex<string> FindConnectedCity(string city)

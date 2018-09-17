@@ -250,51 +250,52 @@ public class TicketsOperaton
             try
                 {
                     operation.InitConnection(data_resource);
-                    string sql = "select * from routine where start_node like \"%" + start_node + "%\"" + " and end_node like \"%" + end_node + "%\"" 
-                        + " and type = 0 order by start_time";
+                    string sql = "select * from routine where ((start_node like \"%" + start_node + "%\""  + " and end_node like \"%" + end_node + "%\"" 
+                        + ") or  " + "(start_node like \"%" + end_node + "%\"" + " and end_node like \"%" + start_node + "%\")"
+                        + " ) and type = 0 order by start_time";
 
-                    Lucky.LuckyUtils.Log("select all the start node sql " + sql);
+                Lucky.LuckyUtils.Log("select all the start node sql " + sql);
 
-                    SqliteDataReader reader = operation.ExecuteQuery(sql);
-                    List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
-                    operation.CloseConnection();
-                    Lucky.LuckyUtils.Log("res result " + res.Count);
+                SqliteDataReader reader = operation.ExecuteQuery(sql);
+                List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
+                operation.CloseConnection();
+                Lucky.LuckyUtils.Log("res result " + res.Count);
 
-                    List<Routine> delay_routine = new List<Routine>();
-                    UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
-                    Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
-               
+                List<Routine> delay_routine = new List<Routine>();
+                UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
+                Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
 
-                    foreach (Routine t in res)
+
+                foreach (Routine t in res)
+                {
+
+                    UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
+                    // Lucky.LuckyUtils.Log("begin time " + begin_time);
+
+                    UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
+
+                    if (begin_time >= accident_happen_time_seconds)
                     {
-               
-                        UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
-                        // Lucky.LuckyUtils.Log("begin time " + begin_time);
+                        int routine_id = t.GetRoutineId();
+                        UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
+                        UInt64 actual_end_time = end_time + (UInt32)duration * 60;
 
-                        UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
+                        sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time + ", event_happen_time = " + accident_happen_time_seconds
+                            + " where routine_id = " + routine_id;
 
-                        if (begin_time >= accident_happen_time_seconds)
+                        operation.InitConnection(data_resource);
+                        reader = operation.ExecuteQuery(sql);//
+
+                        if (reader.RecordsAffected == 1)
                         {
-                            int routine_id = t.GetRoutineId();
-                            UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
-                            UInt64 actual_end_time = end_time + (UInt32)duration * 60;
+                            affected_routine_ids.Add(routine_id);
+                            operation.CloseConnection();
 
-                            sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time  + ", event_happen_time = " + accident_happen_time_seconds
-                                + " where routine_id = " + routine_id;
-
-                            operation.InitConnection(data_resource);
-                            reader = operation.ExecuteQuery(sql);//
-
-                            if (reader.RecordsAffected == 1)
-                            {
-                                affected_routine_ids.Add(routine_id);
-                                operation.CloseConnection();
-                           
-                            }
                         }
                     }
                 }
-                finally
+            }
+            finally
                 {
 
                     operation.CloseConnection();
