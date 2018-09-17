@@ -34,7 +34,7 @@ public class EventUtil : BaseInstance<EventUtil> {
         TextAsset text = TextManager.Instance.GetText(Texts.Event);
         content = text.text;
 
-        // Lucky.LuckyUtils.Log(text.text);
+        Lucky.LuckyUtils.Log(text.text);
     }
 
     public Events GetAllEvents()
