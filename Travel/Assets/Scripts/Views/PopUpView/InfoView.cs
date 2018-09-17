@@ -20,6 +20,7 @@ public class InfoView : BaseSceneEaseInOut
     public Text info;
     public Text title;
     public Button btn;
+    public Image Bg;
 
     private InfoMessage message = null;
     public InfoMessage Message
@@ -54,9 +55,14 @@ public class InfoView : BaseSceneEaseInOut
         Dispose();
     }
 
+    public void SetBg(string img)
+    {
+        Bg.sprite = SpriteManager.Instance.GetSprite(img);
+    }
+
     public static void Show(InfoMessage message)
     {
-        GameObject go = PopUpManager.Instance.AddUiLayerPopUp(Prefabs.InfoPanel);
+        GameObject go = PopUpManager.Instance.AddPopLayerPopUp(Prefabs.InfoPanel);
         InfoView iv = go.GetComponent<InfoView>();
         iv.Message = message;
         PopUpManager.Instance.SetPopupPanelAutoClose(go);

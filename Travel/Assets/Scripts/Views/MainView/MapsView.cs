@@ -76,7 +76,7 @@ public class MapsView : BaseUI {
         if(UserTicketsModel.Instance.firstEnter==0)
         {
             UserTicketsModel.Instance.firstEnter = 1;
-            InfoView.Show(new InfoMessage("要回家，回沈阳","任务！"));
+            InfoView.Show(new InfoMessage("妈妈转账到账3000元，回沈阳！回家过年！要在24点前回到家吃年夜饭！", "收到转账"));
 #if UNITY_ANDROID
             PlayerPrefs.SetInt("firstenter", 1);
 #endif
