@@ -247,7 +247,7 @@ public class CityUtil : BaseInstance<CityUtil> {
         city_mapping_list[17] = new CityMapping(17, "合肥", "济南");
 
         city_list.AddEdge("郑州", "济南");
-        city_mapping_list[18] = new CityMapping(17, "郑州", "济南");
+        city_mapping_list[18] = new CityMapping(18, "郑州", "济南");
 
         city_tikcet_mapping["上海"] = new List<string>();
         city_tikcet_mapping["上海"].Add("杭州");

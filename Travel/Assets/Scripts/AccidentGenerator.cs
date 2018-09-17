@@ -196,13 +196,14 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
 
 
 
-        CreateAccident(AccidentType.rail, 5, 30, SetTime(9, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
-        CreateAccident(AccidentType.rail, 8, 60, SetTime(10, 30, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 4, 30, SetTime(9, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 5, 60, SetTime(10, 30, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.rail, 1, 30, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
-        CreateAccident(AccidentType.rail, 17, 60, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
-        CreateAccident(AccidentType.rail, 9, 30, SetTime(15, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
-        CreateAccident(AccidentType.rail, 20, 30, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
-        CreateAccident(AccidentType.rail, 25, 480, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 11, 60, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 6, 30, SetTime(15, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 12, 30, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 14, 480, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 18, 480, SetTime(15, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
 
         CreateAccident(AccidentType.airport, 5, 60, SetTime(10, 30, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.airport, 5, 30, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));

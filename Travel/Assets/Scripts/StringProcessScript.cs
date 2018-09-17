@@ -36,6 +36,7 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
         switch(accident.type){
             case AccidentType.rail:
                 {
+                    Debug.Log(accident.location);
                     dictOut[0] = CityUtil.Instance.GetEdgeCity(accident.location).start_node;
                     dictOut[1] = CityUtil.Instance.GetEdgeCity(accident.location).end_node;
                     break;
