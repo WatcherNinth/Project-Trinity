@@ -16,9 +16,11 @@ public class UserTicketsModel : BaseInstance<UserTicketsModel> {
 
     public string city;
     public Where where;
+    public bool going;
 
     public UserTicketsModel()
     {
+        going = false;
 #if UNITY_ANDROID 
         float temp = PlayerPrefs.GetFloat("money", 0);
         if (temp == 0)

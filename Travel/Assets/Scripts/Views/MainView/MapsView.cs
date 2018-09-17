@@ -44,7 +44,7 @@ public class MapsView : BaseUI {
     private void OnGoClick()
     {
         AudioManager.Instance.PlayMusic(Audios.ButtonClip);
-        if (TimeManager.instance.HasTickets())
+        if (TimeManager.instance.HasTickets() || UserTicketsModel.Instance.going)
         {
             if (!isPlay)
             {

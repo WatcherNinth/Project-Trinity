@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using Lucky;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class EventHappenManager : BaseInstance<EventHappenManager>
 {
@@ -88,12 +89,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     {
         Lucky.LuckyUtils.Log("every location " + dst);
         TicketFlag = true;
-        if (dst == "沈阳")
-        {
-            InfoView.Show(new InfoMessage("到家了", "消息！"));
-            TimeManager.instance.StopTimeManager();
-        }
-
+        
         MapTrafficView.instance.ShowLocation(dst);
         Event target = EventList.Find(x => x.condition == dst);
 
@@ -102,7 +98,22 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
             OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);
             MessageBus.Post(data);
         }
-        
+
+        if (dst == "沈阳")
+        {
+            InfoView.Show(new InfoMessage("到家了", "消息！"));
+            TimeManager.instance.SetEnding();
+        }
+
+
+    }
+
+    public IEnumerator Ending()
+    {
+        TimeManager.instance.StopTimeManager();
+        yield return new WaitForSeconds(1);
+        AsyncOperation ao = SceneManager.LoadSceneAsync("Ending");
+        yield return ao;
 
     }
 

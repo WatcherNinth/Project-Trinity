@@ -10,6 +10,7 @@ public class Audios
     public const string NoteBookClip = "日记翻页";
     public const string AirPlaneClip = "飞机";
     public const string RailwayClip = "高铁";
+    public const string Ending = "Ending";
 }
 
 public class AudioManager : MonoBehaviour {
@@ -91,7 +92,8 @@ public class AudioManager : MonoBehaviour {
             {
                 Audios.BG,
                 Audios.AirPlaneClip,
-                Audios.RailwayClip
+                Audios.RailwayClip,
+                Audios.Ending
             };
 
         foreach(string clipname in s)

@@ -10,6 +10,9 @@ public class Sprites
     public const string wechat = "WeChat";
     public const string news = "News";
     public const string shorttext = "ShortText";
+    public const string mother = "mother";
+    public const string father = "father";
+    public const string sister = "sister";
     public const string book1 = "book1";
     public const string book2 = "book2";
     public const string book3 = "book3";

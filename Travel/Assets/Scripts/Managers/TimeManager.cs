@@ -68,6 +68,7 @@ public class TimeManager : MonoBehaviour {
 
     private Text timeText;
     private MapsView mv;
+    private bool Ending = false;
 
     public float normalSpeed= 0.0166f;
     public float fastSpeed = 10f;
@@ -149,6 +150,11 @@ public class TimeManager : MonoBehaviour {
                 if (timespeed != 0)
                     Check();
             }
+        }
+        if (Ending)
+        {
+            StartCoroutine(EventHappenManager.Instance.Ending());
+            Ending = false;
         }
     }
 
@@ -536,6 +542,11 @@ public class TimeManager : MonoBehaviour {
         }
         else
             return true;
+    }
+
+    public void SetEnding()
+    {
+        Ending = true;
     }
 
 }
