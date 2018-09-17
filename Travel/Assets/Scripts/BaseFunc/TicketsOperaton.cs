@@ -97,9 +97,34 @@ public class TicketsOperaton
         finally
         {
             operation.CloseConnection();
-        }
-       
+        }       
     }
+    public bool RefundAllTickets()
+    {
+        try
+        {
+            operation.InitConnection(data_resource);
+
+            string sql = "delete from purchased_tickets ";
+            Lucky.LuckyUtils.Log(sql);
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+            if (reader.RecordsAffected == 1)
+            {
+                operation.CloseConnection();
+                return true;
+            }
+            else
+            {
+                operation.CloseConnection();
+                return false;
+            }
+        }
+        finally
+        {
+            operation.CloseConnection();
+        }
+    }
+
 
     public List<RoutineTicket> GetUserTickets(DateTime time)
     {
