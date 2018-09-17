@@ -209,7 +209,20 @@ public class MessageItem : ItemRender
 
     private void SetData(WeChatMessage tdata)
     {
-        image.sprite = SpriteManager.Instance.GetSprite(Sprites.wechat);
+        string path = "";
+        switch(tdata.name)
+        {
+            case "妈妈":
+                path = Sprites.mother;
+                break;
+            case "爸爸":
+                path = Sprites.father;
+                break;
+            default:
+                path = Sprites.sister;
+                break;
+        }
+        image.sprite = SpriteManager.Instance.GetSprite(path);
         title.text = tdata.name;
         maincontent = tdata.content;
         if (maincontent.Length > num)

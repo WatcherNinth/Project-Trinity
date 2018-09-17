@@ -23,6 +23,7 @@ public class CanvasView : MonoBehaviour {
         NoteBtn.onClick.AddListener(delegate() 
         {
             Show();
+            TimeManager.instance.SetNormalSpeed();
             /*
             if(!isOn)
             {

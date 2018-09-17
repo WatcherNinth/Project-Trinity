@@ -24,6 +24,7 @@ public class BuyTickets : BaseUI {
 
     public Button DateChosen;
     public Text DateText;
+    public Text ShowTips;
 
     public Button Search;
 
@@ -41,13 +42,13 @@ public class BuyTickets : BaseUI {
 
     private string DateFormat = "M月d日";
 
-    private void Awake()
+    protected override void Awake()
     {
         type = TrafficType.Train;
         base.Awake();
     }
 
-    private void Start()
+    protected override void Start()
     {
         base.Start();
         TrainToggle = Train.GetComponent<Toggle>();
@@ -59,6 +60,7 @@ public class BuyTickets : BaseUI {
         InitText();
         InitEvent();
 
+        ShowTips.gameObject.SetActive(false);
         StartCoroutine(ShowTickets());
     }
 
@@ -76,7 +78,16 @@ public class BuyTickets : BaseUI {
         yield return my;
         if (my.result != null)
         {
-            grid.source=my.result.ToArray();
+            if(my.result.Count==0)
+            {
+                ShowTips.gameObject.SetActive(true);
+            }
+            else
+            {
+                ShowTips.gameObject.SetActive(false);
+            }
+            grid.source = my.result.ToArray();
+
         }
     }
 

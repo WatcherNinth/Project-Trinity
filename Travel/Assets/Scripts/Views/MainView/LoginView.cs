@@ -31,6 +31,14 @@ public class LoginView : MonoBehaviour {
         //img.sprite = Change;
         Login.interactable = false;
         StartCoroutine(GameSystem.instance.Init());
+        if (UserTicketsModel.Instance.firstEnter != 0)
+        {
+            //StartCoroutine(GameSystem.instance.Init());
+        }
+        else
+        {
+
+        }
     }
 
 }

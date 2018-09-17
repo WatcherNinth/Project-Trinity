@@ -56,7 +56,8 @@ public class MapTrafficView : MonoBehaviour {
                 BuyTicketsModel.Instance.startlocation = city;
                 BuyTicketsModel.Instance.stoplocation = "沈阳";
                 TimeManager.instance.SetNormalSpeed();
-                EventHappenManager.Instance.EveryLocation(dst);
+                EventHappenManager.Instance.EveryLocation(city);
+                UserTicketsModel.Instance.going = false;
             }
         }
 
@@ -75,7 +76,8 @@ public class MapTrafficView : MonoBehaviour {
                 BuyTicketsModel.Instance.stoplocation = "沈阳";
                 TimeManager.instance.SetNormalSpeed();
                 airline.gameObject.SetActive(false);
-                EventHappenManager.Instance.EveryLocation(dst);
+                EventHappenManager.Instance.EveryLocation(city);
+                UserTicketsModel.Instance.going = false;
 
             }
         }
@@ -191,6 +193,8 @@ public class MapTrafficView : MonoBehaviour {
                 animator.Play(animationName);
                 animator.speed = (float)speed;
             }
+
+            UserTicketsModel.Instance.going = true;
         }
         else
         {
@@ -234,6 +238,8 @@ public class MapTrafficView : MonoBehaviour {
                 animator.Play(animationName, 0, 0);
                 animator.speed = (float)speed;
             }
+
+            UserTicketsModel.Instance.going = true;
         }
         else
         {
