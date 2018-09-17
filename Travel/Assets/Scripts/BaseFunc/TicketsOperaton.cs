@@ -15,7 +15,7 @@ public class TicketsOperaton
 
     public static DateTime GetTodayTime(int seconds)
     {
-        DateTime now = GameModel.Instance.Start;
+        DateTime now = GameModel.Instance.SqlStart;
         DateTime new_now = new DateTime(now.Year, now.Month, now.Day);
         int hour = seconds / 3600;
         int minutes = (seconds - hour * 3600) / 60;
@@ -295,13 +295,14 @@ public class TicketsOperaton
                 {
 
                     UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
-                    // Lucky.LuckyUtils.Log("begin time " + begin_time);
+                    Lucky.LuckyUtils.Log("begin time " + begin_time);
 
                     UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
 
                     if (begin_time >= accident_happen_time_seconds)
                     {
                         int routine_id = t.GetRoutineId();
+                        Lucky.LuckyUtils.Log("lucky routine_id "+ routine_id);
                         UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
                         UInt64 actual_end_time = end_time + (UInt32)duration * 60;
 
