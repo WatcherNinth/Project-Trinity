@@ -11,6 +11,8 @@ public class Audios
     public const string AirPlaneClip = "飞机";
     public const string RailwayClip = "高铁";
     public const string Ending = "Ending";
+    public const string WeChatCall = "WeChatCall";
+    public const string WeChatCalling = "WeChatCalling";
 }
 
 public class AudioManager : MonoBehaviour {
@@ -34,11 +36,6 @@ public class AudioManager : MonoBehaviour {
     void Start () {
         DontDestroyOnLoad(gameObject);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
     private AudioSource GetAudioSource()
     {
@@ -52,7 +49,7 @@ public class AudioManager : MonoBehaviour {
         return audio;
     }
 
-    private AudioClip GetAudioClip(string name)
+    public AudioClip GetAudioClip(string name)
     {
         if (audioclipDic.ContainsKey(name))
             return audioclipDic[name];
@@ -60,8 +57,16 @@ public class AudioManager : MonoBehaviour {
         {
 
             AudioClip ac = Resources.Load<AudioClip>(audioPath+name);
-            audioclipDic.Add(name, ac);
-            return ac;
+            if(ac==null)
+            {
+                return null;
+            }
+            else
+            {
+                audioclipDic.Add(name, ac);
+                return ac;
+            }
+            
         }
     }
 
@@ -98,6 +103,8 @@ public class AudioManager : MonoBehaviour {
 
         foreach(string clipname in s)
         {
+            if (audioclipDic.ContainsKey(clipname))
+                continue;
             ResourceRequest rr = Resources.LoadAsync(audioPath+clipname);
             yield return rr;
             if (rr.asset != null)
