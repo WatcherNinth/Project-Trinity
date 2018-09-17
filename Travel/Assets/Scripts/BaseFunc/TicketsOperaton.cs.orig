@@ -303,7 +303,11 @@ public class TicketsOperaton
                     if (begin_time >= accident_happen_time_seconds)
                     {
                         int routine_id = t.GetRoutineId();
+<<<<<<< HEAD
                         Lucky.LuckyUtils.Log("lucky routine_id "+ routine_id);
+=======
+                        Lucky.LuckyUtils.Log("routine ID " + routine_id);
+>>>>>>> a65527b8dc46cdc876aa868d3cb4a3cd84307852
                         UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
                         UInt64 actual_end_time = end_time + (UInt32)duration * 60;
 
