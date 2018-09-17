@@ -56,7 +56,7 @@ public class WarningView : BaseUI, IPointerClickHandler
                 string city = CityUtil.Instance.GetCityName(accident.location);
                 RectTransform cityrt = MapTrafficView.instance.FindPlace(city);
                 Vector3 pos = cityrt.anchoredPosition3D + new Vector3(cityrt.rect.width / 2, 0, 0);
-                Debug.Log("city warning" + city);
+                Lucky.LuckyUtils.Log("city warning" + city);
                 rt.anchoredPosition3D = pos;
             }
             else
@@ -68,7 +68,7 @@ public class WarningView : BaseUI, IPointerClickHandler
             rt.localScale = new Vector3(1.5f, 1.5f, 0);
 
             news = "灾害持续时间： "+accident.duration+"分钟";
-            Debug.Log("add listener");
+            Lucky.LuckyUtils.Log("add listener");
             callback=delegate ()
             {
                 InfoView.Show(new InfoMessage(news, "灾害！"));
@@ -80,7 +80,7 @@ public class WarningView : BaseUI, IPointerClickHandler
             AccidentWarning warning = data as AccidentWarning;
             if (warning.type == AccidentType.airport)
             {
-                Debug.Log("location number " + warning.location);
+                Lucky.LuckyUtils.Log("location number " + warning.location);
                 string city = CityUtil.Instance.GetCityName(warning.location);
                 RectTransform cityrt = MapTrafficView.instance.FindPlace(city);
                 Vector3 pos = cityrt.anchoredPosition3D + new Vector3(cityrt.rect.width / 2, 0, 0);
@@ -95,7 +95,7 @@ public class WarningView : BaseUI, IPointerClickHandler
             
             rt.localScale = new Vector3(1.5f, 1.5f, 0);
 
-            news = "<b><size=60>此地即将发生灾害事件</size></b>\n\n"
+            news = "<b><size=50>此地即将发生灾害事件</size></b>\n\n"
                 + "灾害预计发生时间: " + warning.Accidentstarttime.ToString("HH:mm") + "\n\n"
                 + "灾害预计持续时间： " + warning.min + "min ~ " + warning.max + "min";
            callback=delegate ()

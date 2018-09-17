@@ -48,7 +48,7 @@ public class MapTrafficView : MonoBehaviour {
             AnimatorStateInfo asi = animator.GetCurrentAnimatorStateInfo(0);
             if ((asi.normalizedTime > 1.0f) && (asi.IsName(animationName)))
             {
-                Debug.Log("train arrive");
+                Lucky.LuckyUtils.Log("train arrive");
                 train.SetActive(false);
                 UserTicketsModel.Instance.where = Where.City;
                 UserTicketsModel.Instance.city = FindPlaceName(dst);
@@ -62,7 +62,7 @@ public class MapTrafficView : MonoBehaviour {
             AnimatorStateInfo asi = animator.GetCurrentAnimatorStateInfo(0);
             if ((asi.normalizedTime > 1.0f) && (asi.IsName(animationName)))
             {
-                Debug.Log("airplane arrive");
+                Lucky.LuckyUtils.Log("airplane arrive");
                 airplane.SetActive(false);
                 
                 UserTicketsModel.Instance.where = Where.City;
@@ -80,7 +80,7 @@ public class MapTrafficView : MonoBehaviour {
     {
         if (data.GetType() == typeof(Accident))
         {
-            Debug.Log("destroy");
+            Lucky.LuckyUtils.Log("destroy");
             Accident accident = data as Accident;
             Destroy(warndic[accident.location].gameObject);
             warndic.Remove(accident.location);
@@ -141,10 +141,10 @@ public class MapTrafficView : MonoBehaviour {
         {
             AudioManager.Instance.PlayMusic(Audios.AirPlaneClip);
             UserTicketsModel.Instance.where = Where.AirPlane;
-            Debug.Log("airplane fly" + tp.rt.GetBeginTime());
+            Lucky.LuckyUtils.Log("airplane fly" + tp.rt.GetBeginTime());
             Vector3 startPos = Vector3.zero;
-            Debug.Log("start " + tp.rt.GetRoutineStartNode());
-            Debug.Log("stop " + tp.rt.GetEndNode());
+            Lucky.LuckyUtils.Log("start " + tp.rt.GetRoutineStartNode());
+            Lucky.LuckyUtils.Log("stop " + tp.rt.GetEndNode());
 
             string start = tp.rt.GetRoutineStartNode();
             string stop = tp.rt.GetEndNode();
@@ -153,7 +153,7 @@ public class MapTrafficView : MonoBehaviour {
             LocationsModel.cityslocation.TryGetValue(start, out startPos);
             Vector3 stopPos = Vector3.zero;
             LocationsModel.cityslocation.TryGetValue(stop, out stopPos);
-            Debug.Log("start stop pos " + startPos + " " + stopPos);
+            Lucky.LuckyUtils.Log("start stop pos " + startPos + " " + stopPos);
             airline.Show(startPos, stopPos);
 
             
@@ -167,9 +167,9 @@ public class MapTrafficView : MonoBehaviour {
             TicketsController.Instance.DeleteTickets(ticketid);
 
             traveltime = (float)ts.TotalMinutes;
-            Debug.Log("travel time " + ts.TotalMinutes);
+            Lucky.LuckyUtils.Log("travel time " + ts.TotalMinutes);
             double realtime = traveltime / TimeManager.instance.TimeSpeed;
-            Debug.Log("realtime " + realtime);
+            Lucky.LuckyUtils.Log("realtime " + realtime);
             animationName = start + "To" + stop;
 
             animator = airplane.GetComponent<Animator>();
@@ -180,7 +180,7 @@ public class MapTrafficView : MonoBehaviour {
 
                 cliptime = clip.length;
                 double speed = cliptime / realtime;
-                Debug.Log("speed " + speed);
+                Lucky.LuckyUtils.Log("speed " + speed);
                 airplane.SetActive(true);
                 animator.Play(animationName);
                 animator.speed = (float)speed;
@@ -199,7 +199,7 @@ public class MapTrafficView : MonoBehaviour {
         {
             AudioManager.Instance.PlayMusic(Audios.RailwayClip);
             UserTicketsModel.Instance.where = Where.Train;
-            Debug.Log("train go" + tp.rt.GetBeginTime());
+            Lucky.LuckyUtils.Log("train go" + tp.rt.GetBeginTime());
             string start = tp.rt.GetRoutineStartNode();
             string stop = tp.rt.GetEndNode();
             dst = stop;

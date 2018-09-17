@@ -36,7 +36,7 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
 
     private void BuyTickets()
     {
-        Debug.Log("buy ticket popup ticked id" + trafficMessage.id);
+        Lucky.LuckyUtils.Log("buy ticket popup ticked id" + trafficMessage.id);
         StartCoroutine(BuyTickets(trafficMessage.id));
     }
 

@@ -41,8 +41,8 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
         
         Event target=null;
         //get current status
-        Debug.Log("where "+UserTicketsModel.Instance.where);
-        Debug.Log("Count "+RandomCityList.Count);
+        Lucky.LuckyUtils.Log("where "+UserTicketsModel.Instance.where);
+        Lucky.LuckyUtils.Log("Count "+RandomCityList.Count);
         switch (UserTicketsModel.Instance.where)
         {
             case Where.City:
@@ -83,7 +83,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
 
     public void EveryLocation(string dst)
     {
-        Debug.Log("every location " + dst);
+        Lucky.LuckyUtils.Log("every location " + dst);
 
         if (dst == "沈阳")
         {

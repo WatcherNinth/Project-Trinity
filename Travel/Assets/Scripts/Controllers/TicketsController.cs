@@ -46,13 +46,13 @@ public class TicketsController : BaseInstance<TicketsController>
         int ticketid = ticket_operation.BuyTickets(id);
         if(ticketid==0)
         {
-            Debug.Log("ticket id error");
+            Lucky.LuckyUtils.Log("ticket id error");
             return null;
         }
         RoutineTicket ticket=ticket_operation.GetTicketByTickedId(ticketid);
-        Debug.Log("ticket " + ticket.GetRoutineStartNode() + " " + ticket.GetBeginTime() + " "+ticket.GetTicketId());
+        Lucky.LuckyUtils.Log("ticket " + ticket.GetRoutineStartNode() + " " + ticket.GetBeginTime() + " "+ticket.GetTicketId());
         TimeManager.instance.AddGo(new TicketParam(ticket));
-        Debug.Log("buy ticket id " + ticket.GetTicketId() + " routtine id" + ticket.GetRoutineId());
+        Lucky.LuckyUtils.Log("buy ticket id " + ticket.GetTicketId() + " routtine id" + ticket.GetRoutineId());
         return new List<TrafficMessage>();
     }
 
@@ -64,7 +64,7 @@ public class TicketsController : BaseInstance<TicketsController>
     private List<TrafficMessage> GetingBuyTickets(System.Object tdt)
     {
         DateTime dt = (DateTime)tdt;
-        Debug.Log("abc "+dt);
+        Lucky.LuckyUtils.Log("abc "+dt);
         TicketsOperaton ticket_operation = new TicketsOperaton();
         List<RoutineTicket> all_tickets = ticket_operation.GetUserTickets(dt);
 
@@ -92,9 +92,9 @@ public class TicketsController : BaseInstance<TicketsController>
                 usetime += "0";
             usetime += ts.Minutes;
 
-            Debug.Log("start time " + starttime);
-            Debug.Log("get ticked id " + id);
-            Debug.Log("get routined id  " + rt.GetRoutineId());
+            Lucky.LuckyUtils.Log("start time " + starttime);
+            Lucky.LuckyUtils.Log("get ticked id " + id);
+            Lucky.LuckyUtils.Log("get routined id  " + rt.GetRoutineId());
             
             /*
             // 第一次开启App，将没有加载的数据放入TimeManager
@@ -105,8 +105,8 @@ public class TicketsController : BaseInstance<TicketsController>
             }
             */
 
-            Debug.Log("start time " + starttime + " plan start time " + rt.GetBeginTime());
-            Debug.Log("stop time " + stoptime + " plan stop time " + rt.GetEndTime());
+            Lucky.LuckyUtils.Log("start time " + starttime + " plan start time " + rt.GetBeginTime());
+            Lucky.LuckyUtils.Log("stop time " + stoptime + " plan stop time " + rt.GetEndTime());
             if ( (DateTime.Compare(starttime, rt.GetBeginTime())==0) && (DateTime.Compare(stoptime, rt.GetEndTime())==0) )
                 finaldata.Add(new TrafficMessage(starttime.ToString("HH:mm"), start, usetime, ticketname, stoptime.ToString("HH:mm"), stop, money, false, false, id,(TrafficType)rt.Type()));
             else
@@ -114,7 +114,7 @@ public class TicketsController : BaseInstance<TicketsController>
 
         }
         
-        Debug.Log("count " + finaldata.Count);
+        Lucky.LuckyUtils.Log("count " + finaldata.Count);
 
         return finaldata;
     }
@@ -128,11 +128,11 @@ public class TicketsController : BaseInstance<TicketsController>
     private List<TrafficMessage> DeleteTickets(System.Object value)
     {
         int id = (int)value;
-        Debug.Log("delete ticket id " + id);
+        Lucky.LuckyUtils.Log("delete ticket id " + id);
         TicketsOperaton ticket_operation = new TicketsOperaton();
 
         RoutineTicket ticket = ticket_operation.GetTicketByTickedId(id);
-        Debug.Log("delte routine id " + ticket.GetRoutineId());
+        Lucky.LuckyUtils.Log("delte routine id " + ticket.GetRoutineId());
         
         bool abc = ticket_operation.RefundTicket(id);
         if(abc)

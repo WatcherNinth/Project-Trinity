@@ -93,7 +93,7 @@ public class ParentScrollViewRect : ScrollRect
         //速度
         float deltatime = Time.realtimeSinceStartup - starttime;
         float speed = move / deltatime;
-        Debug.Log("get speed "+speed);
+        Lucky.LuckyUtils.Log("get speed "+speed);
         if(speed > triggerspeed)
         {
             if (direct == Direction.LeftToRight)

@@ -172,7 +172,7 @@ public class TimeManager : MonoBehaviour {
         {
             var enumerator = waitingAccidents.GetEnumerator();
             enumerator.MoveNext();
-            //Debug.Log("next starttiem "+enumerator.Current.Key);
+            //Lucky.LuckyUtils.Log("next starttiem "+enumerator.Current.Key);
             if (DateTime.Compare(enumerator.Current.Key, NowTime) < 0)
             {
                 List<TimeExecuteParam> teps = enumerator.Current.Value;
@@ -187,7 +187,7 @@ public class TimeManager : MonoBehaviour {
             
             if (!tep.isDestroy)
             {
-                Debug.Log("new accident");
+                Lucky.LuckyUtils.Log("new accident");
                 TimeSpeed = 1.0f;
                 StartCoroutine(tep.Callback(tep.accident));
                 MapTrafficView.instance.ShowAccidentMessage(tep.accident);
@@ -285,7 +285,7 @@ public class TimeManager : MonoBehaviour {
     {
         if(DateTime.Compare(message.date, nowTime) < 0)
         {
-            Debug.Log("error " + message.title);
+            Lucky.LuckyUtils.Log("error " + message.title);
             return false;
         }
         else
@@ -311,7 +311,7 @@ public class TimeManager : MonoBehaviour {
     {
         if (DateTime.Compare(message.date, nowTime) < 0)
         {
-            Debug.Log("error " + message.date);
+            Lucky.LuckyUtils.Log("error " + message.date);
             return false;
         }
         else
@@ -337,7 +337,7 @@ public class TimeManager : MonoBehaviour {
     {
         if (DateTime.Compare(value.starttime, nowTime) < 0)
         {
-            Debug.Log("error " + value.starttime+nowTime);
+            Lucky.LuckyUtils.Log("error " + value.starttime+nowTime);
             return false;
         }
         lock (accidentlock)
@@ -364,7 +364,7 @@ public class TimeManager : MonoBehaviour {
         /*
         if (DateTime.Compare(value.rt.GetBeginTime(), nowTime) < 0)
         {
-            Debug.Log("error " + value.rt.GetBeginTime());
+            Lucky.LuckyUtils.Log("error " + value.rt.GetBeginTime());
             return false;
         }
         */
@@ -372,7 +372,7 @@ public class TimeManager : MonoBehaviour {
         {
             long id = value.rt.GetRoutineId();
             DateTime start = value.rt.GetBeginTime();
-            Debug.Log("add routine id "+id);
+            Lucky.LuckyUtils.Log("add routine id "+id);
             GoId.Add(id, start);
             if (waitingGo.ContainsKey(start))
             {
@@ -386,32 +386,32 @@ public class TimeManager : MonoBehaviour {
                 dicts.Add(id, value);
                 waitingGo.Add(start, dicts);
             }
-            Debug.Log("goid " + GoId.Count);
+            Lucky.LuckyUtils.Log("goid " + GoId.Count);
         }
         return true;
     }
 
     public void RemoveGo(long id)
     {
-        Debug.Log("remove goid " + GoId.Count);
-        Debug.Log("remove id " + id);
+        Lucky.LuckyUtils.Log("remove goid " + GoId.Count);
+        Lucky.LuckyUtils.Log("remove id " + id);
         lock (golock)
         {
             if (GoId.ContainsKey(id))
             {
-                Debug.Log("contain id "+id);
+                Lucky.LuckyUtils.Log("contain id "+id);
                 //获取出发时间
                 DateTime start;
                 GoId.TryGetValue(id, out start);
                 if (start != null)
                 {
-                    Debug.Log("contain start "+start);
+                    Lucky.LuckyUtils.Log("contain start "+start);
                     //获取出发时间对应的事件
                     Dictionary<long, TicketParam> dicts;
                     waitingGo.TryGetValue(start, out dicts);
                     if (dicts != null)
                     {
-                        Debug.Log("contain ticket param ");
+                        Lucky.LuckyUtils.Log("contain ticket param ");
                         dicts.Remove(id);
                     }
                     if (dicts.Count == 0)
@@ -443,7 +443,7 @@ public class TimeManager : MonoBehaviour {
                     RemoveGo(id);
                     TicketsOperaton ticket_operation = new TicketsOperaton();
                     RoutineTicket ticket = ticket_operation.GetTicketByTickedId(id);
-                    Debug.Log("delay " + ticket.GetActualBeginTime());
+                    Lucky.LuckyUtils.Log("delay " + ticket.GetActualBeginTime());
                     AddGo(new TicketParam(ticket));
                 }
             }
@@ -457,7 +457,7 @@ public class TimeManager : MonoBehaviour {
         {
             var etor = waitingAccidents.GetEnumerator();
             etor.MoveNext();
-            Debug.Log("accident next start time " + etor.Current.Key);
+            Lucky.LuckyUtils.Log("accident next start time " + etor.Current.Key);
             if (DateTime.Compare(etor.Current.Key, dt) < 0)
             {
                 //if(etor.Current.Value.)
@@ -465,7 +465,7 @@ public class TimeManager : MonoBehaviour {
                 int i = 0;
                 for (;i<list.Count;i++)
                 {
-                    Debug.Log("get accident "+list[i].accident.starttime +" destroy "+list[i].isDestroy);
+                    Lucky.LuckyUtils.Log("get accident "+list[i].accident.starttime +" destroy "+list[i].isDestroy);
                     if (list[i].isDestroy == false)
                         break;
                 }
@@ -479,7 +479,7 @@ public class TimeManager : MonoBehaviour {
         {
             var etor = waitingGo.GetEnumerator();
             etor.MoveNext();
-            Debug.Log("go next start time " + etor.Current.Key);
+            Lucky.LuckyUtils.Log("go next start time " + etor.Current.Key);
             if (DateTime.Compare(etor.Current.Key, dt) < 0)
             {
                 dt = etor.Current.Key;

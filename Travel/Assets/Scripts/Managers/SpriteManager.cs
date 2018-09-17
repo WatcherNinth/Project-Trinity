@@ -46,10 +46,10 @@ public class SpriteManager : BaseInstance<SpriteManager> {
             if(rr.asset!=null)
             {
                 spriteDics.Add(name, (Sprite)rr.asset);
-                Debug.Log("load " + name);
+                Lucky.LuckyUtils.Log("load " + name);
             }
             else
-                Debug.Log(name + "load failed");
+                Lucky.LuckyUtils.Log(name + "load failed");
         }
     }
 

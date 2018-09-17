@@ -52,36 +52,14 @@ namespace Lucky
             rt.position = Vector3.zero;
         }
 
-        public static void Log(string str)
+        public static void Log(System.Object str)
         {
 #if UNITY_EDITOR
-            Debug.Log(str);
+            //Debug.Log(str.ToString());
 #endif
 
 #if UNITY_ANDROID
-            //Debug.Log(str);
-#endif
-        }
-
-        public static void Log(int i)
-        {
-#if UNITY_EDITOR
-            Debug.Log(i+"");
-#endif
-
-#if UNITY_ANDROID
-            //Debug.Log(str);
-#endif
-        }
-
-        public static void Log(float i)
-        {
-#if UNITY_EDITOR
-            Debug.Log(i + "");
-#endif
-
-#if UNITY_ANDROID
-            //Debug.Log(str);
+            //Debug.Log(str.ToString());
 #endif
         }
 
