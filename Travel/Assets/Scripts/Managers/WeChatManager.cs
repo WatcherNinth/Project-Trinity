@@ -39,8 +39,8 @@ public class WeChatManager : BaseInstance<WeChatManager> {
     public IEnumerator Init()
     {
         WechatContentProcessor();
-        PushWechatList();
         yield return null;
+        PushWechatList();
     }
 
     public void PostWeChat(WeChatMessage data)

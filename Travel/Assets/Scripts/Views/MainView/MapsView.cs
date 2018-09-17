@@ -10,11 +10,9 @@ public class MapsView : BaseUI {
     public Button BuyBtn;
     public Button GoBtn;
 
-    public Text GoBtnText;
-
     private bool isPlay = false;
 
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
     }
@@ -39,7 +37,7 @@ public class MapsView : BaseUI {
     private void OnClick()
     {
         AudioManager.Instance.PlayMusic(Audios.ButtonClip);
-        TimeManager.instance.TimeSpeed = 1.0f;
+        TimeManager.instance.StopTimeManager();
         mainContent.ShowView(ViewID.BuyTickets);
     }
 
@@ -50,13 +48,12 @@ public class MapsView : BaseUI {
         {
             isPlay = true;
             TimeManager.instance.GoToNextStartTime();
-            MapTrafficView.instance.SetAnimatorSpeed();
-            GoBtnText.text = "休息";
+            //GoBtnText.text = "休息";
         }
         else
         {
             isPlay = false;
-            GoBtnText.text = "出发";
+            //GoBtnText.text = "出发";
             TimeManager.instance.TimeSpeed = 1.0f;
         }
     }
@@ -64,8 +61,7 @@ public class MapsView : BaseUI {
     public void ChangeGoButton()
     {
         isPlay = false;
-        GoBtnText.text = "出发";
-        MapTrafficView.instance.SetAnimatorSpeed();
+        //GoBtnText.text = "出发";
     }
 
     private void SetFirstPopUp()

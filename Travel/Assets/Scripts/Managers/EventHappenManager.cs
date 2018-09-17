@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class EventHappenManager : BaseInstance<EventHappenManager>
 {
 
-    public List<Event> EventList = EventUtil.Instance.GetAllEvents().data;
+    public List<Event> EventList;
     public List<Event> RandomCityList = new List<Event>();
     public List<Event> RandomTrainList = new List<Event>();
     public List<Event> RandomFlightList = new List<Event>();
@@ -17,8 +17,10 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     public IEnumerator Init()
     {
         //OnePageNoteBook data = new OnePageNoteBook();
+        EventList = EventUtil.Instance.GetAllEvents().data;
         RandomCityList = EventList.FindAll(x => x.condition == "City");
         RandomTrainList = EventList.FindAll(x => x.condition == "Train");
+        yield return null;
         //for (int i = 0; i <= 10; i++) ImageList.Add(i.ToString());
         ImageList.Add(Sprites.book1);
         ImageList.Add(Sprites.book2);
@@ -30,7 +32,6 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
         ImageList.Add(Sprites.book8);
         ImageList.Add(Sprites.book1);
         ImageList.Add(Sprites.book2);
-        yield return null;
     }
 
     public void EveryThirtyMinutes(DateTime dt)
@@ -90,8 +91,8 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
         }
 
         MapTrafficView.instance.ShowLocation(dst);
-
         Event target = EventList.Find(x => x.condition == dst);
+
         if(target!=null)
         {
             OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);

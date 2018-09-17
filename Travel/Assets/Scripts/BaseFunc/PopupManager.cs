@@ -213,7 +213,6 @@ namespace Lucky
         //往UI层Canvas上加一个弹窗：
         public GameObject AddUiLayerPopUp(string prefabName, int showPriority = (int)PopupShowPriority.E_Normal, string id = "")
         {
-            AudioManager.Instance.PlayMusic(Audios.PopupClip);
             return AddPopupNew(prefabName, PopCanvasLayer.E_UILayer, ref uiLayerPopUps, showPriority, id);
         }
 

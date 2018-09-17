@@ -25,7 +25,7 @@ public class WechatUtil : BaseInstance<WechatUtil>
 
     public WechatUtil()
     {
-        TextAsset text = Resources.Load<TextAsset>("Data/wechat");
+        TextAsset text = TextManager.Instance.GetText(Texts.WeChat);
         content = text.text;
 
     }

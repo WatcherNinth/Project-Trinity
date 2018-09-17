@@ -33,28 +33,35 @@ public class TicketsController : BaseInstance<TicketsController>
 {
     private bool isFirstLoad=false;
     
-    public void BuyTickets(int id)
+    public MultiYield BuyTickets(int id)
     {
+        System.Object value = id;
+        return MultiThreadPool.AddNewMission(value, BuyingTickets);
+    }
+
+    public List<TrafficMessage> BuyingTickets(System.Object value)
+    {
+        int id = (int)value;
         TicketsOperaton ticket_operation = new TicketsOperaton();
         int ticketid = ticket_operation.BuyTickets(id);
         if(ticketid==0)
         {
             Debug.Log("ticket id error");
-            return;
+            return null;
         }
         RoutineTicket ticket=ticket_operation.GetTicketByTickedId(ticketid);
         Debug.Log("ticket " + ticket.GetRoutineStartNode() + " " + ticket.GetBeginTime() + " "+ticket.GetTicketId());
         TimeManager.instance.AddGo(new TicketParam(ticket));
         Debug.Log("buy ticket id " + ticket.GetTicketId() + " routtine id" + ticket.GetRoutineId());
-        
+        return new List<TrafficMessage>();
     }
 
     public MultiYield GetBuyTickets(DateTime dt)
     {
-        return MultiThreadPool.AddNewMission(dt, TicketsController.Instance.GetBuyTickets);
+        return MultiThreadPool.AddNewMission(dt, GetingBuyTickets);
     }
 
-    public List<TrafficMessage> GetBuyTickets(System.Object tdt)
+    private List<TrafficMessage> GetingBuyTickets(System.Object tdt)
     {
         DateTime dt = (DateTime)tdt;
         Debug.Log("abc "+dt);
@@ -112,8 +119,15 @@ public class TicketsController : BaseInstance<TicketsController>
         return finaldata;
     }
 
-    public bool DeleteTickets(int id)
+    public MultiYield DeleteTickets(int id)
     {
+        System.Object value = id;
+        return MultiThreadPool.AddNewMission(value, DeleteTickets);
+    }
+
+    private List<TrafficMessage> DeleteTickets(System.Object value)
+    {
+        int id = (int)value;
         Debug.Log("delete ticket id " + id);
         TicketsOperaton ticket_operation = new TicketsOperaton();
 
@@ -121,16 +135,21 @@ public class TicketsController : BaseInstance<TicketsController>
         Debug.Log("delte routine id " + ticket.GetRoutineId());
         
         bool abc = ticket_operation.RefundTicket(id);
-        TimeManager.instance.RemoveGo(ticket.GetRoutineId());
-        return abc;
+        if(abc)
+        {
+            TimeManager.instance.RemoveGo(ticket.GetRoutineId());
+            return new List<TrafficMessage>();
+        }
+        else
+            return null;
     }
 
     public MultiYield Search(int type, string startlocation, string stoplocation, DateTime dt)
     {
-        return MultiThreadPool.AddNewMission(new SearchParam(type, startlocation, stoplocation, dt), Search);
+        return MultiThreadPool.AddNewMission(new SearchParam(type, startlocation, stoplocation, dt), Searching);
     }
 
-    public List<TrafficMessage> Search(System.Object tsearchParam)
+    private List<TrafficMessage> Searching(System.Object tsearchParam)
     {
         SearchParam searchParam = tsearchParam as SearchParam;
         int type = searchParam.type;

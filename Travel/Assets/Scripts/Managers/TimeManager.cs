@@ -82,9 +82,9 @@ public class TimeManager : MonoBehaviour {
                 if(mv!=null)
                 {
                     mv.ChangeGoButton();
-                }
-                    
-            }    
+                }    
+            }
+            MapTrafficView.instance.SetAnimatorSpeed();
         }
     }
 
@@ -117,6 +117,7 @@ public class TimeManager : MonoBehaviour {
 
     private string DateFormat = "MM/dd\nHH:mm";
 
+    private float oldspeed=0;
 
     private void Awake()
     {
@@ -133,15 +134,18 @@ public class TimeManager : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        i++;
-        if(i%(15) ==0)
+        if(TimeSpeed!=0)
         {
-            nowTime = nowTime.AddMinutes(TimeSpeed/ 4);
-            if(timeText!=null)
-                timeText.text = nowTime.ToString(DateFormat);
-            i = 0;
-            if(timespeed!=0)
-                Check();
+            i++;
+            if (i % (15) == 0)
+            {
+                nowTime = nowTime.AddMinutes(TimeSpeed / 4);
+                if (timeText != null)
+                    timeText.text = nowTime.ToString(DateFormat);
+                i = 0;
+                if (timespeed != 0)
+                    Check();
+            }
         }
     }
 
@@ -183,13 +187,9 @@ public class TimeManager : MonoBehaviour {
             
             if (!tep.isDestroy)
             {
+                Debug.Log("new accident");
                 TimeSpeed = 1.0f;
                 StartCoroutine(tep.Callback(tep.accident));
-                if(MapTrafficView.instance==null)
-                {
-                    Debug.Log("is null");
-                }
-                
                 MapTrafficView.instance.ShowAccidentMessage(tep.accident);
             }
             else
@@ -465,6 +465,7 @@ public class TimeManager : MonoBehaviour {
                 int i = 0;
                 for (;i<list.Count;i++)
                 {
+                    Debug.Log("get accident "+list[i].accident.starttime +" destroy "+list[i].isDestroy);
                     if (list[i].isDestroy == false)
                         break;
                 }
@@ -472,6 +473,8 @@ public class TimeManager : MonoBehaviour {
                     dt = etor.Current.Key;
             }
         }
+
+        /*
         if(waitingGo.Count!=0)
         {
             var etor = waitingGo.GetEnumerator();
@@ -482,6 +485,8 @@ public class TimeManager : MonoBehaviour {
                 dt = etor.Current.Key;
             }
         }
+        */
+
         if(DateTime.Compare(dt , DateTime.MaxValue) != 0)
         {
             nextSlowTime = dt.AddMinutes(-5);
@@ -498,5 +503,16 @@ public class TimeManager : MonoBehaviour {
     public void SetMapsView(MapsView tmv)
     {
         mv = tmv;
+    }
+
+    public void StopTimeManager()
+    {
+        oldspeed = timespeed;
+        TimeSpeed = 0;
+    }
+
+    public void StartTimeManager()
+    {
+        TimeSpeed = oldspeed;
     }
 }

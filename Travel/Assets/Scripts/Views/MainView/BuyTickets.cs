@@ -95,6 +95,7 @@ public class BuyTickets : BaseUI {
         back.onClick.AddListener(delegate ()
         {
             mc.ShowView(ViewID.Maps);
+            TimeManager.instance.StartTimeManager();
         });
 
         TrainToggle.onValueChanged.AddListener(delegate(bool isOn) 

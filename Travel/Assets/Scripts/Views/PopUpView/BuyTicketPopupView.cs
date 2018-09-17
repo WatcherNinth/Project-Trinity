@@ -37,33 +37,51 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
     private void BuyTickets()
     {
         Debug.Log("buy ticket popup ticked id" + trafficMessage.id);
-        float money = Convert.ToSingle(trafficMessage.Money);
-        TicketsController.Instance.BuyTickets(trafficMessage.id);
-        MessageBus.Post(new UseMoney(-money));
-        string traffic = "";
-        if (trafficMessage.trafficType == TrafficType.Train)
-            traffic = "列车";
-        else
-            traffic = "航班";
-        string content = "尊敬的旅客，您已购买" + trafficMessage.StartTime + "出发的" + trafficMessage.Number + traffic + "，祝您旅途愉快";
-        MessageBus.Post(new MessageObject(new ItemMessage("12306铁路管家",content)));
+        StartCoroutine(BuyTickets(trafficMessage.id));
+    }
+
+    private IEnumerator BuyTickets(int id)
+    {
+        MultiYield my=TicketsController.Instance.BuyTickets(trafficMessage.id);
+        yield return my;
+        if(my.result!=null)
+        {
+            float money = Convert.ToSingle(trafficMessage.Money);
+            MessageBus.Post(new UseMoney(-money));
+            string traffic = "";
+            if (trafficMessage.trafficType == TrafficType.Train)
+                traffic = "列车";
+            else
+                traffic = "航班";
+            string content = "尊敬的旅客，您已购买" + trafficMessage.StartTime + "出发的" + trafficMessage.Number + traffic + "，祝您旅途愉快";
+            MessageBus.Post(new MessageObject(new ItemMessage("12306铁路管家", content)));
+            
+        }
         Dispose();
     }
 
     private void DeleteTickets()
     {
-        float money = Convert.ToSingle(trafficMessage.Money);
-        TicketsController.Instance.DeleteTickets(trafficMessage.id);
-        
-        MessageBus.Post(new UseMoney(money));
-        MessageBus.Post(new DeleteTicketsMsg());
-        string traffic = "";
-        if (trafficMessage.trafficType == TrafficType.Train)
-            traffic = "列车";
-        else
-            traffic = "航班";
-        string content = "尊敬的旅客，您已成功退订" + trafficMessage.StartTime + "出发的" + trafficMessage.Number + traffic ;
-        MessageBus.Post(new MessageObject(new ItemMessage("12306铁路管家", content)));
+        StartCoroutine(DeleteTickets(trafficMessage.id));
+    }
+
+    private IEnumerator DeleteTickets(int id)
+    {
+        MultiYield my = TicketsController.Instance.DeleteTickets(trafficMessage.id);
+        yield return my;
+        if(my.result!=null)
+        {
+            float money = Convert.ToSingle(trafficMessage.Money);
+            MessageBus.Post(new UseMoney(money));
+            MessageBus.Post(new DeleteTicketsMsg());
+            string traffic = "";
+            if (trafficMessage.trafficType == TrafficType.Train)
+                traffic = "列车";
+            else
+                traffic = "航班";
+            string content = "尊敬的旅客，您已成功退订" + trafficMessage.StartTime + "出发的" + trafficMessage.Number + traffic;
+            MessageBus.Post(new MessageObject(new ItemMessage("12306铁路管家", content)));
+        }
         Dispose();
     }
 

@@ -41,6 +41,8 @@ public class GameSystem : MonoBehaviour {
 
     private IEnumerator Init()
     {
+        Debug.Log("load text");
+        yield return StartCoroutine(TextManager.Instance.Init());
         Debug.Log("load prefab");
         yield return StartCoroutine(PrefabManager.Instance.Init());
         Debug.Log("load accident");

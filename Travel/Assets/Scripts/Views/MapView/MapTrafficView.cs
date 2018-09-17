@@ -253,12 +253,19 @@ public class MapTrafficView : MonoBehaviour {
     {
         if(airplane.gameObject.activeSelf || train.gameObject.activeSelf)
         {
-            AnimatorStateInfo asi = animator.GetCurrentAnimatorStateInfo(0);
-            float walktime = asi.normalizedTime * cliptime;
-            float travelwalktime = asi.normalizedTime * traveltime;
-            float realtime = travelwalktime / TimeManager.instance.TimeSpeed;
-            float speed = walktime / realtime;
-            animator.speed = speed;
+            if(TimeManager.instance.TimeSpeed!=0)
+            {
+                AnimatorStateInfo asi = animator.GetCurrentAnimatorStateInfo(0);
+                float walktime = asi.normalizedTime * cliptime;
+                float travelwalktime = asi.normalizedTime * traveltime;
+                float realtime = travelwalktime / TimeManager.instance.TimeSpeed;
+                float speed = walktime / realtime;
+                animator.speed = speed;
+            }
+            else
+            {
+                animator.speed = 0;
+            }
         }
     }
     

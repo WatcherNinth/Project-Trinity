@@ -19,6 +19,7 @@ public class TopMenuView : MonoBehaviour {
 
     public Transform WeChat;
     public Button BtnWeChat;
+    public Transform BtnWeChatBg;
     public Text Money;
 
     private RectTransform rt;
@@ -64,6 +65,7 @@ public class TopMenuView : MonoBehaviour {
                 rt.sizeDelta = new Vector2(rt.sizeDelta.x, 1728);
                 show = true;
                 BtnWeChat.interactable = true;
+                BtnWeChatBg.localEulerAngles = new Vector3(0, 0, 0);
             };
         }
         else
@@ -82,6 +84,7 @@ public class TopMenuView : MonoBehaviour {
                 show = false;
                 BtnWeChat.interactable = true;
                 rt.gameObject.SetActive(false);
+                BtnWeChatBg.localEulerAngles = new Vector3(0, 0, 180);
             };
         }
         
