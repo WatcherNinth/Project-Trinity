@@ -11,7 +11,7 @@ def file_name(file_dir):
 
 
 if __name__ == "__main__":
-    files = file_name("D:\minigame\Project-Trinity\Travel\Assets\Scripts\BaseFunc")
+    files = file_name("D:\github\Project-Trinity\Travel\Assets\Scripts\Controllers")
     
     for i in range(len(files)):
         file_name = files[i]

@@ -95,7 +95,7 @@ public class WarningView : BaseUI, IPointerClickHandler
             
             rt.localScale = new Vector3(1.5f, 1.5f, 0);
 
-            news = "<b><size=60>此地即将发生灾害事件</size></b>\n\n"
+            news = "<b><size=50>此地即将发生灾害事件</size></b>\n\n"
                 + "灾害预计发生时间: " + warning.Accidentstarttime.ToString("HH:mm") + "\n\n"
                 + "灾害预计持续时间： " + warning.min + "min ~ " + warning.max + "min";
            callback=delegate ()
