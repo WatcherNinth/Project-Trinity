@@ -336,7 +336,7 @@ public class CityUtil : BaseInstance<CityUtil> {
     }
 
 
-    List<String> GetCityList(string city)
+    public List<String> GetCityList(string city)
     {
         return city_tikcet_mapping[city];
     }
