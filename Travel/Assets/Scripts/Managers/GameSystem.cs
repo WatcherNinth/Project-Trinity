@@ -39,7 +39,7 @@ public class GameSystem : MonoBehaviour {
         }
     }
 
-    public IEnumerator Init()
+    public IEnumerator Init(bool isLoad=true)
     {
         Lucky.LuckyUtils.Log("load text");
         yield return StartCoroutine(TextManager.Instance.Init());
@@ -55,10 +55,13 @@ public class GameSystem : MonoBehaviour {
         yield return StartCoroutine(WeChatManager.Instance.Init());
         Lucky.LuckyUtils.Log("load new ");
         yield return StartCoroutine(NewManager.Instance.Init());
-        Lucky.LuckyUtils.Log("load scene");
-        AsyncOperation ao = SceneManager.LoadSceneAsync("Main");
-        yield return ao;
-        Lucky.LuckyUtils.Log("load finish");
+        if(isLoad)
+        {
+            Lucky.LuckyUtils.Log("load scene");
+            AsyncOperation ao = SceneManager.LoadSceneAsync("Main");
+            yield return ao;
+            Lucky.LuckyUtils.Log("load finish");
+        }
     }
 	
 }
