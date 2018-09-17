@@ -230,6 +230,10 @@ public class CityUtil : BaseInstance<CityUtil> {
         city_list.AddEdge("南京", "上海");
         city_mapping_list[14] = new CityMapping(14, "南京", "上海");
 
+        city_list.AddEdge("南京", "杭州");
+        city_mapping_list[32] = new CityMapping(32, "南京", "杭州");
+
+
         city_list.AddEdge("上海", "杭州");
         city_mapping_list[15] = new CityMapping(15, "上海", "杭州");
 
@@ -275,6 +279,10 @@ public class CityUtil : BaseInstance<CityUtil> {
 
         city_list.AddEdge("天津", "沈阳");
         city_mapping_list[29] = new CityMapping(29, "天津", "沈阳");
+
+
+        city_list.AddEdge("天津", "南京");
+        city_mapping_list[33] = new CityMapping(33, "天津", "沈阳");
 
         city_list.AddEdge("沈阳", "北京");
         city_mapping_list[30] = new CityMapping(30, "沈阳", "北京");
