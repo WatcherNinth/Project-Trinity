@@ -56,7 +56,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
 
     StringProcessScript stringProcess = new StringProcessScript();
 
-    Accident CreateAccident(AccidentType type, int location, int duration, DateTime starttime, AccidentText text)
+    public void CreateAccident(AccidentType type, int location, int duration, DateTime starttime, int text)
     {
         Accident accident = new Accident
         {
@@ -64,11 +64,12 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             location = location,
             starttime = starttime,
             type = type,
-            text = text
+            text = accidentTexts[text]
         };
         accident = stringProcess.AccidentStringProcess(accident);
-        return (accident);
+        PushAccident(accident);
     }
+
     static System.Random rnd = new System.Random();
     public void AccidentGenerate()
     {
@@ -100,6 +101,14 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         
         PushAccidentList();
     }
+    void PushAccident(Accident item)
+    {
+        TimeManager.instance.AddAccidentExecute(item, HandleAccident, false);
+        Accident eitem = item;
+        eitem.starttime = eitem.starttime.AddMinutes(item.duration);
+        TimeManager.instance.AddAccidentExecute(eitem, null, true);
+    }
+
     void PushAccidentList()
     {
         foreach (Accident item in AccidentList)
@@ -185,20 +194,20 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         RailList = CityUtil.Instance.GetAllCityEdgeNum();
         AirportList = CityUtil.Instance.GetAllCityNodeNum();
 
-        RailList.Remove(4);
-        RailList.Remove(10);
-        RailList.Remove(24);
-        RailList.Remove(26);
+        //RailList.Remove(4);
+        //RailList.Remove(10);
+        //RailList.Remove(24);
+        //RailList.Remove(26);
 
-        AirportList.Remove(1);
+        //AirportList.Remove(1);
 
         
-        AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, SetTime(9, 15, 0), accidentTexts[1]));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 10, 30, SetTime(13, 0, 0), accidentTexts[2]));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, SetTime(17, 0, 0), accidentTexts[1]));
-        AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, SetTime(18, 30, 0), accidentTexts[4]));
-        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, SetTime(18, 30, 0), accidentTexts[7]));
-        AccidentList.Add(CreateAccident(AccidentType.airport, 1, 90, SetTime(20, 50, 0), accidentTexts[7]));
+        //AccidentList.Add(CreateAccident(AccidentType.rail, 4, 30, SetTime(9, 15, 0), 1));
+        //AccidentList.Add(CreateAccident(AccidentType.rail, 10, 30, SetTime(13, 0, 0), 2));
+        //AccidentList.Add(CreateAccident(AccidentType.rail, 24, 30, SetTime(17, 0, 0), 1));
+        //AccidentList.Add(CreateAccident(AccidentType.rail, 26, 60, SetTime(18, 30, 0), 4));
+        //AccidentList.Add(CreateAccident(AccidentType.airport, 1, 30, SetTime(18, 30, 0), 7));
+        //AccidentList.Add(CreateAccident(AccidentType.airport, 1, 90, SetTime(20, 50, 0), 7));
 
         //AccidentList.Add(CreateAccident(AccidentType.airport, 4, 90, SetTime(9, 15, 0), accidentTexts[7]));
         yield return null;

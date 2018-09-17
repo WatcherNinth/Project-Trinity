@@ -102,7 +102,12 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
             OnePageNoteBook data = new OnePageNoteBook(target, TimeManager.instance.NowTime, ImageList[target.id]);
             MessageBus.Post(data);
         }
-        
+        switch (dst)
+        {
+            case "上海":
+                //AccidentGenerator.Instance.CreateAccident(AccidentType.airport, 8, 999, TimeManager.instance.NowTime, 4);
+                break;
+        }
 
     }
 
