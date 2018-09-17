@@ -7,20 +7,20 @@ public class TestRoutine : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        EventUtil util = EventUtil.Instance;
-        Events events = util.GetAllEvents();
-        Lucky.LuckyUtils.Log(events.data.Count);
-        Lucky.LuckyUtils.Log(events.data[0].content[0].text);
+        //EventUtil util = EventUtil.Instance;
+        //Events events = util.GetAllEvents();
+        //Lucky.LuckyUtils.Log(events.data.Count);
+        //Lucky.LuckyUtils.Log(events.data[0].content[0].text);
 
 
-        WechatUtil w_util = WechatUtil.Instance;
-        WechatContent diag = w_util.GetAllWechatContent();
+        //WechatUtil w_util = WechatUtil.Instance;
+        //WechatContent diag = w_util.GetAllWechatContent();
 
-        Lucky.LuckyUtils.Log(diag.data.Count);
-        Lucky.LuckyUtils.Log(diag.data[1].name);
+        //Lucky.LuckyUtils.Log(diag.data.Count);
+        //Lucky.LuckyUtils.Log(diag.data[1].name);
 
-        TicketsOperaton operation = new TicketsOperaton();
-        operation.DelayTickets(DateTime.Now, 1, 30 * 60, AccidentType.rail);
+        //TicketsOperaton operation = new TicketsOperaton();
+        //operation.DelayTickets(DateTime.Now, 1, 30 * 60, AccidentType.rail);
 
 
         //RoutineOperation operation = new RoutineOperation();

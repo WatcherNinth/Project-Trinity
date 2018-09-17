@@ -159,6 +159,7 @@ public class CityUtil : BaseInstance<CityUtil> {
 
     private AdjacencyList<string> city_list = new AdjacencyList<string>();
     private Dictionary<int, CityMapping> city_mapping_list = new Dictionary<int, CityMapping>();
+    private Dictionary<string, List<string>> city_tikcet_mapping = new Dictionary<string, List<string>>();
 
     public CityUtil()
     {
@@ -242,6 +243,43 @@ public class CityUtil : BaseInstance<CityUtil> {
         city_list.AddEdge("天津", "沈阳");
         city_mapping_list[16] = new CityMapping(29, "天津", "沈阳");
 
+        city_tikcet_mapping["上海"] = new List<string>();
+        city_tikcet_mapping["上海"].Add("杭州");
+        city_tikcet_mapping["上海"].Add("天津");
+        city_tikcet_mapping["上海"].Add("南京");
+
+        city_tikcet_mapping["杭州"] = new List<String>();
+        city_tikcet_mapping["杭州"].Add("南京");
+
+        city_tikcet_mapping["南京"] = new List<string>();
+        city_tikcet_mapping["南京"].Add("合肥");
+        city_tikcet_mapping["南京"].Add("郑州");
+
+        city_tikcet_mapping["合肥"] = new List<String>();
+        city_tikcet_mapping["合肥"].Add("郑州");
+        city_tikcet_mapping["合肥"].Add("济南");
+
+        city_tikcet_mapping["郑州"] = new List<String>();
+        city_tikcet_mapping["郑州"].Add("石家庄");
+        city_tikcet_mapping["郑州"].Add("济南");
+
+
+        city_tikcet_mapping["济南"] = new List<String>();
+        city_tikcet_mapping["济南"].Add("石家庄");
+        city_tikcet_mapping["济南"].Add("天津");
+
+        city_tikcet_mapping["石家庄"] = new List<String>();
+        city_tikcet_mapping["石家庄"].Add("北京");
+
+        city_tikcet_mapping["北京"] = new List<String>();
+        city_tikcet_mapping["北京"].Add("沈阳");
+
+
+        city_tikcet_mapping["天津"] = new List<String>();
+        city_tikcet_mapping["天津"].Add("北京");
+        city_tikcet_mapping["天津"].Add("沈阳");
+
+
     }
 
     AdjacencyList<string>.Vertex<string> FindConnectedCity(string city)
@@ -293,4 +331,11 @@ public class CityUtil : BaseInstance<CityUtil> {
         }
         return -1;
     }
+
+
+    List<String> GetCityList(string city)
+    {
+        return city_tikcet_mapping[city];
+    }
+
 }
