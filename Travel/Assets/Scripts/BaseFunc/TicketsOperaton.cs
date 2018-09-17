@@ -132,7 +132,8 @@ public class TicketsOperaton
         operation.InitConnection(data_resource);
         UInt64  seconds =  RoutineOperation.GetSeconds(time);
         // string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id ";
-        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and routine.start_time > " + seconds;
+        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and ((routine.start_time > " 
+            + seconds + "  and routine.actual_start_time = 0) or (routine.actual_start_time > 0 and routine.actual_start_time > " + seconds + "))";
 
         Lucky.LuckyUtils.Log(sql);
         List<RoutineTicket> res = new List<RoutineTicket>();
