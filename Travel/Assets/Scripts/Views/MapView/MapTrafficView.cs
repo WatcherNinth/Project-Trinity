@@ -91,7 +91,7 @@ public class MapTrafficView : MonoBehaviour {
         {
             Lucky.LuckyUtils.Log("destroy");
             Accident accident = data as Accident;
-            Lucky.LuckyUtils.Log("delete acciednt "+accident.location);
+            Lucky.LuckyUtils.Log(accident.type+"delete acciednt "+accident.location);
             Destroy(warndic[accident.location].gameObject);
             warndic.Remove(accident.location);
         }
