@@ -47,6 +47,8 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
     int RailAccident = 8;
     DateTime InitTime = GameModel.Instance.Start.AddMinutes(5);
     List<AccidentText> accidentTexts;
+    List<AccidentText> AirportAccidentTexts;
+    List<AccidentText> RailAccidentTexts;
 
     //AccidentWarning property
     public List<AccidentWarning> AccidentWarningList;
@@ -79,7 +81,7 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             AirportList.RemoveAll(x => x == accident.location);
             accident.duration = rnd.Next(3, 31) * 10;
             accident.starttime = InitTime.AddMinutes(rnd.Next(0, 901));
-            accident.text = accidentTexts[rnd.Next(5, 8)];
+            accident.text = AirportAccidentTexts[rnd.Next(0, AirportAccidentTexts.Count)];
             accident = stringProcess.AccidentStringProcess(accident);
             AccidentList.Add(accident);
         }
@@ -90,9 +92,8 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
             RailList.RemoveAll(x => x == accident.location);
             accident.duration = rnd.Next(3, 31) * 10;
             accident.starttime = InitTime.AddMinutes(rnd.Next(0, 901));
-            accident.text = accidentTexts[rnd.Next(0, 5)];
+            accident.text = RailAccidentTexts[rnd.Next(0, RailAccidentTexts.Count)];
             accident = stringProcess.AccidentStringProcess(accident);
-
             AccidentList.Add(accident);
         }
         
@@ -175,6 +176,9 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
     public IEnumerator Init()
     {
         accidentTexts = new AccidentTextOperation().GetRailAccidentText();
+        AirportAccidentTexts = accidentTexts.FindAll(x => x.type == AccidentType.airport);
+        RailAccidentTexts = accidentTexts.FindAll(x => x.type == AccidentType.rail);
+
         yield return null;
         AccidentList = new List<Accident>();
         AccidentWarningList = new List<AccidentWarning>();

@@ -13,15 +13,18 @@ public class WeChatManager : BaseInstance<WeChatManager> {
     {
         WeChatMessage message;
         DateTime time;
+        int timeModifier;
         Lucky.LuckyUtils.Log("Diag count: "+diag.Count);
         foreach(WechatDialog item in diag)
         {
             string[] timetemp = item.time.Split(':');
-            time = new DateTime(DateTime.Now.Year, 2, 4, int.Parse(timetemp[0]), int.Parse(timetemp[1]), 0);
+            time = new DateTime(DateTime.Now.Year, 2, 4, int.Parse(timetemp[0]), int.Parse(timetemp[1]), 30);
+            timeModifier = 0;
             Lucky.LuckyUtils.Log("Processing name: "+item.name+" Time "+time.ToShortTimeString());
             for(int i = 0; i < item.content.Count; i++)
             {
-                message = new WeChatMessage(item.name, item.content[i], time.AddSeconds(i));
+                message = new WeChatMessage(item.name, item.content[i], time.AddSeconds(timeModifier));
+                timeModifier += item.content[i].Length / 2;
                 WechatList.Add(message);
             }
             
