@@ -13,6 +13,8 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     public List<Event> RandomFlightList = new List<Event>();
     List<string> ImageList = new List<string>();
     static System.Random rnd = new System.Random();
+    bool TicketFlag=true;
+
 
     public IEnumerator Init()
     {
@@ -57,12 +59,13 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
                 }
             case Where.Train:
                 {
-                    if(RandomTrainList.Count!=0)
+                    if(RandomTrainList.Count!=0 && TicketFlag)
                     {
                         int temp = rnd.Next(0, RandomTrainList.Count);
                         target = RandomTrainList[temp];
                         if (target != null)
                             RandomTrainList.Remove(target);
+                        TicketFlag = false;
                     } 
                     break;
                 }
@@ -84,7 +87,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     public void EveryLocation(string dst)
     {
         Lucky.LuckyUtils.Log("every location " + dst);
-
+        TicketFlag = true;
         if (dst == "沈阳")
         {
             InfoView.Show(new InfoMessage("到家了", "消息！"));

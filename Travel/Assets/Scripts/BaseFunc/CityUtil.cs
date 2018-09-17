@@ -248,7 +248,6 @@ public class CityUtil : BaseInstance<CityUtil> {
         city_list.AddEdge("石家庄", "济南");
         city_mapping_list[20] = new CityMapping(20, "石家庄", "济南");
 
-
         city_list.AddEdge("石家庄", "北京");
         city_mapping_list[21] = new CityMapping(21, "石家庄", "北京");
 
