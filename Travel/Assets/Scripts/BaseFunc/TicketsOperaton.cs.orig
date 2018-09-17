@@ -1,0 +1,399 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using Lucky;
+using Mono.Data.Sqlite;
+using System.IO;
+
+public class TicketsOperaton
+{
+    private BasicDataOperation operation = BasicDataOperation.Instance;
+
+    private static string data_resource = "";
+
+
+    public static DateTime GetTodayTime(int seconds)
+    {
+        DateTime now = GameModel.Instance.SqlStart;
+        DateTime new_now = new DateTime(now.Year, now.Month, now.Day);
+        int hour = seconds / 3600;
+        int minutes = (seconds - hour * 3600) / 60;
+        
+        
+        new_now  = new_now.Add(new TimeSpan(hour, minutes, 0));
+        return new_now;
+    }
+    public static void SetTicketName(SqliteDataReader reader, RoutineTicket ticket)
+    {
+        Type type = reader.GetFieldType(reader.GetOrdinal("ticket_name"));
+        if (type == typeof(int))
+        {
+            ticket.SetTicketName("" + reader.GetInt32(reader.GetOrdinal("ticket_name")));
+        }
+        if (type == typeof(string))
+        {
+            ticket.SetTicketName(reader.GetString(reader.GetOrdinal("ticket_name")));
+        }
+    }
+       
+
+    public int BuyTickets(int routine_id)
+    {
+        operation.InitConnection(data_resource);
+
+        try
+        {
+            string sql = "insert into purchased_tickets(routine_id) values(" + routine_id + ")";
+            Lucky.LuckyUtils.Log(sql);
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+            if (reader.RecordsAffected == 1)
+            {
+                string get_ticket_id_sql = "select max(ticket_id) as insert_ticket_id from purchased_tickets";
+                reader = operation.ExecuteQuery(get_ticket_id_sql);
+
+                reader.Read();
+
+                int inserted_ticket_id = reader.GetInt32(reader.GetOrdinal("insert_ticket_id"));
+
+                operation.CloseConnection();
+                return inserted_ticket_id;
+            }
+            else
+            {
+                operation.CloseConnection();
+                return 0;
+            }
+
+        } finally
+        {
+            operation.CloseConnection();
+        }
+    
+       
+    }
+
+    public bool RefundTicket(int ticket_id)
+    {
+
+        try
+        {
+            operation.InitConnection(data_resource);
+
+            string sql = "delete from purchased_tickets where ticket_id = " + ticket_id;
+            Lucky.LuckyUtils.Log(sql);
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+            if (reader.RecordsAffected == 1)
+            {
+                operation.CloseConnection();
+                return true;
+            }
+            else
+            {
+                operation.CloseConnection();
+                return false;
+            }
+        }
+        finally
+        {
+            operation.CloseConnection();
+        }       
+    }
+    public bool RefundAllTickets()
+    {
+        try
+        {
+            operation.InitConnection(data_resource);
+
+            string sql = "delete from purchased_tickets ";
+            Lucky.LuckyUtils.Log(sql);
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+            if (reader.RecordsAffected == 1)
+            {
+                operation.CloseConnection();
+                return true;
+            }
+            else
+            {
+                operation.CloseConnection();
+                return false;
+            }
+        }
+        finally
+        {
+            operation.CloseConnection();
+        }
+    }
+
+
+    public List<RoutineTicket> GetUserTickets(DateTime time)
+    {
+        UInt64 ts = RoutineOperation.GetSeconds(time);
+        operation.InitConnection(data_resource);
+        UInt64  seconds =  RoutineOperation.GetSeconds(time);
+        // string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id ";
+        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and routine.start_time > " + seconds;
+
+        Lucky.LuckyUtils.Log(sql);
+        List<RoutineTicket> res = new List<RoutineTicket>();
+
+        try
+        {
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+            while (reader.Read())
+            {
+                RoutineTicket ticket = new RoutineTicket();
+                int begin_time = reader.GetInt32(reader.GetOrdinal("start_time"));
+                int end_time = reader.GetInt32(reader.GetOrdinal("end_time"));
+                ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
+                ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
+                ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
+                ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
+                ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
+                ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
+                ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
+                SetTicketName(reader, ticket);
+                int actual_begin_time = reader.GetInt32(reader.GetOrdinal("actual_start_time"));
+                int actual_end_time = reader.GetInt32(reader.GetOrdinal("actual_end_time"));
+
+                if (actual_begin_time == 0)
+                {
+                    ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(begin_time));
+
+                }
+                else
+                {
+                    ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(actual_begin_time));
+                }
+
+                if (actual_end_time != 0)
+                {
+                    ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(actual_end_time));
+                }
+                else
+                {
+                    ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(end_time));
+                }
+
+                ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
+                
+                res.Add(ticket);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Lucky.LuckyUtils.Log(e.StackTrace);
+        }
+        finally
+        {
+            operation.CloseConnection();
+            Lucky.LuckyUtils.Log(res.Count);
+          
+        }
+        return res;
+
+    }
+
+    public RoutineTicket GetTicketByTickedId(int id)
+    {
+        operation.InitConnection(data_resource);
+
+        string sql = "select routine.*, purchased_tickets.* from routine, purchased_tickets where purchased_tickets.routine_id = routine.routine_id and purchased_tickets.ticket_id = " + id;
+
+        Lucky.LuckyUtils.Log(sql);
+        RoutineTicket ticket = new RoutineTicket();
+
+        try
+        {
+            SqliteDataReader reader = operation.ExecuteQuery(sql);
+   
+            if (reader.HasRows)
+            {
+                reader.Read();
+
+                int begin_time = reader.GetInt32(reader.GetOrdinal("start_time"));
+                int end_time = reader.GetInt32(reader.GetOrdinal("end_time"));
+                ticket.SetRoutineId(reader.GetInt32(reader.GetOrdinal("routine_id")));
+                ticket.SetEndNode(reader.GetString(reader.GetOrdinal("end_node")));
+                ticket.SetStartNode(reader.GetString(reader.GetOrdinal("start_node")));
+                ticket.SetType(reader.GetInt32(reader.GetOrdinal("type")));
+                ticket.SetBeginTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("start_time"))));
+                ticket.SetEndTime(GetTodayTime(reader.GetInt32(reader.GetOrdinal("end_time"))));
+                ticket.SetMoney((int)reader.GetFloat(reader.GetOrdinal("money")));
+                SetTicketName(reader, ticket);
+                ticket.SetTicketid(reader.GetInt32(reader.GetOrdinal("ticket_id")));
+
+                int actual_begin_time = reader.GetInt32(reader.GetOrdinal("actual_start_time"));
+                int actual_end_time = reader.GetInt32(reader.GetOrdinal("actual_end_time"));
+
+                if (actual_begin_time == 0)
+                {
+                    ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(begin_time));
+
+                }
+                else
+                {
+                    ticket.SetActualBeginTime(TicketsOperaton.GetTodayTime(actual_begin_time));
+                }
+
+                if (actual_end_time != 0)
+                {
+                    ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(actual_end_time));
+                }
+                else
+                {
+                    ticket.SetActualEndTime(TicketsOperaton.GetTodayTime(end_time));
+                }
+
+            }
+
+        } catch(Exception e)
+        {
+
+        }
+        finally
+        {
+            operation.CloseConnection();
+        }      
+        return ticket;
+    }
+   
+    public List<int> DelayTickets(DateTime accident_happen_time, int city_id, int duration, AccidentType type)
+    {
+        
+        
+        Lucky.LuckyUtils.Log("accdent happen time " + accident_happen_time.ToString());
+        List<int> affected_routine_ids = new List<int>();
+
+        if (type == AccidentType.rail)
+        {
+            CityMapping nodes = CityUtil.Instance.GetEdgeCity(city_id);
+            string start_node = nodes.start_node;
+            string end_node = nodes.end_node;
+
+            try
+                {
+                    operation.InitConnection(data_resource);
+                    string sql = "select * from routine where ((start_node like \"%" + start_node + "%\""  + " and end_node like \"%" + end_node + "%\"" 
+                        + ") or  " + "(start_node like \"%" + end_node + "%\"" + " and end_node like \"%" + start_node + "%\")"
+                        + " ) and type = 0 order by start_time";
+
+                Lucky.LuckyUtils.Log("select all the start node sql " + sql);
+
+                SqliteDataReader reader = operation.ExecuteQuery(sql);
+                List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
+                operation.CloseConnection();
+                Lucky.LuckyUtils.Log("res result " + res.Count);
+
+                List<Routine> delay_routine = new List<Routine>();
+                UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
+                Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
+                Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
+
+
+                foreach (Routine t in res)
+                {
+
+                    UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
+                    Lucky.LuckyUtils.Log("begin time " + begin_time);
+
+                    UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
+
+                    if (begin_time >= accident_happen_time_seconds)
+                    {
+                        int routine_id = t.GetRoutineId();
+<<<<<<< HEAD
+                        Lucky.LuckyUtils.Log("lucky routine_id "+ routine_id);
+=======
+                        Lucky.LuckyUtils.Log("routine ID " + routine_id);
+>>>>>>> a65527b8dc46cdc876aa868d3cb4a3cd84307852
+                        UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
+                        UInt64 actual_end_time = end_time + (UInt32)duration * 60;
+
+                        sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time + ", event_happen_time = " + accident_happen_time_seconds
+                            + " where routine_id = " + routine_id;
+
+                        operation.InitConnection(data_resource);
+                        reader = operation.ExecuteQuery(sql);//
+
+                        if (reader.RecordsAffected == 1)
+                        {
+                            affected_routine_ids.Add(routine_id);
+                            operation.CloseConnection();
+
+                        }
+                    }
+                }
+            }
+            finally
+                {
+
+                    operation.CloseConnection();
+
+                }
+                return affected_routine_ids;
+        }
+  
+        if (type == AccidentType.airport)
+        {
+            string city_name = CityUtil.Instance.GetCityName(city_id);
+            Lucky.LuckyUtils.Log("city name " + city_name);
+
+            try
+            {
+                operation.InitConnection(data_resource);
+                string sql = "select * from routine where (start_node like \"%" + city_name + "%\"  or end_node like \"%"  + city_name + "%\")" + " and type = 1 order by start_time";
+
+                Lucky.LuckyUtils.Log("select all the start node sql " + sql);
+
+                SqliteDataReader reader = operation.ExecuteQuery(sql);
+                List<Routine> res = RoutineOperation.GetRoutinInfo(reader);
+                operation.CloseConnection();
+                Lucky.LuckyUtils.Log("res result " + res.Count);
+
+                List<Routine> delay_routine = new List<Routine>();
+                UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
+                Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
+
+
+                foreach (Routine t in res)
+                {
+
+                    UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
+
+                    UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
+
+                    if (begin_time >= accident_happen_time_seconds)
+                    {
+                        int routine_id = t.GetRoutineId();
+                        UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
+                        UInt64 actual_end_time = end_time + (UInt32)duration * 60;
+
+                        sql = "update routine set actual_start_time = " + actual_begin_time + ", actual_end_time = " + actual_end_time + ", event_happen_time = " + accident_happen_time_seconds
+                            + " where routine_id = " + routine_id;
+
+                        operation.InitConnection(data_resource);
+                        reader = operation.ExecuteQuery(sql);//
+
+                        if (reader.RecordsAffected == 1)
+                        {
+                            affected_routine_ids.Add(routine_id);
+                            operation.CloseConnection();
+
+                        }
+                    }
+                }
+            }
+            finally
+            {
+
+                operation.CloseConnection();
+
+            }
+            return affected_routine_ids;
+        }
+        return affected_routine_ids;
+    }
+}
+

@@ -79,7 +79,7 @@ public class MainContent : MonoBehaviour {
         }
 
         view = baseUI[i];
-
+        
         return view;
     }
 

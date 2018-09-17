@@ -124,7 +124,7 @@ public class TimeManager : MonoBehaviour {
 
     private void Awake()
     {
-        timespeed = normalSpeed;
+        timespeed = 0f;
         _instance = this;
     }
 
@@ -343,11 +343,13 @@ public class TimeManager : MonoBehaviour {
 
     public bool AddAccidentExecute (BaseAccident value, Func<BaseAccident, MultiYield> callback, bool isDestroy=false)
     {
+        /*
         if (DateTime.Compare(value.starttime, nowTime) < 0)
         {
             Lucky.LuckyUtils.Log("error " + value.starttime+nowTime);
             return false;
         }
+        */
         lock (accidentlock)
         {
             if (waitingAccidents.ContainsKey(value.starttime))
@@ -482,7 +484,7 @@ public class TimeManager : MonoBehaviour {
             }
         }
 
-        /*
+        
         if(waitingGo.Count!=0)
         {
             var etor = waitingGo.GetEnumerator();
@@ -493,7 +495,7 @@ public class TimeManager : MonoBehaviour {
                 dt = etor.Current.Key;
             }
         }
-        */
+        
 
         if(DateTime.Compare(dt , DateTime.MaxValue) != 0)
         {

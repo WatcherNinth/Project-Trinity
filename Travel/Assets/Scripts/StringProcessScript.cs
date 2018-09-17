@@ -36,6 +36,7 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
         switch(accident.type){
             case AccidentType.rail:
                 {
+                    Debug.Log(accident.location);
                     dictOut[0] = CityUtil.Instance.GetEdgeCity(accident.location).start_node;
                     dictOut[1] = CityUtil.Instance.GetEdgeCity(accident.location).end_node;
                     break;
@@ -46,6 +47,7 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
                     break;
                 }
         }
+        if (duration == 0) dictOut[6] = "不足一";
         for(int i = 0; i < dictIn.Length; i++)
         {
             accident.text.title = accident.text.title.Replace(dictIn[i], dictOut[i]);

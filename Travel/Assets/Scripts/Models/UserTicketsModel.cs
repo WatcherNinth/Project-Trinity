@@ -25,22 +25,19 @@ public class UserTicketsModel : BaseInstance<UserTicketsModel> {
         float temp = PlayerPrefs.GetFloat("money", 0);
         if (temp == 0)
         {
-            PlayerPrefs.SetFloat("money", 1001);
-            money = 1001;
+            PlayerPrefs.SetFloat("money", 3000);
+            money = 3000;
         }
         else
             money = PlayerPrefs.GetFloat("money", 0);
 
-        
-
         firstEnter = PlayerPrefs.GetInt("firstenter", 0);
-        money += 3000;
+ 
 #endif 
 
 #if UNITY_EDITOR
 
-        money = 1300;
-        money += 3000;
+        money = 3000;
         firstEnter = 0;
 
 #endif 

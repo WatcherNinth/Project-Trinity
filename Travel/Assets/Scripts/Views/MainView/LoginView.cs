@@ -12,6 +12,7 @@ public class LoginView : MonoBehaviour {
     public Button call;
     public GameObject Loading;
     public Image bg;
+    public Button cancel;
 
     private Image img;
 
@@ -23,6 +24,7 @@ public class LoginView : MonoBehaviour {
     void Start()
     {
         Loading.SetActive(false);
+        cancel.gameObject.SetActive(false);
         Login.onClick.AddListener(OnClick);
     }
 
@@ -30,6 +32,9 @@ public class LoginView : MonoBehaviour {
     {
         Login.gameObject.SetActive(false);
         Login.interactable = false;
+        //Loading.SetActive(true);
+        //StartCoroutine(GameSystem.instance.Init());
+        
         if (UserTicketsModel.Instance.firstEnter != 0)
         {
             Loading.SetActive(true);
@@ -41,14 +46,25 @@ public class LoginView : MonoBehaviour {
             AudioManager.Instance.PlayMusic(Audios.WeChatCall,true);
             call.onClick.AddListener(delegate() 
             {
+                call.gameObject.SetActive(false);
+                cancel.gameObject.SetActive(true);
+                cancel.onClick.AddListener(delegate()
+                {
+                    cancel.gameObject.SetActive(false);
+                    AudioManager.Instance.Stop(Audios.WeChatCalling);
+                    StopCoroutine("WaitPlay");
+                    StartCoroutine(WaitPlay(0));
+                });
                 AudioManager.Instance.Stop(Audios.WeChatCall);
                 bg.sprite = SpriteManager.Instance.GetSprite(Sprites.WeChatCalling);
                 AudioClip ac = AudioManager.Instance.GetAudioClip(Audios.WeChatCalling);
-                //StartCoroutine(WaitPlay(ac.length));
-                StartCoroutine(WaitPlay(0));
+                AudioManager.Instance.PlayMusic(Audios.WeChatCalling);
+                StartCoroutine(WaitPlay(ac.length));
+
             });
             call.gameObject.SetActive(true);
         }
+        
     }
 
     private IEnumerator WaitPlay(float len)
