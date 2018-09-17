@@ -293,7 +293,7 @@ public class TicketsOperaton
 
 
                 foreach (Routine t in res)
-                {
+                {   
 
                     UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
                     Lucky.LuckyUtils.Log("begin time " + begin_time);

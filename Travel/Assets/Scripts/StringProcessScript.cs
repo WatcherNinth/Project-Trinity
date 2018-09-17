@@ -47,6 +47,7 @@ public class StringProcessScript : BaseInstance<StringProcessScript> {
                     break;
                 }
         }
+        if (duration == 0) dictOut[6] = "不足一";
         for(int i = 0; i < dictIn.Length; i++)
         {
             accident.text.title = accident.text.title.Replace(dictIn[i], dictOut[i]);

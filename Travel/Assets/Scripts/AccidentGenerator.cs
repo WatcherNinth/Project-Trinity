@@ -203,11 +203,11 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         AirportList = CityUtil.Instance.GetAllCityNodeNum();
 
 
-
+        CreateAccident(AccidentType.rail, 10, 480, SetTime(9, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.rail, 4, 30, SetTime(9, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.rail, 5, 60, SetTime(10, 30, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.rail, 1, 30, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
-        CreateAccident(AccidentType.rail, 11, 60, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
+        CreateAccident(AccidentType.rail, 17, 60, SetTime(12, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.rail, 6, 30, SetTime(15, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.rail, 12, 30, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));
         CreateAccident(AccidentType.rail, 14, 480, SetTime(16, 0, 0), rnd.Next(0, RailAccidentTexts.Count));

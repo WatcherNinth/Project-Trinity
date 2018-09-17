@@ -345,4 +345,22 @@ public class CityUtil : BaseInstance<CityUtil> {
         return city_tikcet_mapping[city];
     }
 
+    public List<String> GetCityListRevert(string city)
+    {
+        List<string> res = new List<string>();
+        foreach (KeyValuePair<string, List<string>> pair in city_tikcet_mapping)
+        {
+            List<string> m = pair.Value;
+            
+            foreach(string location in m)
+            {
+                if ( location == city)
+                {
+                    res.Add(pair.Key);
+                    continue;
+                }
+            }
+        }
+        return res;
+    }
 }

@@ -64,59 +64,59 @@ class Tickets:
 
 def read_excel():
     # 文件位置
-    ExcelFile = xlrd.open_workbook(r'D:\minigame\ImportTravleData\rail_transport.xlsx')
+    ExcelFile = xlrd.open_workbook(r'D:\minigame\ImportTravleData\transport.xlsx')
     sheet_names_list = ExcelFile.sheet_names()
     
     ticket_list = list()
 
     for i in range(len(sheet_names_list)):
-        if i == 0 or i == 1:
-            # 读取每张列表
-            sheet = ExcelFile.sheet_by_name(sheet_names_list[i])
-            nrows = sheet.nrows
+    #     if i == 0 or i == 1:
+    #         # 读取每张列表
+    #         sheet = ExcelFile.sheet_by_name(sheet_names_list[i])
+    #         nrows = sheet.nrows
         
-            for j in range(nrows):
-                if j == 0:
-                    continue
+    #         for j in range(nrows):
+    #             if j == 0:
+    #                 continue
 
-                start_node = sheet.row_values(j)[0]
+    #             start_node = sheet.row_values(j)[0]
 
-                end_node = sheet.row_values(j)[1]
+    #             end_node = sheet.row_values(j)[1]
 
-                tickets_name = "".join(str(sheet.row_values(j)[2]).split());
+    #             tickets_name = "".join(str(sheet.row_values(j)[2]).split());
                 
-                if sheet.cell(j, 3).ctype == 3:
-                    cell = sheet.cell_value(j, 3)
-                    start_time = xldate_as_tuple(cell, 0)
-                else:
-                    print ", is str start time "
-                # print init_time + datetime.timedelta(hours=1)
-                new_time = init_time + datetime.timedelta(hours = start_time[3], minutes = start_time[4])
+    #             if sheet.cell(j, 3).ctype == 3:
+    #                 cell = sheet.cell_value(j, 3)
+    #                 start_time = xldate_as_tuple(cell, 0)
+    #             else:
+    #                 print ", is str start time "
+    #             # print init_time + datetime.timedelta(hours=1)
+    #             new_time = init_time + datetime.timedelta(hours = start_time[3], minutes = start_time[4])
             
-                start_time_int = int(time.mktime(new_time.timetuple()))
+    #             start_time_int = int(time.mktime(new_time.timetuple()))
                 
-                if sheet.cell(j, 4).ctype == 3:
-                    cell = sheet.cell_value(j, 4)
-                    end_time  = xldate_as_tuple(cell, 0)
-                else:
-                    print ", is str start time"
+    #             if sheet.cell(j, 4).ctype == 3:
+    #                 cell = sheet.cell_value(j, 4)
+    #                 end_time  = xldate_as_tuple(cell, 0)
+    #             else:
+    #                 print ", is str start time"
                 
-                end_time_int = 0
-                if end_time[3] < start_time[3]:
-                    end_time_int  += end_time[3] + 12
+    #             end_time_int = 0
+    #             if end_time[3] < start_time[3]:
+    #                 end_time_int  += end_time[3] + 12
                 
-                new_time = init_time + datetime.timedelta(hours = end_time_int, minutes = end_time[4])
-                end_time_int = int(time.mktime(new_time.timetuple()))
+    #             new_time = init_time + datetime.timedelta(hours = end_time_int, minutes = end_time[4])
+    #             end_time_int = int(time.mktime(new_time.timetuple()))
 
-                expense = str(sheet.row_values(j)[5])
-                print start_node, end_node, tickets_name, start_time_int, end_time_int, expense
+    #             expense = str(sheet.row_values(j)[5])
+    #             print start_node, end_node, tickets_name, start_time_int, end_time_int, expense
                 
-                t = Tickets(start_node, end_node, tickets_name, start_time_int, end_time_int, expense)
-                InsertData(t)
+    #             t = Tickets(start_node, end_node, tickets_name, start_time_int, end_time_int, expense)
+    #             InsertData(t)
 
 
             
-        if i >= 2:
+        if i >= 0:
             # 读取每张列表
             sheet = ExcelFile.sheet_by_name(sheet_names_list[i])
             nrows = sheet.nrows   
