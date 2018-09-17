@@ -49,11 +49,11 @@ public class WarningView : BaseUI, IPointerClickHandler
         callback = null;
         if(data.GetType()== typeof(Accident))
         {
-            
+            string city = "";
             Accident accident = data as Accident;
             if(accident.type == AccidentType.airport)
             {
-                string city = CityUtil.Instance.GetCityName(accident.location);
+                city = CityUtil.Instance.GetCityName(accident.location);
                 RectTransform cityrt = MapTrafficView.instance.FindPlace(city);
                 Vector3 pos = cityrt.anchoredPosition3D + new Vector3(cityrt.rect.width / 2, 0, 0);
                 Lucky.LuckyUtils.Log("city warning" + city);
@@ -67,7 +67,7 @@ public class WarningView : BaseUI, IPointerClickHandler
             }
             rt.localScale = new Vector3(1.5f, 1.5f, 0);
 
-            news = "灾害持续时间： "+accident.duration+"分钟";
+            news = city + "灾害持续时间： "+accident.duration+"分钟";
             Lucky.LuckyUtils.Log("add listener");
             callback=delegate ()
             {
@@ -76,12 +76,12 @@ public class WarningView : BaseUI, IPointerClickHandler
         }
         else if(data.GetType() == typeof(AccidentWarning))
         {
-            
+            string city = "";
             AccidentWarning warning = data as AccidentWarning;
             if (warning.type == AccidentType.airport)
             {
                 Lucky.LuckyUtils.Log("location number " + warning.location);
-                string city = CityUtil.Instance.GetCityName(warning.location);
+                city = CityUtil.Instance.GetCityName(warning.location);
                 RectTransform cityrt = MapTrafficView.instance.FindPlace(city);
                 Vector3 pos = cityrt.anchoredPosition3D + new Vector3(cityrt.rect.width / 2, 0, 0);
                 rt.anchoredPosition3D = pos;
@@ -95,9 +95,9 @@ public class WarningView : BaseUI, IPointerClickHandler
             
             rt.localScale = new Vector3(1.5f, 1.5f, 0);
 
-            news = "<b><size=50>此地即将发生灾害事件</size></b>\n\n"
-                + "灾害预计发生时间: " + warning.Accidentstarttime.ToString("HH:mm") + "\n\n"
-                + "灾害预计持续时间： " + warning.min + "min ~ " + warning.max + "min";
+            news = ""+ city +"即将发生灾害事件\n\n"
+                + "<size=45>灾害预计发生时间: " + warning.Accidentstarttime.ToString("HH:mm") + "</size>\n\n"
+                + "<size=45>灾害预计持续时间： " + warning.min + "分钟 ~ " + warning.max + "分钟</size>";
            callback=delegate ()
             {
                 InfoView.Show(new InfoMessage(news, "警告！"));
