@@ -50,8 +50,11 @@ public class MapTrafficView : MonoBehaviour {
             {
                 Lucky.LuckyUtils.Log("train arrive");
                 train.SetActive(false);
+                string city = FindPlaceName(dst);
                 UserTicketsModel.Instance.where = Where.City;
-                UserTicketsModel.Instance.city = FindPlaceName(dst);
+                UserTicketsModel.Instance.city = city;
+                BuyTicketsModel.Instance.startlocation = city;
+                BuyTicketsModel.Instance.stoplocation = "沈阳";
                 TimeManager.instance.SetNormalSpeed();
                 EventHappenManager.Instance.EveryLocation(dst);
             }
@@ -66,7 +69,10 @@ public class MapTrafficView : MonoBehaviour {
                 airplane.SetActive(false);
                 
                 UserTicketsModel.Instance.where = Where.City;
-                UserTicketsModel.Instance.city = FindPlaceName(dst);
+                string city = FindPlaceName(dst);
+                UserTicketsModel.Instance.city = city;
+                BuyTicketsModel.Instance.startlocation = city;
+                BuyTicketsModel.Instance.stoplocation = "沈阳";
                 TimeManager.instance.SetNormalSpeed();
                 airline.gameObject.SetActive(false);
                 EventHappenManager.Instance.EveryLocation(dst);

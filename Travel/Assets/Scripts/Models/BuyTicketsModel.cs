@@ -14,7 +14,7 @@ public class BuyTicketsModel : BaseInstance<BuyTicketsModel>
     {
         date = GameModel.Instance.Start;
         startlocation = "上海";
-        stoplocation = "杭州";
+        stoplocation = "沈阳";
         type = TrafficType.Train;
     }
     
