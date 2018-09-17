@@ -44,17 +44,24 @@ public class MapsView : BaseUI {
     private void OnGoClick()
     {
         AudioManager.Instance.PlayMusic(Audios.ButtonClip);
-        if (!isPlay)
+        if (TimeManager.instance.HasTickets())
         {
-            isPlay = true;
-            TimeManager.instance.GoToNextStartTime();
-            //GoBtnText.text = "休息";
-        }
+            if (!isPlay)
+            {
+                isPlay = true;
+                TimeManager.instance.GoToNextStartTime();
+                //GoBtnText.text = "休息";
+            }
+            else
+            {
+                isPlay = false;
+                //GoBtnText.text = "出发";
+                TimeManager.instance.SetNormalSpeed();
+            }
+        }  
         else
         {
-            isPlay = false;
-            //GoBtnText.text = "出发";
-            TimeManager.instance.SetNormalSpeed();
+            InfoView.Show(new InfoMessage("请到购票界面买票后出发！", "没有已购车票"));
         }
     }
 

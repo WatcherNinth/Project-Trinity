@@ -49,12 +49,19 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
             float money = Convert.ToSingle(trafficMessage.Money);
             MessageBus.Post(new UseMoney(-money));
             string traffic = "";
+            string title = "";
             if (trafficMessage.trafficType == TrafficType.Train)
+            {
                 traffic = "列车";
+                title = "12306铁路管家";
+            }
             else
+            {
                 traffic = "航班";
+                title = "航班公司";
+            }
             string content = "尊敬的旅客，您已购买" + trafficMessage.StartTime + "出发的" + trafficMessage.Number + traffic + "，祝您旅途愉快";
-            MessageBus.Post(new MessageObject(new ItemMessage("12306铁路管家", content)));
+            MessageBus.Post(new MessageObject(new ItemMessage(title, content)));
             
         }
         Dispose();
@@ -75,12 +82,19 @@ public class BuyTicketPopupView : BaseSceneEaseInOut
             MessageBus.Post(new UseMoney(money));
             MessageBus.Post(new DeleteTicketsMsg());
             string traffic = "";
+            string title = "";
             if (trafficMessage.trafficType == TrafficType.Train)
+            {
                 traffic = "列车";
+                title = "12306铁路管家";
+            }
             else
+            {
                 traffic = "航班";
+                title = "航班公司";
+            }
             string content = "尊敬的旅客，您已成功退订" + trafficMessage.StartTime + "出发的" + trafficMessage.Number + traffic;
-            MessageBus.Post(new MessageObject(new ItemMessage("12306铁路管家", content)));
+            MessageBus.Post(new MessageObject(new ItemMessage(title, content)));
         }
         Dispose();
     }

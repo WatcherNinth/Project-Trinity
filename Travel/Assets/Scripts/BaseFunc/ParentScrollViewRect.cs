@@ -35,6 +35,8 @@ public class ParentScrollViewRect : ScrollRect
     {
         base.Start();
         width = GetComponent<RectTransform>().rect.width;
+        int count = base.content.transform.childCount;
+        rt.anchoredPosition = new Vector2(width * (1- count), rt.anchoredPosition.y);
     }
 
     public override void OnBeginDrag(PointerEventData eventData)

@@ -528,4 +528,14 @@ public class TimeManager : MonoBehaviour {
         TimeSpeed = fastSpeed;
     }
 
+    public bool HasTickets()
+    {
+        if (waitingGo.Count == 0 && doTickets.Count == 0)
+        {
+            return false;
+        }
+        else
+            return true;
+    }
+
 }

@@ -221,6 +221,8 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
             {
                 if(results[i].gameObject.CompareTag("Warning"))
                     ExecuteEvents.Execute(results[i].gameObject, data, function);
+                if (results[i].gameObject.CompareTag("LocationShow"))
+                    ExecuteEvents.Execute(results[i].gameObject, data, function);
             }
         }
     }

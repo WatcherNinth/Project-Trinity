@@ -67,11 +67,12 @@ public class WarningView : BaseUI, IPointerClickHandler
             }
             rt.localScale = new Vector3(1.5f, 1.5f, 0);
 
-            news = city + "灾害持续时间： "+accident.duration+"分钟";
+            //news = city + "灾害持续时间： "+accident.duration+"分钟";
+            news = accident.text.description;
             Lucky.LuckyUtils.Log("add listener");
             callback=delegate ()
             {
-                InfoView.Show(new InfoMessage(news, "灾害！"));
+                InfoView.Show(new InfoMessage(news, "寒潮已经到达！"));
             };
         }
         else if(data.GetType() == typeof(AccidentWarning))
@@ -95,12 +96,12 @@ public class WarningView : BaseUI, IPointerClickHandler
             
             rt.localScale = new Vector3(1.5f, 1.5f, 0);
 
-            news = ""+ city +"即将发生灾害事件\n\n"
-                + "<size=45>灾害预计发生时间: " + warning.Accidentstarttime.ToString("HH:mm") + "</size>\n\n"
-                + "<size=45>灾害预计持续时间： " + warning.min + "分钟 ~ " + warning.max + "分钟</size>";
+            news = ""+ city +"寒潮即将到达此处，请注意出行安全\n\n"
+                + "<size=45>寒潮预计到达时间: " + warning.Accidentstarttime.ToString("HH:mm") + "</size>\n\n"
+                + "<size=45>寒潮预计持续时间： " + warning.min + "分钟 ~ " + warning.max + "分钟</size>";
            callback=delegate ()
             {
-                InfoView.Show(new InfoMessage(news, "警告！"));
+                InfoView.Show(new InfoMessage(news, "【寒潮天气预警】"));
             };
         }
     }
