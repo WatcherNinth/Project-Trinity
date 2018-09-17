@@ -55,7 +55,7 @@ namespace Lucky
         public static void Log(System.Object str)
         {
 #if UNITY_EDITOR
-            //Debug.Log(str.ToString());
+            Debug.Log(str.ToString());
 #endif
 
 #if UNITY_ANDROID

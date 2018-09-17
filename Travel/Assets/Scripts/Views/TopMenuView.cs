@@ -52,6 +52,7 @@ public class TopMenuView : MonoBehaviour {
         rt.gameObject.SetActive(true);
         if (!show)
         {
+            BtnWeChatBg.localEulerAngles = new Vector3(0, 0, 0);
             num = 0;
             Tween t = DOTween.To
             (
@@ -65,11 +66,12 @@ public class TopMenuView : MonoBehaviour {
                 rt.sizeDelta = new Vector2(rt.sizeDelta.x, 1728);
                 show = true;
                 BtnWeChat.interactable = true;
-                BtnWeChatBg.localEulerAngles = new Vector3(0, 0, 0);
+                
             };
         }
         else
         {
+            BtnWeChatBg.localEulerAngles = new Vector3(0, 0, 180);
             num = 1728;
             Tween t = DOTween.To
             (
@@ -84,7 +86,6 @@ public class TopMenuView : MonoBehaviour {
                 show = false;
                 BtnWeChat.interactable = true;
                 rt.gameObject.SetActive(false);
-                BtnWeChatBg.localEulerAngles = new Vector3(0, 0, 180);
             };
         }
         

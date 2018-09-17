@@ -52,7 +52,7 @@ public class MapTrafficView : MonoBehaviour {
                 train.SetActive(false);
                 UserTicketsModel.Instance.where = Where.City;
                 UserTicketsModel.Instance.city = FindPlaceName(dst);
-                TimeManager.instance.TimeSpeed = 1.0f;
+                TimeManager.instance.SetNormalSpeed();
                 EventHappenManager.Instance.EveryLocation(dst);
             }
         }
@@ -67,7 +67,7 @@ public class MapTrafficView : MonoBehaviour {
                 
                 UserTicketsModel.Instance.where = Where.City;
                 UserTicketsModel.Instance.city = FindPlaceName(dst);
-                TimeManager.instance.TimeSpeed = 1.0f;
+                TimeManager.instance.SetNormalSpeed();
                 airline.gameObject.SetActive(false);
                 EventHappenManager.Instance.EveryLocation(dst);
 
@@ -215,7 +215,8 @@ public class MapTrafficView : MonoBehaviour {
             double realtime = traveltime / TimeManager.instance.TimeSpeed;
             start = GetCityString(start);
             stop = GetCityString(stop);
-            animationName = start + "To" + stop;
+            animationName = start + "-" + stop + "_Train";
+            Lucky.LuckyUtils.Log("train " + animationName);
 
             animator = train.GetComponent<Animator>();
             AnimationClip clip = FindClip(animator, animationName);

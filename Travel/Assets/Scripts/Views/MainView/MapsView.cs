@@ -54,7 +54,7 @@ public class MapsView : BaseUI {
         {
             isPlay = false;
             //GoBtnText.text = "出发";
-            TimeManager.instance.TimeSpeed = 1.0f;
+            TimeManager.instance.SetNormalSpeed();
         }
     }
 

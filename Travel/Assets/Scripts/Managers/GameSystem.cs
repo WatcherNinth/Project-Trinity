@@ -22,7 +22,7 @@ public class GameSystem : MonoBehaviour {
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
-        StartCoroutine(Init());
+        //StartCoroutine(Init());
         lasttime = Time.realtimeSinceStartup;
 
     }
@@ -39,7 +39,7 @@ public class GameSystem : MonoBehaviour {
         }
     }
 
-    private IEnumerator Init()
+    public IEnumerator Init()
     {
         Lucky.LuckyUtils.Log("load text");
         yield return StartCoroutine(TextManager.Instance.Init());

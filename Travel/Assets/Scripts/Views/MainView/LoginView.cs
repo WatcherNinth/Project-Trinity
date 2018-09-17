@@ -8,32 +8,29 @@ using System.Threading;
 public class LoginView : MonoBehaviour {
 
     
-    public Image image;
+    public Button Login;
+    public GameObject Loading;
+    public Sprite Change;
 
-    public Sprite[] images;
-    public AudioClip[] audioClips;
-    public float[] time;
-    private AudioSource audiosource;
+    private Image img;
 
     private void Awake()
     {
-        audiosource = GetComponent<AudioSource>();
+        img = Login.GetComponent<Image>();
     }
 
     void Start()
     {
-
+        Loading.SetActive(false);
+        Login.onClick.AddListener(OnClick);
     }
 
-    private IEnumerator ShowImages()
+    private void OnClick()
     {
-        image.sprite = images[0];
-        while(true)
-        {
-            
-            yield return new WaitForEndOfFrame();
-        }
-        yield return new WaitForSeconds(time[0]);
+        Loading.SetActive(true);
+        //img.sprite = Change;
+        Login.interactable = false;
+        StartCoroutine(GameSystem.instance.Init());
     }
 
 }

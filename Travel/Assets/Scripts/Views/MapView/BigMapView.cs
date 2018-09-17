@@ -24,6 +24,9 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     private bool isMove;
     private Vector2 End;
 
+    private Vector3 initScale = new Vector3(0.65f, 0.65f, 1);
+    private Vector2 initPos = new Vector2(-370, -87);
+
     private void Awake()
     {
         Map = GameObject.FindGameObjectWithTag("MapCanvas");
@@ -43,6 +46,13 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         right = parent.sizeDelta.x / 2;
         left = -right;
 
+        transform.localScale = initScale;
+        Map.transform.localScale = transform.localScale;
+        m_3DMap.transform.localScale *= 0.65f;
+
+        rt.anchoredPosition = initPos;
+        Map.transform.position = new Vector3(rt.position.x,rt.position.y,Map.transform.position.z);
+        m_3DMap.transform.position = new Vector3(rt.position.x, rt.position.y, m_3DMap.transform.position.z);
     }
 
     private void Update()
@@ -102,8 +112,8 @@ public class BigMapView : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
                 rt.anchoredPosition = End;
                 isMove = false;
             }
-                
-            Map.transform.position = rt.position;
+
+            Map.transform.position = new Vector3(rt.position.x, rt.position.y, Map.transform.position.z);
             m_3DMap.transform.position = new Vector3(rt.position.x, rt.position.y, m_3DMap.transform.position.z);
         }
         

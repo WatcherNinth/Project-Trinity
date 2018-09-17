@@ -40,7 +40,7 @@ public class CanvasView : MonoBehaviour {
                 }
             }
             */
-            RedPoints.gameObject.SetActive(false);
+            //RedPoints.gameObject.SetActive(false);
 
         });
     }
@@ -73,8 +73,10 @@ public class CanvasView : MonoBehaviour {
     private bool AddNote(OnePageNoteBook data)
     {
         Debug.Log("add note");
-        RedPoints.gameObject.SetActive(true);
+        //RedPoints.gameObject.SetActive(true);
         NoteBookModel.Instance.noteBookList.Add(data);
+        Show();
+        TimeManager.instance.SetNormalSpeed();
         return false;
     }
 

@@ -69,15 +69,17 @@ public class TimeManager : MonoBehaviour {
     private Text timeText;
     private MapsView mv;
 
-    [SerializeField]
-    private float timespeed = 1.0f;
+    public float normalSpeed= 0.0166f;
+    public float fastSpeed = 10f;
+
+    private float timespeed;
     public float TimeSpeed
     {
         get { return timespeed; }
         set
         {
             timespeed = value;
-            if(timespeed == 1.0f)
+            if(timespeed == normalSpeed)
             {
                 if(mv!=null)
                 {
@@ -115,12 +117,13 @@ public class TimeManager : MonoBehaviour {
     private List<MessageParam<WeChatMessage>> doWechat = new List<MessageParam<WeChatMessage>>();
     private List<MessageParam<NewMessage>> doNew = new List<MessageParam<NewMessage>>();
 
-    private string DateFormat = "MM/dd\nHH:mm";
+    private string DateFormat = "MM/dd\nHH:mm:ss";
 
     private float oldspeed=0;
 
     private void Awake()
     {
+        timespeed = normalSpeed;
         _instance = this;
     }
 
@@ -188,7 +191,6 @@ public class TimeManager : MonoBehaviour {
             if (!tep.isDestroy)
             {
                 Lucky.LuckyUtils.Log("new accident");
-                TimeSpeed = 1.0f;
                 StartCoroutine(tep.Callback(tep.accident));
                 MapTrafficView.instance.ShowAccidentMessage(tep.accident);
             }
@@ -224,7 +226,7 @@ public class TimeManager : MonoBehaviour {
         //旅游路线执行
         foreach (TicketParam tp in doTickets)
         {
-            TimeSpeed = 1.0f;
+            //TimeSpeed = 1.0f;
             if (tp.rt.Type() == 0)
                 MapTrafficView.instance.TrainGo(tp);
             else
@@ -491,7 +493,7 @@ public class TimeManager : MonoBehaviour {
         {
             nextSlowTime = dt.AddMinutes(-5);
         }
-        TimeSpeed = 10.0f;
+        SetFastSpeed();
 
     }
 
@@ -515,4 +517,15 @@ public class TimeManager : MonoBehaviour {
     {
         TimeSpeed = oldspeed;
     }
+
+    public void SetNormalSpeed()
+    {
+        TimeSpeed = normalSpeed;
+    }
+
+    public void SetFastSpeed()
+    {
+        TimeSpeed = fastSpeed;
+    }
+
 }
