@@ -248,6 +248,7 @@ public class CityUtil : BaseInstance<CityUtil> {
         city_list.AddEdge("石家庄", "济南");
         city_mapping_list[20] = new CityMapping(20, "石家庄", "济南");
 
+
         city_list.AddEdge("石家庄", "北京");
         city_mapping_list[21] = new CityMapping(21, "石家庄", "北京");
 
@@ -316,4 +317,19 @@ public class CityUtil : BaseInstance<CityUtil> {
         return city_dict[ID];
     }
 
+    public int GetRevertCityMapping(int id)
+    {
+        string start_node = city_mapping_list[id].start_node;
+        string end_node = city_mapping_list[id].end_node;
+
+        foreach (KeyValuePair<int, CityMapping> pair in city_mapping_list)
+        {
+            CityMapping m = pair.Value;
+            if (m.start_node == end_node && m.end_node == start_node)
+            {
+                return m.edge_num;
+            }
+        }
+        return -1;
+    }
 }
