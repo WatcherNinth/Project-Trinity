@@ -39,6 +39,7 @@ public class MapTrafficView : MonoBehaviour {
         EventHappenManager.Instance.EveryLocation("上海");
         citys = new string[LocationsModel.cityslocation.Count];
         LocationsModel.cityslocation.Keys.CopyTo(citys, 0);
+        TimeManager.instance.SetNormalSpeed();
     }
 
     private void Update()
@@ -90,6 +91,7 @@ public class MapTrafficView : MonoBehaviour {
         {
             Lucky.LuckyUtils.Log("destroy");
             Accident accident = data as Accident;
+            Lucky.LuckyUtils.Log("delete acciednt "+accident.location);
             Destroy(warndic[accident.location].gameObject);
             warndic.Remove(accident.location);
         }
@@ -100,12 +102,14 @@ public class MapTrafficView : MonoBehaviour {
         if (data.GetType() == typeof(Accident))
         {
             Accident accident = data as Accident;
+            Debug.Log("show accident " + accident.location);
             if (warndic.ContainsKey(accident.location))
             {
                 warndic[accident.location].AccidentMessage = accident;
             }
             else
             {
+                Debug.Log("add accident " + accident.location);
                 GameObject warningPrefab = PrefabManager.Instance.GetPrefabs(Prefabs.Warning);
                 GameObject warningObj = Instantiate(warningPrefab);
                 LuckyUtils.MakeIndentity(warningObj.transform);
@@ -120,12 +124,14 @@ public class MapTrafficView : MonoBehaviour {
         else if (data.GetType() == typeof(AccidentWarning))
         {
             AccidentWarning warning = data as AccidentWarning;
+            Debug.Log("show accident warning " + warning.location);
             if (warndic.ContainsKey(warning.location))
             {
                 warndic[warning.location].AccidentMessage = warning;
             }
             else
             {
+                Debug.Log("add accident warning "+warning.location);
                 GameObject warningPrefab = PrefabManager.Instance.GetPrefabs(Prefabs.Warning);
                 GameObject warningObj = Instantiate(warningPrefab);
                 LuckyUtils.MakeIndentity(warningObj.transform);

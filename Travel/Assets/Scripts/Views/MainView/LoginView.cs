@@ -44,8 +44,8 @@ public class LoginView : MonoBehaviour {
                 AudioManager.Instance.Stop(Audios.WeChatCall);
                 bg.sprite = SpriteManager.Instance.GetSprite(Sprites.WeChatCalling);
                 AudioClip ac = AudioManager.Instance.GetAudioClip(Audios.WeChatCalling);
-                //StartCoroutine(WaitPlay(ac.length));
-                StartCoroutine(WaitPlay(0));
+                AudioManager.Instance.PlayMusic(Audios.WeChatCalling);
+                StartCoroutine(WaitPlay(ac.length));
             });
             call.gameObject.SetActive(true);
         }
