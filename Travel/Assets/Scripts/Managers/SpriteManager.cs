@@ -13,6 +13,8 @@ public class Sprites
     public const string mother = "mother";
     public const string father = "father";
     public const string sister = "sister";
+    public const string WeChatCall = "WeChatCall";
+    public const string WeChatCalling = "WeChatCalling";
     public const string book1 = "book1";
     public const string book2 = "book2";
     public const string book3 = "book3";
@@ -39,11 +41,15 @@ public class SpriteManager : BaseInstance<SpriteManager> {
             Sprites.book5,
             Sprites.book6,
             Sprites.book7,
-            Sprites.book8
+            Sprites.book8,
+            Sprites.WeChatCall,
+            Sprites.WeChatCalling
         };
 
         foreach(string name in s)
         {
+            if (spriteDics.ContainsKey(name))
+                continue;
             ResourceRequest rr = Resources.LoadAsync(name);
             yield return rr;
             if(rr.asset!=null)
