@@ -19,7 +19,8 @@ public class MapTrafficView : MonoBehaviour {
     private string dst;
     private string[] citys;
 
-    private Dictionary<int, WarningView> warndic = new Dictionary<int, WarningView>();
+    private Dictionary<int, WarningView> Trainwarndic = new Dictionary<int, WarningView>();
+    private Dictionary<int, WarningView> AirPlanewarndic = new Dictionary<int, WarningView>();
 
     private static MapTrafficView _instance;
     public static MapTrafficView instance
@@ -92,8 +93,17 @@ public class MapTrafficView : MonoBehaviour {
             Lucky.LuckyUtils.Log("destroy");
             Accident accident = data as Accident;
             Lucky.LuckyUtils.Log(accident.type+"delete acciednt "+accident.location);
-            Destroy(warndic[accident.location].gameObject);
-            warndic.Remove(accident.location);
+            if(accident.type == AccidentType.airport)
+            {
+                Destroy(AirPlanewarndic[accident.location].gameObject);
+                AirPlanewarndic.Remove(accident.location);
+            }
+            else
+            {
+                Destroy(Trainwarndic[accident.location].gameObject);
+                Trainwarndic.Remove(accident.location);
+            }
+            
         }
     }
 
@@ -103,45 +113,93 @@ public class MapTrafficView : MonoBehaviour {
         {
             Accident accident = data as Accident;
             Debug.Log("show accident " + accident.location);
-            if (warndic.ContainsKey(accident.location))
+            if(accident.type == AccidentType.airport)
             {
-                warndic[accident.location].AccidentMessage = accident;
+                if (AirPlanewarndic.ContainsKey(accident.location))
+                {
+                    AirPlanewarndic[accident.location].AccidentMessage = accident;
+                }
+                else
+                {
+                    Debug.Log("add accident " + accident.location);
+                    GameObject warningPrefab = PrefabManager.Instance.GetPrefabs(Prefabs.Warning);
+                    GameObject warningObj = Instantiate(warningPrefab);
+                    LuckyUtils.MakeIndentity(warningObj.transform);
+                    WarningView wv = warningObj.GetComponent<WarningView>();
+                    wv.AccidentMessage = accident;
+                    AirPlanewarndic.Add(accident.location, wv);
+                    warningObj.transform.SetParent(transform);
+                    warningObj.SetActive(true);
+                    LuckyUtils.MakeIndentity(warningObj.transform);
+                }
             }
             else
             {
-                Debug.Log("add accident " + accident.location);
-                GameObject warningPrefab = PrefabManager.Instance.GetPrefabs(Prefabs.Warning);
-                GameObject warningObj = Instantiate(warningPrefab);
-                LuckyUtils.MakeIndentity(warningObj.transform);
-                WarningView wv = warningObj.GetComponent<WarningView>();
-                wv.AccidentMessage = accident;
-                warndic.Add(accident.location, wv);
-                warningObj.transform.SetParent(transform);
-                warningObj.SetActive(true);
-                LuckyUtils.MakeIndentity(warningObj.transform);
+                if (Trainwarndic.ContainsKey(accident.location))
+                {
+                    Trainwarndic[accident.location].AccidentMessage = accident;
+                }
+                else
+                {
+                    Debug.Log("add accident " + accident.location);
+                    GameObject warningPrefab = PrefabManager.Instance.GetPrefabs(Prefabs.Warning);
+                    GameObject warningObj = Instantiate(warningPrefab);
+                    LuckyUtils.MakeIndentity(warningObj.transform);
+                    WarningView wv = warningObj.GetComponent<WarningView>();
+                    wv.AccidentMessage = accident;
+                    Trainwarndic.Add(accident.location, wv);
+                    warningObj.transform.SetParent(transform);
+                    warningObj.SetActive(true);
+                    LuckyUtils.MakeIndentity(warningObj.transform);
+                }
             }
+            
         }
         else if (data.GetType() == typeof(AccidentWarning))
         {
             AccidentWarning warning = data as AccidentWarning;
             Debug.Log("show accident warning " + warning.location);
-            if (warndic.ContainsKey(warning.location))
+            if(warning.type== AccidentType.airport)
             {
-                warndic[warning.location].AccidentMessage = warning;
+                if (AirPlanewarndic.ContainsKey(warning.location))
+                {
+                    AirPlanewarndic[warning.location].AccidentMessage = warning;
+                }
+                else
+                {
+                    Debug.Log("add accident warning " + warning.location);
+                    GameObject warningPrefab = PrefabManager.Instance.GetPrefabs(Prefabs.Warning);
+                    GameObject warningObj = Instantiate(warningPrefab);
+                    LuckyUtils.MakeIndentity(warningObj.transform);
+                    WarningView wv = warningObj.GetComponent<WarningView>();
+                    wv.AccidentMessage = warning;
+                    AirPlanewarndic.Add(warning.location, wv);
+                    warningObj.transform.SetParent(transform);
+                    warningObj.SetActive(true);
+                    LuckyUtils.MakeIndentity(warningObj.transform);
+                }
             }
             else
             {
-                Debug.Log("add accident warning "+warning.location);
-                GameObject warningPrefab = PrefabManager.Instance.GetPrefabs(Prefabs.Warning);
-                GameObject warningObj = Instantiate(warningPrefab);
-                LuckyUtils.MakeIndentity(warningObj.transform);
-                WarningView wv = warningObj.GetComponent<WarningView>();
-                wv.AccidentMessage=warning;
-                warndic.Add(warning.location, wv);
-                warningObj.transform.SetParent(transform);
-                warningObj.SetActive(true);
-                LuckyUtils.MakeIndentity(warningObj.transform);
+                if (Trainwarndic.ContainsKey(warning.location))
+                {
+                    Trainwarndic[warning.location].AccidentMessage = warning;
+                }
+                else
+                {
+                    Debug.Log("add accident warning " + warning.location);
+                    GameObject warningPrefab = PrefabManager.Instance.GetPrefabs(Prefabs.Warning);
+                    GameObject warningObj = Instantiate(warningPrefab);
+                    LuckyUtils.MakeIndentity(warningObj.transform);
+                    WarningView wv = warningObj.GetComponent<WarningView>();
+                    wv.AccidentMessage = warning;
+                    Trainwarndic.Add(warning.location, wv);
+                    warningObj.transform.SetParent(transform);
+                    warningObj.SetActive(true);
+                    LuckyUtils.MakeIndentity(warningObj.transform);
+                }
             }
+            
             
         }
         
@@ -210,6 +268,8 @@ public class MapTrafficView : MonoBehaviour {
 
     public void TrainGo(TicketParam tp)
     {
+        if(tp==null)
+            Debug.Log("tp is null");
         TicketsController.Instance.DeleteTickets(tp.rt.GetTicketId());
         if (UserTicketsModel.Instance.where == Where.City && tp.rt.GetRoutineStartNode().Contains(UserTicketsModel.Instance.city))
         {
