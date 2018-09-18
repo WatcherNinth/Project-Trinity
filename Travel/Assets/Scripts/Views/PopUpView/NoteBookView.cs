@@ -15,7 +15,13 @@ public class NoteBookView : BaseSceneEaseInOut {
         Enter();
         OnReturnClick = delegate ()
         {
-            TimeManager.instance.StartTimeManager();
+            if (UserTicketsModel.Instance.city == "沈阳")
+            {
+                TimeManager.instance.SetEnding();
+                TimeManager.instance.StopTimeManager();
+            }
+            else
+                TimeManager.instance.StartTimeManager();
         };
     }
 

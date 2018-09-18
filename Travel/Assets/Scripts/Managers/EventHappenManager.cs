@@ -35,7 +35,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
         ImageList.Add(Sprites.book6);
         ImageList.Add(Sprites.book7);
         ImageList.Add(Sprites.book2);
-        ImageList.Add(Sprites.book8);
+        ImageList.Add(Sprites.book1);
         ImageList.Add(Sprites.book1);
         //ImageList.Add(Sprites.book2);
     }
@@ -111,11 +111,10 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
 
         if(dst == "沈阳")
         {
-            InfoView.Show(new InfoMessage("终于，你推开家门，感受到了一阵温暖而又熟悉的气息...", "到家了！"));
-            TimeManager.instance.StopTimeManager();
-            TimeManager.instance.SetEnding();
+            //InfoView.Show(new InfoMessage("终于，你推开家门，感受到了一阵温暖而又熟悉的气息...", "到家了！"));
+            //TimeManager.instance.StopTimeManager();
+           // TimeManager.instance.SetEnding();
         }
-
     }
 
     public IEnumerator Ending()
