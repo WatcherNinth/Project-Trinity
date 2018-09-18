@@ -251,8 +251,6 @@ public class CityUtil : BaseInstance<CityUtil> {
 
         city_tikcet_mapping["上海"] = new List<string>();
         city_tikcet_mapping["上海"].Add("杭州");
-        city_tikcet_mapping["上海"].Add("天津");
-        city_tikcet_mapping["上海"].Add("南京");
 
         city_tikcet_mapping["杭州"] = new List<String>();
         city_tikcet_mapping["杭州"].Add("南京");
