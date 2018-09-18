@@ -13,9 +13,11 @@ public class LocationView : BaseSceneEaseInOut
     protected override void Awake()
     {
         base.Awake();
-        //citys = CityUtil.Instance.GetCityList();
-        //citys = new string[LocationsModel.cityslocation.Count];
-        //LocationsModel.cityslocation.Keys.CopyTo(citys, 0);
+        citys = new List<string>();
+        string[] cityarray = new string[LocationsModel.cityslocation.Count];
+        LocationsModel.cityslocation.Keys.CopyTo(cityarray, 0);
+        foreach (string city in cityarray)
+            citys.Add(city);
     }
 
     protected override void InitUI()

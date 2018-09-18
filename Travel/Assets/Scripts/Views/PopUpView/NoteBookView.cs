@@ -13,6 +13,10 @@ public class NoteBookView : BaseSceneEaseInOut {
         base.InitUI();
         InitData();
         Enter();
+        OnReturnClick = delegate ()
+        {
+            TimeManager.instance.StartTimeManager();
+        };
     }
 
     private bool CreateNewNote(OnePageNoteBook data)

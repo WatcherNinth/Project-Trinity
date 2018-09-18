@@ -340,7 +340,10 @@ public class CityUtil : BaseInstance<CityUtil> {
     public List<String> GetCityList(string city)
     {
         Debug.Log("city " + city);
-        return city_tikcet_mapping[city];
+        if (city_tikcet_mapping.ContainsKey(city))
+            return city_tikcet_mapping[city];
+        else
+            return new List<string>();
     }
 
     public List<String> GetCityListRevert(string city)

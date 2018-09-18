@@ -13,6 +13,7 @@ public enum AccidentType
 
 public class BaseAccident
 {
+    public int id;
     public DateTime starttime;
 }
 
@@ -123,8 +124,14 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         {
             CreateAccidentWarning(item);
             TimeManager.instance.AddAccidentExecute(item, HandleAccident,false);
-            Accident eitem = item;
-            eitem.starttime = eitem.starttime.AddMinutes(item.duration);
+            Accident eitem = new Accident
+            {
+                duration = item.duration,
+                location = item.location,
+                starttime = item.starttime.AddMinutes(item.duration),
+                type = item.type,
+                text = item.text
+            };
             TimeManager.instance.AddAccidentExecute(eitem, null, true);
 
             //timemanager callback
@@ -133,6 +140,15 @@ public class AccidentGenerator : BaseInstance<AccidentGenerator>
         {
             //timemanager callback
             TimeManager.instance.AddAccidentExecute(item, null);
+            AccidentWarning eitem = new AccidentWarning
+            {
+                min = item.min,
+                location = item.location,
+                starttime = item.starttime.AddMinutes(item.min),
+                type = item.type,
+                max = item.max
+            };
+            TimeManager.instance.AddAccidentExecute(eitem, null, true);
         }
     }
     void CreateAccidentWarning(Accident accident)
