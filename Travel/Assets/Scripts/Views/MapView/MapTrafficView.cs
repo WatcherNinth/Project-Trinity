@@ -95,13 +95,21 @@ public class MapTrafficView : MonoBehaviour {
             Lucky.LuckyUtils.Log(accident.type+"delete acciednt "+accident.location);
             if(accident.type == AccidentType.airport)
             {
-                Destroy(AirPlanewarndic[accident.location].gameObject);
-                AirPlanewarndic.Remove(accident.location);
+                if(AirPlanewarndic.ContainsKey(accident.location))
+                {
+                    Destroy(AirPlanewarndic[accident.location].gameObject);
+                    AirPlanewarndic.Remove(accident.location);
+                }
+                
             }
             else
             {
-                Destroy(Trainwarndic[accident.location].gameObject);
-                Trainwarndic.Remove(accident.location);
+                if(Trainwarndic.ContainsKey(accident.location))
+                {
+                    Destroy(Trainwarndic[accident.location].gameObject);
+                    Trainwarndic.Remove(accident.location);
+                }
+                
             }
             
         }

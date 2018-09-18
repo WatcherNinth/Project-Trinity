@@ -264,7 +264,7 @@ public class TicketsOperaton
     {
         
         
-        Lucky.LuckyUtils.Log("accdent happen time " + accident_happen_time.ToString());
+        
         List<int> affected_routine_ids = new List<int>();
 
         if (type == AccidentType.rail)
@@ -289,22 +289,22 @@ public class TicketsOperaton
 
                 List<Routine> delay_routine = new List<Routine>();
                 UInt64 accident_happen_time_seconds = RoutineOperation.GetSeconds(accident_happen_time);
-                Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
-                Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
+                //Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
+                //Lucky.LuckyUtils.Log("accident_happen_time_seconds " + accident_happen_time_seconds);
 
 
                 foreach (Routine t in res)
                 {   
 
                     UInt64 begin_time = RoutineOperation.GetSeconds(t.GetBeginTime());
-                    Lucky.LuckyUtils.Log("begin time " + begin_time);
+                    //Lucky.LuckyUtils.Log("begin time " + begin_time);
 
                     UInt64 end_time = RoutineOperation.GetSeconds(t.GetEndTime());
 
                     if (begin_time >= accident_happen_time_seconds)
                     {
                         int routine_id = t.GetRoutineId();
-                        Lucky.LuckyUtils.Log("lucky routine_id "+ routine_id);
+                        //Lucky.LuckyUtils.Log("lucky routine_id "+ routine_id);
                         UInt64 actual_begin_time = begin_time + (UInt32)duration * 60;
                         UInt64 actual_end_time = end_time + (UInt32)duration * 60;
 

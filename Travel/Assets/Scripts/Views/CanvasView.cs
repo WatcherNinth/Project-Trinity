@@ -64,7 +64,7 @@ public class CanvasView : MonoBehaviour {
         //RedPoints.gameObject.SetActive(true);
         NoteBookModel.Instance.noteBookList.Add(data);
         Show();
-        TimeManager.instance.SetNormalSpeed();
+        TimeManager.instance.StopTimeManager() ;
         return false;
     }
 
