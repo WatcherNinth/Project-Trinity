@@ -8,14 +8,14 @@ public class LocationView : BaseSceneEaseInOut
 {
 
     public BaseGrid baseGrid;
-    private string[] citys;
+    private List<string> citys;
 
     protected override void Awake()
     {
         base.Awake();
         //citys = CityUtil.Instance.GetCityList();
-        citys = new string[LocationsModel.cityslocation.Count];
-        LocationsModel.cityslocation.Keys.CopyTo(citys, 0);
+        //citys = new string[LocationsModel.cityslocation.Count];
+        //LocationsModel.cityslocation.Keys.CopyTo(citys, 0);
     }
 
     protected override void InitUI()
@@ -29,8 +29,8 @@ public class LocationView : BaseSceneEaseInOut
         List<CityItem> l = new List<CityItem>();
         if(isEnding)
         {
-
-            //List<string> = CityUtil.Instance.GetCityList(src);
+            Debug.Log("get src " + src);
+            citys = CityUtil.Instance.GetCityList(src);
         }  
         else
         {

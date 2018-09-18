@@ -339,6 +339,7 @@ public class CityUtil : BaseInstance<CityUtil> {
 
     public List<String> GetCityList(string city)
     {
+        Debug.Log("city " + city);
         return city_tikcet_mapping[city];
     }
 
