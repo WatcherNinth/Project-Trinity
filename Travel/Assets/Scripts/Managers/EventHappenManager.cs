@@ -15,6 +15,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
     List<string> ImageList = new List<string>();
     static System.Random rnd = new System.Random();
     bool TicketFlag=true;
+    bool CityFlag = true;
 
 
     public IEnumerator Init()
@@ -50,11 +51,12 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
         {
             case Where.City:
                 {
-                    if(RandomCityList.Count!=0)
+                    if(RandomCityList.Count!=0 && CityFlag)
                     {
                         target = RandomCityList[rnd.Next(0, RandomCityList.Count)];
                         if (target != null)
                             RandomCityList.Remove(target);
+                        CityFlag = false;
                     }
                     break;
                 }
@@ -67,6 +69,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
                         if (target != null)
                             RandomTrainList.Remove(target);
                         TicketFlag = false;
+                        CityFlag = true;
                     } 
                     break;
                 }
@@ -108,7 +111,7 @@ public class EventHappenManager : BaseInstance<EventHappenManager>
 
         if(dst == "沈阳")
         {
-            InfoView.Show(new InfoMessage("到家了", "消息！"));
+            InfoView.Show(new InfoMessage("终于，你推开家门，感受到了一阵温暖而又熟悉的气息...", "到家了！"));
             TimeManager.instance.StopTimeManager();
             TimeManager.instance.SetEnding();
         }
