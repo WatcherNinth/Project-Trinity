@@ -23,7 +23,7 @@ public class MainActivity extends UnityPlayerActivity {
 
     public void Start()
     {
-        vibrator.vibrate(new long[]{1000, 1000},0);
+        vibrator.vibrate(new long[]{1000, 2000},0);
     }
 
     public void Stop()
