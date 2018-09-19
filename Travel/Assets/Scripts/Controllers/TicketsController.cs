@@ -36,12 +36,14 @@ public class TicketsController : BaseInstance<TicketsController>
     public MultiYield BuyTickets(int id)
     {
         System.Object value = id;
+        Debug.Log("buy ticket "+id);
         return MultiThreadPool.AddNewMission(value, BuyingTickets);
     }
 
     public List<TrafficMessage> BuyingTickets(System.Object value)
     {
         int id = (int)value;
+        Debug.Log("id " + id);
         TicketsOperaton ticket_operation = new TicketsOperaton();
         int ticketid = ticket_operation.BuyTickets(id);
         if(ticketid==0)

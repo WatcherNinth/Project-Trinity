@@ -27,12 +27,20 @@ namespace Lucky
     {
         public MultiYield my;
         public Func<System.Object, List<TrafficMessage>> callback;
+        public static object objlock = new object();
 
         public void Callback(System.Object param)
         {
-            if(callback!=null)
-                my.result=callback(param);
-            my.SetBool(true);
+            lock(objlock)
+            {
+                int time = DateTime.Now.Millisecond;
+                Debug.Log("start callback ");
+                if (callback != null)
+                    my.result = callback(param);
+                my.SetBool(true);
+                Debug.Log("last time " + (DateTime.Now.Millisecond - time));
+            }
+            
         }
 
         public ThreadParam(MultiYield tmy, Func<System.Object, List<TrafficMessage>> tcallback)
