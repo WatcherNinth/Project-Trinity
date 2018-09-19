@@ -63,5 +63,10 @@ public class GameSystem : MonoBehaviour {
             Lucky.LuckyUtils.Log("load finish");
         }
     }
+
+    public void onBack(string s)
+    {
+        Debug.Log("back on click "+s);
+    }
 	
 }

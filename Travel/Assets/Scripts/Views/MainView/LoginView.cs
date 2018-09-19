@@ -43,9 +43,30 @@ public class LoginView : MonoBehaviour {
         else
         {
             bg.sprite = SpriteManager.Instance.GetSprite(Sprites.WeChatCall);
+
+            using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            {
+                using (AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity"))
+                {
+                    //调用Android插件中UnityTestActivity中StartActivity0方法，stringToEdit表示它的参数
+                    jo.Call("Start");
+                }
+
+            }
+
             AudioManager.Instance.PlayMusic(Audios.WeChatCall,true);
             call.onClick.AddListener(delegate() 
             {
+                using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+                {
+                    using (AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity"))
+                    {
+                        //调用Android插件中UnityTestActivity中StartActivity0方法，stringToEdit表示它的参数
+                        jo.Call("Stop");
+                    }
+
+                }
+
                 call.gameObject.SetActive(false);
                 cancel.gameObject.SetActive(true);
                 cancel.onClick.AddListener(delegate()
