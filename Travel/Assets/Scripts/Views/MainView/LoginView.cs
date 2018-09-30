@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using Lucky;
-using System.Threading;
 
 public class LoginView : MonoBehaviour {
 
@@ -44,6 +41,7 @@ public class LoginView : MonoBehaviour {
         {
             bg.sprite = SpriteManager.Instance.GetSprite(Sprites.WeChatCall);
 
+#if UNITY_ANDROID
             using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
             {
                 using (AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -53,10 +51,13 @@ public class LoginView : MonoBehaviour {
                 }
 
             }
+#endif
 
             AudioManager.Instance.PlayMusic(Audios.WeChatCall,true);
             call.onClick.AddListener(delegate() 
             {
+
+#if UNITY_ANDROID
                 using (AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
                 {
                     using (AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity"))
@@ -66,6 +67,7 @@ public class LoginView : MonoBehaviour {
                     }
 
                 }
+#endif
 
                 call.gameObject.SetActive(false);
                 cancel.gameObject.SetActive(true);

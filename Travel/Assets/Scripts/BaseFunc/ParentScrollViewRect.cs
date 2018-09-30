@@ -12,7 +12,9 @@ public enum Direction
 
 public class ParentScrollViewRect : ScrollRect
 {
-    private float triggerspeed = 2000.0f;
+    public float triggerspeed = 2000.0f;
+    public bool ShowLatested = false;
+
     protected int index;
 
     private float time = 0.3f;
@@ -35,8 +37,15 @@ public class ParentScrollViewRect : ScrollRect
     {
         base.Start();
         width = GetComponent<RectTransform>().rect.width;
-        int count = base.content.transform.childCount;
-        rt.anchoredPosition = new Vector2(width * (1- count), rt.anchoredPosition.y);
+        if(ShowLatested)
+        {
+            int count = base.content.transform.childCount;
+            rt.anchoredPosition = new Vector2(width * (1 - count), rt.anchoredPosition.y);
+        }
+        else
+        {
+            rt.anchoredPosition = new Vector2(0, rt.anchoredPosition.y);
+        }
     }
 
     public override void OnBeginDrag(PointerEventData eventData)
