@@ -297,14 +297,14 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 76741275b46dcc84bae6595326dee50b, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 60
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: '08:00
 
@@ -386,14 +386,14 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 76741275b46dcc84bae6595326dee50b, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 4
     m_MaxSize: 40
     m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: G1032
 --- !u!114 &11464000
@@ -419,7 +419,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 76741275b46dcc84bae6595326dee50b, type: 3}
     m_FontSize: 45
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 50
     m_Alignment: 4
@@ -501,14 +501,14 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 76741275b46dcc84bae6595326dee50b, type: 3}
     m_FontSize: 40
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 50
     m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "3\u5C0F\u65F64\u5206"
 --- !u!114 &11493550
@@ -534,14 +534,14 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 76741275b46dcc84bae6595326dee50b, type: 3}
     m_FontSize: 45
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "\u6DF1\u5733\u5317"
 --- !u!114 &11495322
@@ -594,7 +594,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 76741275b46dcc84bae6595326dee50b, type: 3}
     m_FontSize: 52
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 60
     m_Alignment: 3
@@ -627,14 +627,14 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 76741275b46dcc84bae6595326dee50b, type: 3}
     m_FontSize: 60
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 60
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: '12:39
 
