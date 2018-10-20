@@ -195,6 +195,10 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 309394833}
+--- !u!1 &670599947 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 162904, guid: f9c449492f9f9b346851928b1549ced9, type: 2}
+  m_PrefabInternal: {fileID: 1912164397}
 --- !u!1 &739731337
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,7 +789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Login: {fileID: 1311319144}
   call: {fileID: 777431762}
-  Loading: {fileID: 0}
+  Loading: {fileID: 670599947}
   bg: {fileID: 309394835}
   cancel: {fileID: 1481214583}
 --- !u!1 &1688689023
