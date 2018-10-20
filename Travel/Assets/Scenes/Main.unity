@@ -3609,7 +3609,7 @@ MonoBehaviour:
   Accident: {fileID: 1699386796}
   nview: {fileID: 386766797}
   wview: {fileID: 783134537}
-  Blue: {r: 0.06650088, g: 0.765723, b: 0.9044118, a: 1}
+  Blue: {r: 0.5019608, g: 0.79215693, b: 0.77647066, a: 1}
 --- !u!1 &1441501518
 GameObject:
   m_ObjectHideFlags: 0
