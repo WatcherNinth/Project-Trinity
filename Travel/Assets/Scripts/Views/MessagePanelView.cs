@@ -41,7 +41,7 @@ public class MessagePanelView : BaseUI {
         base.Start();
         InitEvent();
         WeChatImage.color = Blue;
-        AccidentImage.color = Color.white;
+        AccidentImage.enabled = false;
         Debug.Log("new list "+ MessageModel.Instance.NewsList.Count);
         nview.gameObject.SetActive(false);
         wview.gameObject.SetActive(true);
@@ -65,7 +65,7 @@ public class MessagePanelView : BaseUI {
             if(isOn)
             {
                 WeChatImage.color = Blue;
-                AccidentImage.color = Color.white;
+                AccidentImage.enabled = false;
                 nview.gameObject.SetActive(false);
                 wview.gameObject.SetActive(true);
             }
@@ -76,7 +76,7 @@ public class MessagePanelView : BaseUI {
             if(isOn)
             {
                 AccidentImage.color = Blue;
-                WeChatImage.color = Color.white;
+                WeChatImage.enabled = false;
                 wview.gameObject.SetActive(false);
                 nview.gameObject.SetActive(true);
             }

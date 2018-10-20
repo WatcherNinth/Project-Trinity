@@ -1638,7 +1638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e006c4e7c1f574085034e23542f6c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perfab: {fileID: 156660, guid: fb48f8e159bae7a40a81a580a625c1c8, type: 2}
+  perfab: {fileID: 171834, guid: fb48f8e159bae7a40a81a580a625c1c8, type: 2}
 --- !u!114 &11481646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2168,7 +2168,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -2160, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &22427764

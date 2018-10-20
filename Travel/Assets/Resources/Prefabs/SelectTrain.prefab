@@ -733,7 +733,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e006c4e7c1f574085034e23542f6c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  perfab: {fileID: 156660, guid: fb48f8e159bae7a40a81a580a625c1c8, type: 2}
+  perfab: {fileID: 171834, guid: fb48f8e159bae7a40a81a580a625c1c8, type: 2}
 --- !u!114 &11421478
 MonoBehaviour:
   m_ObjectHideFlags: 1

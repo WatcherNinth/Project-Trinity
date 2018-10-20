@@ -25,6 +25,7 @@ public class NewsMessageView : BaseUI {
             data.callback = Callback;
         }
         messages = datas;
+        messages.Reverse();
         InvalidView();
     }
 

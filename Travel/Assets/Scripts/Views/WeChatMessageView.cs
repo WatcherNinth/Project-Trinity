@@ -22,6 +22,7 @@ public class WeChatMessageView : BaseUI
             data.callback = Callback;
         }
         messages = datas;
+        messages.Reverse();
         InvalidView();
     }
 
