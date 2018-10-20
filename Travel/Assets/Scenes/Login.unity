@@ -85,10 +85,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &210578177 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 190140, guid: f9c449492f9f9b346851928b1549ced9, type: 2}
-  m_PrefabInternal: {fileID: 1912164397}
 --- !u!1 &282839051
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +761,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 309394834}
-  - {fileID: 1912164399}
+  - {fileID: 1912164398}
   - {fileID: 1311319147}
   - {fileID: 777431761}
   - {fileID: 1481214580}
@@ -789,7 +785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Login: {fileID: 1311319144}
   call: {fileID: 777431762}
-  Loading: {fileID: 210578177}
+  Loading: {fileID: 0}
   bg: {fileID: 309394835}
   cancel: {fileID: 1481214583}
 --- !u!1 &1688689023
@@ -1037,8 +1033,8 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f9c449492f9f9b346851928b1549ced9, type: 2}
   m_IsPrefabParent: 0
---- !u!224 &1912164399 stripped
+--- !u!224 &1912164398 stripped
 RectTransform:
-  m_PrefabParentObject: {fileID: 22431010, guid: f9c449492f9f9b346851928b1549ced9,
+  m_PrefabParentObject: {fileID: 22491308, guid: f9c449492f9f9b346851928b1549ced9,
     type: 2}
   m_PrefabInternal: {fileID: 1912164397}
