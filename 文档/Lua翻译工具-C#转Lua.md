@@ -55,7 +55,7 @@
 
 TKLua结构图如下：
 
-图
+<img src="./图3.1.PNG" width="50%" hegiht="50%" align=center />
 
 ### 3. 翻译流程
 
