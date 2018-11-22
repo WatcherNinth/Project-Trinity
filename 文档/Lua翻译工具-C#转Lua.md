@@ -202,7 +202,7 @@ until true
 * 原C#中一个```break```，翻译成Lua中两个```break```，跳出两层循环。
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图5.3.png" width="70%" height="70%" />
+<img src="图5.3.png" width="70%" height="70%" />
 </center>
 
 ## 六、行业形势
@@ -240,7 +240,7 @@ until true
 如下图，在对DLL混淆后，自动输出混淆后的Lua代码：
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图6.1.png" width="50%" height="50%" />
+<img src="图6.1.png" width="50%" height="50%" />
 </center>
 
 ### 3. TKLua翻译蓝图
@@ -302,26 +302,26 @@ until true
 
 ​	《麻将来了》是采用了TKLua的翻译模式的第一个项目，开发时使用C#开发，运行和发布时，一键把C#代码翻译成Lua。麻将的地方玩法众多，从市到县城，地方玩法的数量初步计划实现800种。在麻将来了项目中，登录、大厅、核心牌局、组局、商城、角色、道具、活动模块、好友系统、邮件系统、聊天等所有业务模块都是从C#翻译成Lua的，共计翻译50W行C#代码到Lua代码。
 
-![图7.2](/图7.2.png)
+![图7.2](图7.2.png)
 
 ### 2. 《麻将来了》性能测试报告
 
 在WeTest上对《麻将来了》做了性能测试，性能和耗电指标比较健康。
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图7.3.png" width="100%" height="100%" />
+<img src="图7.3.png" width="100%" height="100%" />
 </center>
 
 《麻将来了》内存比较平稳。
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图7.4.png" width="80%" height="80%" />
+<img src="图7.4.png" width="80%" height="80%" />
 </center>
 
 《麻将来了》crash率比较低。
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图7.5.png" width="60%" height="60%" />
+<img src="图7.5.png" width="60%" height="60%" />
 </center>
 
 ## 八、发展方向
@@ -333,11 +333,11 @@ until true
 ​	基于这样的思路方案，TKLua翻译工具增加实现了从C#转Js的翻译功能，为游戏快速移植到微信小游戏平台提供了一种便捷方案。
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图8.1.png" width="70%" height="70%" />
+<img src="图8.1.png" width="70%" height="70%" />
 </center>
 
 如下图示：C#翻译到Js的效果
 
-![图8.2](/图8.2.png)
+![图8.2](图8.2.png)
 
 ​	如果各游戏已经有Unity C#版本，通过上述的翻译过程，就可以快速得到微信小游戏版本、手Q玩一玩、Facebook Instant Games，这样翻译将为部门为公司节省大量开发工作量，以及维护成本。
