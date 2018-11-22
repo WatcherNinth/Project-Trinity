@@ -36,6 +36,7 @@ public class GetPath : EveryWindow<GetPath>
                     Object obj = AssetDatabase.LoadAssetAtPath(path, typeof(Object)) as Object;
                     AssetDatabase.OpenAsset(obj);
                 }
+                window.position = new Rect(1073, 17, window.position.width, window.position.height);
             }
         }
 

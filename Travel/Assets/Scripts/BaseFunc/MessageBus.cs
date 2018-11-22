@@ -55,16 +55,16 @@ namespace Lucky
 
             T tempListItem = msgList[0];
             msgList.Remove(tempListItem);
-            Profiler.BeginSample("jony.msgbus,FireEvent");
+            UnityEngine.Profiling.Profiler.BeginSample("jony.msgbus,FireEvent");
             for (int i = 0; i < hanlderList.Count; i++)
             {
-                Profiler.BeginSample("jony.msgbus,FireEvent," + hanlderList[i].Method.Name + ',' + tempListItem.GetType().ToString());
+                UnityEngine.Profiling.Profiler.BeginSample("jony.msgbus,FireEvent," + hanlderList[i].Method.Name + ',' + tempListItem.GetType().ToString());
 
                 (hanlderList[i])(tempListItem);
-                Profiler.EndSample();
+                UnityEngine.Profiling.Profiler.EndSample();
 
             }
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
             return;
         }
 
@@ -217,7 +217,7 @@ namespace Lucky
             //CheckLock();
             //Profiler.EndSample();
 
-            Profiler.BeginSample("jony: messageBus.Update, GetFilterLock, FireEvent, Remove");
+            UnityEngine.Profiling.Profiler.BeginSample("jony: messageBus.Update, GetFilterLock, FireEvent, Remove");
 
             while (filterList.Count > 0 && !isLocked /*!GameSystem.instance.connection.IsLockEvent()*/)//同步网络的锁，在网络消息锁住后messagebus的锁也会锁住
             {
@@ -231,7 +231,7 @@ namespace Lucky
 
                 filterList.Remove(filterList[0]);
             }
-            Profiler.EndSample();
+            UnityEngine.Profiling.Profiler.EndSample();
 
 
         }
