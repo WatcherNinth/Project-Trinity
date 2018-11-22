@@ -1,7 +1,3 @@
----
-typora-root-url: ..\文档
----
-
 # Lua翻译工具-C#转Lua
 
 修改历史
@@ -69,7 +65,7 @@ typora-root-url: ..\文档
 TKLua结构图如下：
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图3.1.PNG" width="75%" height="75%" />
+<img src="图3.1.PNG" width="75%" height="75%" />
 </center>
 
 ### 3. 翻译流程
@@ -85,7 +81,7 @@ TKLua结构图如下：
 翻译的流程图如下：
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图3.2.PNG" width="90%" height="90%" />
+<img src="图3.2.PNG" width="90%" height="90%" />
 </center>
 
 #### a.  类型结构翻译
@@ -98,7 +94,7 @@ TKLua结构图如下：
 
 ​	**STEP 3 :** 通过对Cecil结构的翻译，生成图最右边的Lua的Demo类型和Foo方法定义的输出，值得注意的是，此刻方法还只是方法签名，没有方法体。由于Lua是弱类型，x，y字段亦可无需定义；
 
-![图3.3](/图3.3.png)
+![图3.3](图3.3.png)
 
 ​	类型结构翻译，是通过Mono Cecil分析DLL中的包含的所有类，以及类中定义的字段和方法定义，生成Lua的对应的类型和结构及方法定义。
 
@@ -115,7 +111,7 @@ TKLua结构图如下：
 ​	**STEP 4 :** 最后分析抽象结构树AST，并查找对应的符号表，最后翻译生成Lua对应的语句```local x=32; local y=18; return x+y```；
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图3.4.png" width="80%" height="80%" />
+<img src="图3.4.png" width="80%" height="80%" />
 </center>
 
 ​	语句翻译过程，是通过ILSpy分析DLL中IL指令集，分析语句和表达式，生成Lua的语句和表达式，形成方法体。
@@ -133,7 +129,7 @@ TKLua结构图如下：
 * 多次调用```seats.Add```，翻译之后变成缓冲函数```F_Add```。
 * C#风格注释，翻译之后对应Lua风格注释。
 
-![图4.1](/图4.1.png)
+![图4.1](图4.1.png)
 
 ​	注意：由于在Lua中点运算其实就是一次Hash查找，而不是像编译型语言一样会分配固定的地址，所以有一定的消耗(特别是多级点运算)，一般有优化经验的人在编写Lua代码时会将不变化的函数缓存到upvalue。所以此处我们也做了类似自动的优化，生成了对应upvalue。
 
@@ -146,7 +142,7 @@ TKLua结构图如下：
 ​	在Lua中赋值是没有返回值，故无法对变量进行连续赋值，TKLua采用的方案是拆解表达式，如下图，把```y=x=foo()```拆解成两次独立赋值，利用临时变量csl_0作为中间存储：```csl_0=foo(); x=csl_0; y=csl_0;```
 
 <center>
-<img src="C:\Users\luckywei\Desktop\文档\图5.1.png" width="70%" height="70%" />
+<img src="图5.1.png" width="70%" height="70%" />
 </center>
 
 ​	注意，如果采用闭包来模拟实现连续赋值，运行性能将会变差。
