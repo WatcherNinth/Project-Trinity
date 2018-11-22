@@ -85,10 +85,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &210578177 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 190140, guid: f9c449492f9f9b346851928b1549ced9, type: 2}
-  m_PrefabInternal: {fileID: 1912164397}
 --- !u!1 &282839051
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,6 +195,10 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 309394833}
+--- !u!1 &670599947 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 162904, guid: f9c449492f9f9b346851928b1549ced9, type: 2}
+  m_PrefabInternal: {fileID: 1912164397}
 --- !u!1 &739731337
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +765,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 309394834}
-  - {fileID: 1912164399}
+  - {fileID: 1912164398}
   - {fileID: 1311319147}
   - {fileID: 777431761}
   - {fileID: 1481214580}
@@ -789,7 +789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Login: {fileID: 1311319144}
   call: {fileID: 777431762}
-  Loading: {fileID: 210578177}
+  Loading: {fileID: 670599947}
   bg: {fileID: 309394835}
   cancel: {fileID: 1481214583}
 --- !u!1 &1688689023
@@ -801,7 +801,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1688689024}
   - 114: {fileID: 1688689025}
-  - 114: {fileID: 1688689026}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -833,20 +832,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa25845e8a73d4f4dbeb5fdc46f230f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1688689026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1688689023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3073a1209e4a28f448ddd8ca747a9cfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  a: 123
-  b: 234
-  type: 0
 --- !u!1 &1734201272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,8 +1037,8 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f9c449492f9f9b346851928b1549ced9, type: 2}
   m_IsPrefabParent: 0
---- !u!224 &1912164399 stripped
+--- !u!224 &1912164398 stripped
 RectTransform:
-  m_PrefabParentObject: {fileID: 22431010, guid: f9c449492f9f9b346851928b1549ced9,
+  m_PrefabParentObject: {fileID: 22491308, guid: f9c449492f9f9b346851928b1549ced9,
     type: 2}
   m_PrefabInternal: {fileID: 1912164397}

@@ -63,6 +63,7 @@ public class MessagePopUpView : BaseUI {
         showItem.transform.SetParent(transform);
         mi.data = itemMessage.data;
         mi.Showing = true;
+        mi.EnableBg();
         showItem.SetActive(true);
         LuckyUtils.MakeIndentity(showItem.transform);
         queue.Push(mi);

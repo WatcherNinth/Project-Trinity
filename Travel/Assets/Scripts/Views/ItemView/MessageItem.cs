@@ -13,6 +13,7 @@ public class MessageItem : ItemRender
     public Text time;
     public Button btn;
     public int num;
+    public Image bg;
 
     private string maincontent;
     private float height;
@@ -63,9 +64,12 @@ public class MessageItem : ItemRender
         {
             ShowItem();
         }
-            
         
-        
+    }
+
+    public void EnableBg()
+    {
+        bg.enabled = true;
     }
 
     protected override void InitUI()

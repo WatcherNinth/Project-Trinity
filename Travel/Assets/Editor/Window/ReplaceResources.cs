@@ -46,7 +46,7 @@ public class ReplaceResources : EditorWindow {
             Debug.Log("local id " + localId.longValue);
 
 
-            FindPrefab();
+            //FindPrefab();
             FindScene();
             
         }
@@ -61,19 +61,26 @@ public class ReplaceResources : EditorWindow {
     {
         int index = 0;
         string[] fis = Directory.GetFiles(dir, "*.prefab", SearchOption.AllDirectories);
+        //string[] fis = Directory.GetFiles(dir, "BuyTickets.prefab", SearchOption.AllDirectories);
         foreach (string oldfi in fis)
         {
             string fi=oldfi.Replace("\\", "/");
             GameObject obj = AssetDatabase.LoadAssetAtPath(fi, typeof(GameObject)) as GameObject;
 
-            Text[] texts = obj.GetComponentsInChildren<Text>();
+            /*
+            GameObject go = Instantiate(obj);
+
+            Text[] texts = go.GetComponentsInChildren<Text>();
 
             foreach (Text t in texts)
             {
                 t.font = newFont;
             }
+            */
 
-            /*
+            
+
+            
             GameObject go = Instantiate(obj);
             Text[] texts = go.GetComponentsInChildren<Text>();
             
@@ -91,7 +98,7 @@ public class ReplaceResources : EditorWindow {
                 Debug.Log(e.ToString());
             }
             DestroyImmediate(go);
-            */
+            
 
             string fileName = Path.GetFileName(fi);
             bool cancel=EditorUtility.DisplayCancelableProgressBar("字体替换", fileName, (float)index / (float)fis.Length);
