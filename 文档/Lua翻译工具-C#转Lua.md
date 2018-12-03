@@ -82,7 +82,11 @@ TKLua结构图如下：
 **STEP 3 :** 通过对Cecil结构的翻译，生成图最右边的Lua的Demo类型和Foo方法定义的输出，值得注意的是，此刻方法还只是方法签名，没有方法体。由于Lua是弱类型，x，y字段亦可无需定义。
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 图
+=======
+![图3.3](图3.3.png)
+>>>>>>> parent of faf4620... add pics
 =======
 ![图3.3](图3.3.png)
 >>>>>>> parent of faf4620... add pics
@@ -125,7 +129,11 @@ return x+y
 6. C#风格注释，翻译之后对应Lua风格注释
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 图
+=======
+![图4.1](图4.1.png)
+>>>>>>> parent of faf4620... add pics
 =======
 ![图4.1](图4.1.png)
 >>>>>>> parent of faf4620... add pics
@@ -287,7 +295,11 @@ return x+y
 下图示：C#翻译到Js的效果
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 图
+=======
+![图8.2](图8.2.png)
+>>>>>>> parent of faf4620... add pics
 =======
 ![图8.2](图8.2.png)
 >>>>>>> parent of faf4620... add pics
