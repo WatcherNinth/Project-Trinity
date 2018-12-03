@@ -1,10 +1,5 @@
 # Lua翻译工具-C#转Lua
 
-adafdfadfadsfasdfasfasdfasdfas
-asldflasdflasdfasldfasdlkfasd
-fasdfasdfa
-
-
 修改历史
 
 | 修改日期   | 修改版本 | 修改描述 | 作者               |
