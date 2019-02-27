@@ -14,7 +14,7 @@ TKLua翻译方案具有一定独特性，与传统翻译方案不同，TKLua翻�
 2. 通过ILSpy [2]工具分析IL指令集，重建由语句表达式组成的抽象结构树，并翻译成对应的Lua方法体。
 3. 把Lua类型结构与Lua方法体合并成完整的Lua代码。
 
-​同样原理，还可以把C#代码翻译成其它语言，例如JavaScript，以快速移植到微信小游戏等平台，从而实现同一份代码翻译到多个语言平台，避免了重复开发工作。
+同样原理，还可以把C#代码翻译成其它语言，例如JavaScript，以快速移植到微信小游戏等平台，从而实现同一份代码翻译到多个语言平台，避免了重复开发工作。
 
 ## 设计初衷
 
@@ -52,51 +52,47 @@ TKLua翻译方案具有一定独特性，与传统翻译方案不同，TKLua翻�
 
 翻译器主要原理是利用两个成熟的开源库:Mono.Cecil和ILSpy。其中Mono.Cecil负责从程序集中提取类、字段、方法。ILSpy则负责分析方法体指令序列。
 
-结构上如 图1 所示，底层两个开源库Mono.Cecil和ILSpy(ILSpy基于Mono.Cecil)，翻译器分整体分析器(Analyze),类型生成(Type Generator)和表达式生成器组成(Expressions Generator)。
+结构上如图\ref{fig:TKLua} 所示，底层两个开源库Mono.Cecil和ILSpy(ILSpy基于Mono.Cecil)，翻译器分整体分析器(Analyze),类型生成(Type Generator)和表达式生成器组成(Expressions Generator)。
 
 * Analyze：分析程序集参数和多程序集关系。
 * Type Generator：分析程序集中的类、字段、方法生成对应的Lua结构。
 * Expressions Generator: 分析函数体，利用ILSpy重建的Ast，生成对应的Lua表达式。
 
-![TKLua结构图](图3_1.png)
-<center>图1：TKLua结构图</center >
+![TKLua结构图\label{fig:TKLua}](图3_1.png){width=50%}
 
 ### 翻译流程
 
-本节详细介绍翻译流程，如图2所示。在C#源代码经过编译得到程序集之后，流程上经过三步对程序集进行分析和生成：
+本节详细介绍翻译流程，如图\ref{fig:translate}所示。在C#源代码经过编译得到程序集之后，流程上经过三步对程序集进行分析和生成：
 
 1.  类型结构翻译，通过Mono Cecil分析程序集中的包含的所有类，以及类中定义的字段和方法定义，收集到这些信息，于是可以生成Lua的对应的类型和结构及方法定义。注意的是，此时所得到的方法定义只包含方法签名，无法得到方法体。
 2.  方法体翻译，利用ILSpy将方法体里面的IL指令序列重建成抽象语法数(AST)结构，翻译工具将AST转换成Lua语句和表达式，形成Lua方法体。
 3.  把第一步输出的Lua类型结构与第二步输出的Lua方法体，合成完整的Lua文件，从而实现了C#到Lua的翻译过程。
 
-![翻译流程图](图3_2.png)
-<center>图2：翻译流程图</center >
+![翻译流程图\label{fig:translate}](图3_2.png){ width=50% }
 
 **类型结构翻译**
 
-本节详细介绍第一步类型结构翻译，如图3 所示：
+本节详细介绍第一步类型结构翻译，如图\ref{fig:translatestruct}所示：
 
 1. 图最左边是C#源代码，定义了一个类Demo，包含x，y两个成员变量，以及一个成员函数Foo；
 
 2. 源代码经过编译之后，通过Mono Cecil分析程序集得到图中间的Cecil结构，结构内包含了Demo类型、x，y字段和方法Foo定义；
 3. 通过对Cecil结构的翻译，生成图最右边的Lua的Demo类型和Foo方法定义的输出，值得注意的是，此刻方法还只是方法签名，没有方法体。由于Lua是弱类型，x，y字段亦可无需定义。
 
-![ ](图3_3.png)
-<center>图3：结构翻译示例</center >
+![翻译结构体\label{fig:translatestruct}](图3_3.png){width=50%}
 
 ​类型结构翻译，是通过Mono Cecil分析程序集中的包含的所有类，以及类中定义的字段和方法定义，生成Lua的对应的类型和结构及方法定义。
 
 **方法体翻译**
 
-​本节详细介绍第二步方法体翻译，如 图4 所示：
+​本节详细介绍第二步方法体翻译，如图\ref{fig:translatesample} 所示：
 
 1. 图最左边是C#源代码，定义了`int x=32; int y=18; return x+y;`三条语句；
 2. 源代码经过编译之后，形成图中部的IL指令集，IL是基于栈的指令，图中含义是把值32存储在0号栈空间，值18存储在1号栈空间，然后执行add指令，并返回运算结果；
 3. 通过ILSpy分析上述IL指令流，生成ILSpy对应的抽象结构树AST；
 4. 最后分析抽象结构树AST，并查找对应的符号表，最后翻译生成Lua对应的语句`local x=32; local y=18; return x+y`。
 
-![ ](图3_4.png)
-<center>图4：语句翻译示例</center >
+![语句翻译示例\label{fig:translatesample} ](图3_4.png){width=50%}
 
 ​语句翻译过程，是通过ILSpy分析程序集中IL指令集，分析语句和表达式，生成Lua的语句和表达式，形成方法体。
 
@@ -160,6 +156,8 @@ public class ChatPanelPao : ModelViewBehaviour
     }
 }
 ```
+------
+
 翻译示例生成的Lua代码如下：
 
 ```lua
@@ -276,10 +274,9 @@ C#源代码经过上述翻译过程之后得到Lua源代码。可以看到，两
 
 **连续赋值**
 
-在Lua中赋值是没有返回值，故无法对变量进行连续赋值，TKLua采用的方案是拆解表达式，如图5，把`y=x=foo()拆解成两次独立赋值，利用临时变量csl_0作为中间存储：csl_0=foo(); x=csl_0; y=csl_0;`
+在Lua中赋值是没有返回值，故无法对变量进行连续赋值，TKLua采用的方案是拆解表达式，如图\ref{fig:problem}，把`y=x=foo()拆解成两次独立赋值，利用临时变量csl_0作为中间存储：csl_0=foo(); x=csl_0; y=csl_0;`
 
-![ ](图5_1.png)
-<center>图5：连续赋值问题</center >
+![连续赋值问题\label{fig:problem}](图5_1.png){width=50%}
 
 *注：也能设计成采用闭包来模拟实现连续赋值，比如：
 y=(function() x = foo(); return x end)()
@@ -294,7 +291,6 @@ y=(function() x = foo(); return x end)()
 
 翻译效果如下所示：
 
----
 C#下的switch代码如下所示：
 ```cs
 switch(v)
@@ -332,7 +328,7 @@ until true
 
 **continue**
 
-由于在Lua中，没有`continue`语句，所以翻译过程中，需要用其它语句来模拟。在一个循环块中可能同时存在任意数量的`continue`和`break`，如下图，TKLua翻译采用的是用内嵌`repeat`循环和`break`模拟：
+由于在Lua中，没有`continue`语句，所以翻译过程中，需要用其它语句来模拟。在一个循环块中可能同时存在任意数量的`continue`和`break`，如下代码所示，TKLua翻译采用的是用内嵌`repeat`循环和`break`模拟：
 
 * 增加内嵌`repeat`循环层。
 * 原C#中一个`continue`，翻译成Lua中一个`break`，仅跳出内层循环。
@@ -340,7 +336,6 @@ until true
 
 C#的while continue如下所示：
 
----
 ```c#
 while
 {
@@ -404,7 +399,6 @@ return TestParams
 
 如下面的代码所示：在对程序集混淆后，自动输出混淆后的Lua代码：
 
----
 混淆示例C#代码如下所示：
 
 ```c#
@@ -489,9 +483,8 @@ end
 * 问号表达式:生成等价的 ”或与表达式”。
 * 其他：基本直接翻译，由翻译工具完成工作。
 
-![ ](图7_1.png)
-<center>图6：TKLua翻译蓝图</center >
-​注意：图6红框列举高级特性的翻译，由标准编译器编译完成，大幅降低了翻译复杂度。
+![TKLua翻译蓝图\label{fig:translatebluemap}](图7_1.png){ width=50% }
+​注意：图\ref{fig:translatebluemap}红框列举高级特性的翻译，由标准编译器编译完成，大幅降低了翻译复杂度。
 
 
 
@@ -499,13 +492,12 @@ end
 
 ​随着微信小游戏的兴起，越来越多的游戏团队开始关注h5游戏的开发，如果游戏团队想把原有的游戏移植到h5游戏平台，面临着游戏功能需要用Js重写一遍，工程量比较浩大。从原有C#工程简单重构后进行翻译或许可以大幅降低重复开发成本。
 
-​上述章节详尽介绍了如何把C#代码翻译成Lua代码，那么利用相同的原理，也能把C#代码翻译成Js代码。
-![ ](图8_1.png)
-<center>图7：TKLua JavaScript方向</center >
+上述章节详尽介绍了如何把C#代码翻译成Lua代码，那么利用相同的原理，也能把C#代码翻译成Js代码。
+
+![TKLua JavaScript方向\label{fig:javascript}](图8_1.png){ width=50% }
 
 基于这样的思路方案，TKLua翻译工具增加实现了从C#转Js的翻译功能，为游戏快速移植到微信小游戏平台提供了一种便捷方案。
 
----
 C#代码如下所示：
 
 ```c#
