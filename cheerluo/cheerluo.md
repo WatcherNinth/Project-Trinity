@@ -58,7 +58,7 @@ TKLua翻译方案具有一定独特性，与传统翻译方案不同，TKLua翻�
 * Type Generator：分析程序集中的类、字段、方法生成对应的Lua结构。
 * Expressions Generator: 分析函数体，利用ILSpy重建的Ast，生成对应的Lua表达式。
 
-![TKLua结构图\label{fig:TKLua}](图3_1.png){width=50%}
+![TKLua结构图\label{fig:TKLua}](图3_1.png)
 
 ### 翻译流程
 
@@ -68,7 +68,7 @@ TKLua翻译方案具有一定独特性，与传统翻译方案不同，TKLua翻�
 2.  方法体翻译，利用ILSpy将方法体里面的IL指令序列重建成抽象语法数(AST)结构，翻译工具将AST转换成Lua语句和表达式，形成Lua方法体。
 3.  把第一步输出的Lua类型结构与第二步输出的Lua方法体，合成完整的Lua文件，从而实现了C#到Lua的翻译过程。
 
-![翻译流程图\label{fig:translate}](图3_2.png){ width=50% }
+![翻译流程图\label{fig:translate}](图3_2.png)
 
 **类型结构翻译**
 
@@ -79,7 +79,7 @@ TKLua翻译方案具有一定独特性，与传统翻译方案不同，TKLua翻�
 2. 源代码经过编译之后，通过Mono Cecil分析程序集得到图中间的Cecil结构，结构内包含了Demo类型、x，y字段和方法Foo定义；
 3. 通过对Cecil结构的翻译，生成图最右边的Lua的Demo类型和Foo方法定义的输出，值得注意的是，此刻方法还只是方法签名，没有方法体。由于Lua是弱类型，x，y字段亦可无需定义。
 
-![翻译结构体\label{fig:translatestruct}](图3_3.png){width=50%}
+![翻译结构体\label{fig:translatestruct}](图3_3.png)
 
 ​类型结构翻译，是通过Mono Cecil分析程序集中的包含的所有类，以及类中定义的字段和方法定义，生成Lua的对应的类型和结构及方法定义。
 
@@ -92,7 +92,7 @@ TKLua翻译方案具有一定独特性，与传统翻译方案不同，TKLua翻�
 3. 通过ILSpy分析上述IL指令流，生成ILSpy对应的抽象结构树AST；
 4. 最后分析抽象结构树AST，并查找对应的符号表，最后翻译生成Lua对应的语句`local x=32; local y=18; return x+y`。
 
-![语句翻译示例\label{fig:translatesample} ](图3_4.png){width=50%}
+![语句翻译示例\label{fig:translatesample} ](图3_4.png)
 
 ​语句翻译过程，是通过ILSpy分析程序集中IL指令集，分析语句和表达式，生成Lua的语句和表达式，形成方法体。
 
@@ -276,7 +276,7 @@ C#源代码经过上述翻译过程之后得到Lua源代码。可以看到，两
 
 在Lua中赋值是没有返回值，故无法对变量进行连续赋值，TKLua采用的方案是拆解表达式，如图\ref{fig:problem}，把`y=x=foo()拆解成两次独立赋值，利用临时变量csl_0作为中间存储：csl_0=foo(); x=csl_0; y=csl_0;`
 
-![连续赋值问题\label{fig:problem}](图5_1.png){width=50%}
+![连续赋值问题\label{fig:problem}](图5_1.png)
 
 *注：也能设计成采用闭包来模拟实现连续赋值，比如：
 y=(function() x = foo(); return x end)()
@@ -483,7 +483,7 @@ end
 * 问号表达式:生成等价的 ”或与表达式”。
 * 其他：基本直接翻译，由翻译工具完成工作。
 
-![TKLua翻译蓝图\label{fig:translatebluemap}](图7_1.png){ width=50% }
+![TKLua翻译蓝图\label{fig:translatebluemap}](图7_1.png)
 ​注意：图\ref{fig:translatebluemap}红框列举高级特性的翻译，由标准编译器编译完成，大幅降低了翻译复杂度。
 
 
@@ -494,7 +494,7 @@ end
 
 上述章节详尽介绍了如何把C#代码翻译成Lua代码，那么利用相同的原理，也能把C#代码翻译成Js代码。
 
-![TKLua JavaScript方向\label{fig:javascript}](图8_1.png){ width=50% }
+![TKLua JavaScript方向\label{fig:javascript}](图8_1.png)
 
 基于这样的思路方案，TKLua翻译工具增加实现了从C#转Js的翻译功能，为游戏快速移植到微信小游戏平台提供了一种便捷方案。
 
